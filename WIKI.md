@@ -5,6 +5,11 @@ Pour pouvoir lancer le projet, il vous faut installer :
 * [Node.js](https://nodejs.org/en/) pour avoir accès à npm. Je vous conseille d'installer la version LTS ;
 * Le CLI de Angular. Pour l'installer, il faut déjà avoir Node et puis taper ça dans le terminal : `npm install -g @angular/cli`
 
+# Choses importantes
+
+* Pour lancer le projet utilisez la commande `ng serve` dans votre terminal. Faites attention de bien vous trouver dans le répertoire correcte, sinon ça marchera pas.
+* Après la première fois que vous avez pull le projet angular, il faudra installer toutes les dépendances spécifiées dans le package JSON sur votre machine. Pour ceci utilisez la commande `npm install`. **Disclaimer, cela peut prendre un peut de temps.**
+  
 # Tuto angular
 
 Dans cette section vous pourrez revoir les bases d'Angular. Pour rappel Angular est un framework front-end. Il utilise TypeScript, une surcouche de JavaScript permettant d'implémenter du typage et des fonctionnalités de la programmation objet à JS.
