@@ -1,6 +1,6 @@
 
 
-var calendarListEvents = { c1events: {
+export var calendarListEvents = { c1events: {
     "kind": "calendar#events",
     "etag": "\"p33891lnmkivvk0g\"",
     "summary": "testforapi09@gmail.com",
