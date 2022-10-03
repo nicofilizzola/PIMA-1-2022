@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-custom-form',
@@ -7,12 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomFormComponent implements OnInit {
   isVisible = true;
+  @Input() itemId;
+  @Output() deleteItem = new EventEmitter<number>();
+
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  onDelete() {
-    this.isVisible=false;
+  onDeleteItem() {
+    this.deleteItem.emit(this.itemId);
   }
 }
