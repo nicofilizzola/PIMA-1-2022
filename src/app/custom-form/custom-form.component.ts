@@ -15,8 +15,4 @@ export class CustomFormComponent implements OnInit {
   onDelete() {
     this.isVisible=false;
   }
-
-  onAdd(){
-    
-  }
 }
