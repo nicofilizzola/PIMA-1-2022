@@ -45,11 +45,11 @@
           <option value="PLACEHOLDER 4">PLACEHOLDER 4</option>
         </select>
       </div>
-      <div class="col-md-12">
+      <div class="col-md-12" *ngIf="isDeletable">
         <button
           (click)="onDeleteItem()"
           type="button"
-          class="btn btn-danger mt-3 w-"
+          class="btn btn-danger mt-3"
         >
           Supprimer cette tâche &times;
         </button>

@@ -1,16 +1,26 @@
-<br>
+<br />
 <div>
-    <h1 class="display-6 text-center">Ajouter evenement a un calendrier</h1>
-    <br>
-    <app-add-event-item *ngFor="let item of items" [itemId]="item" (deleteItem)="onDeleteItem($event)"></app-add-event-item>
-    <div class="container-md">
-        <div class="row">
-            <button (click)="onAddItem()" class="btn btn-outline-primary mt-2 col-md-5">Ajouter tache</button> 
-        </div>
-        <div class="row">
-            <button type="button" class="btn btn-primary mt-2 col-md-5">Valider</button>
-        </div>
+  <h1 class="display-6 text-center">Ajouter evenement a un calendrier</h1>
+  <br />
+  <app-add-event-item
+    *ngFor="let item of items"
+    [itemId]="item"
+    [isDeletable]="items > 1"
+    (deleteItem)="onDeleteItem($event)"
+  ></app-add-event-item>
+  <div class="container-md">
+    <div class="row">
+      <button
+        (click)="onAddItem()"
+        class="btn btn-outline-primary mt-2 col-md-5"
+      >
+        Ajouter tache
+      </button>
     </div>
+    <div class="row">
+      <button type="button" class="btn btn-primary mt-2 col-md-5">
+        Valider
+      </button>
+    </div>
+  </div>
 </div>
-
-

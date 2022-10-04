@@ -16,7 +16,6 @@ export class AddEventListComponent implements OnInit {
   onAddItem(){
     let greatestItemId = Math.max(...this.items)
     this.items[this.items.length] = greatestItemId + 1
-    console.log(this.items)
   }
 
   onDeleteItem(itemId){
