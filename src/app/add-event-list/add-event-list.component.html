@@ -3,8 +3,10 @@
     <h1 class="display-6 text-center">Ajouter evenement a un calendrier</h1>
     <br>
     <app-add-event-item *ngFor="let item of items" [itemId]="item" (deleteItem)="onDeleteItem($event)"></app-add-event-item>
-    <button (click)="onAddItem()" class="btn btn-outline-primary m-2">Ajouter tache</button> 
-    <button type="button" class="btn btn-primary m-2">Valider</button>
+    <div class="container-md">
+        <button (click)="onAddItem()" class="btn btn-outline-primary m-2">Ajouter tache</button> 
+        <button type="button" class="btn btn-primary m-2">Valider</button>
+    </div>
 </div>
 
 

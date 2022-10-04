@@ -14,17 +14,18 @@ export class AddEventListComponent implements OnInit {
   }
 
   onAddItem(){
-    this.items[this.items.length] = this.items.length + 1
+    let greatestItemId = Math.max(...this.items)
+    this.items[this.items.length] = greatestItemId + 1
+    console.log(this.items)
   }
 
   onDeleteItem(itemId){
     let deleteIndex = this.items.indexOf(itemId);
     if (this.items.length == 1) {
       return;
-    } else {
-      if (deleteIndex > -1) { // only splice array when item is found
-        this.items.splice(deleteIndex, 1); // 2nd parameter means remove one item only
-      }
+    } 
+    if (deleteIndex > -1) { // only splice array when item is found
+      this.items.splice(deleteIndex, 1); // 2nd parameter means remove one item only
     }
   }
 }

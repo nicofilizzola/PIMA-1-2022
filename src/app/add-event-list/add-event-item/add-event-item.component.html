@@ -1,17 +1,27 @@
-<div class="container-md bg-light">
-  <div [id]="'add-event-item' + itemId" *ngIf="isVisible" class="row">
-    <form class="row g-2 justify-content-center">
-      <div class="col-md-5">
-        <label [for]="'aei-' + itemId + '-title'" class="form-label">Titre</label>
-        <input type="text" class="form-control" [id]="'aei-' + itemId + '-title'" />
+<div class="container-md bg-light py-1">
+  <form>
+    <div [id]="'add-event-item' + itemId" *ngIf="isVisible" class="row m-4">
+      <div class="col-md-5 mt-3">
+        <label [for]="'aei-' + itemId + '-title'" class="form-label"
+          >Titre</label>
+        <input
+          type="text"
+          class="form-control"
+          [id]="'aei-' + itemId + '-title'"
+        />
       </div>
-      <div class="col-md-5">
-        <label [for]="'aei-' + itemId + '-duration'" class="form-label">Durée</label>
-        <input type="time" class="form-control" [id]="'aei-' + itemId + '-duration'" />
+      <div class="col-md-5 mt-3">
+        <label [for]="'aei-' + itemId + '-duration'" class="form-label"
+          >Durée en heures</label>
+        <input
+          type="number"
+          class="form-control"
+          [id]="'aei-' + itemId + '-duration'"
+        />
       </div>
-
-      <div class="col-md-5">
-        <label [for]="'aei-' + itemId + '-priority'" class="form-label">Priorité</label>
+      <div class="col-md-5 mt-3">
+        <label [for]="'aei-' + itemId + '-priority'" class="form-label"
+          >Priorité</label>
         <select [id]="'aei-' + itemId + '-priority'" class="form-select">
           <option selected>Choisir priorité...</option>
           <option value="PLACEHOLDER 1">Basse</option>
@@ -20,8 +30,9 @@
           <option value="PLACEHOLDER 4">Urgent</option>
         </select>
       </div>
-      <div class="col-md-5">
-        <label [for]="'aei-' + itemId + '-calendar'" class="form-label">Calendrier</label>
+      <div class="col-md-5 mt-3">
+        <label [for]="'aei-' + itemId + '-calendar'" class="form-label"
+          >Calendrier</label>
         <select [id]="'aei-' + itemId + '-calendar'" class="form-select">
           <option selected>Choisir calendrier...</option>
           <option value="PLACEHOLDER 1">PLACEHOLDER 1</option>
@@ -30,12 +41,12 @@
           <option value="PLACEHOLDER 4">PLACEHOLDER 4</option>
         </select>
       </div>
-      <div class="col-md-10">
+      <div class="col-md-10 mt-3">
         <button (click)="onDeleteItem()" type="button" class="btn btn-danger">
           Enlever tache
         </button>
       </div>
       <div class="col-md-5"></div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
