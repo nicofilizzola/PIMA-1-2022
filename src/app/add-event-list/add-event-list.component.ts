@@ -1,9 +1,10 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { trigger, state, style } from '@angular/animations';
 
 @Component({
   selector: 'app-add-event-list',
   templateUrl: './add-event-list.component.html',
-  styleUrls: ['./add-event-list.component.scss']
+  styleUrls: ['./add-event-list.component.scss'],
 })
 export class AddEventListComponent implements OnInit {
   items = [1];
