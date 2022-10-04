@@ -3,12 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PercentageComponent } from './percentage/percentage.component';
+import { TestPercentageComponent } from './test-percentage/test-percentage.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PercentageComponent
+    TestPercentageComponent
   ],
   imports: [
     BrowserModule,
