@@ -3,7 +3,8 @@
     <div [id]="'add-event-item' + itemId" *ngIf="isVisible" class="row m-4">
       <div class="col-md-5 mt-3">
         <label [for]="'aei-' + itemId + '-title'" class="form-label"
-          >Titre</label>
+          >Titre</label
+        >
         <input
           type="text"
           class="form-control"
@@ -12,7 +13,8 @@
       </div>
       <div class="col-md-5 mt-3">
         <label [for]="'aei-' + itemId + '-duration'" class="form-label"
-          >Durée en heures</label>
+          >Durée en heures</label
+        >
         <input
           type="number"
           class="form-control"
@@ -21,7 +23,8 @@
       </div>
       <div class="col-md-5 mt-3">
         <label [for]="'aei-' + itemId + '-priority'" class="form-label"
-          >Priorité</label>
+          >Priorité</label
+        >
         <select [id]="'aei-' + itemId + '-priority'" class="form-select">
           <option selected>Choisir priorité...</option>
           <option value="PLACEHOLDER 1">Basse</option>
@@ -32,7 +35,8 @@
       </div>
       <div class="col-md-5 mt-3">
         <label [for]="'aei-' + itemId + '-calendar'" class="form-label"
-          >Calendrier</label>
+          >Calendrier</label
+        >
         <select [id]="'aei-' + itemId + '-calendar'" class="form-select">
           <option selected>Choisir calendrier...</option>
           <option value="PLACEHOLDER 1">PLACEHOLDER 1</option>
@@ -41,12 +45,15 @@
           <option value="PLACEHOLDER 4">PLACEHOLDER 4</option>
         </select>
       </div>
-      <div class="col-md-10 mt-3">
-        <button (click)="onDeleteItem()" type="button" class="btn btn-danger">
-          Enlever tache
+      <div class="col-md-12">
+        <button
+          (click)="onDeleteItem()"
+          type="button"
+          class="btn btn-danger mt-3 w-"
+        >
+          Supprimer cette tâche &times;
         </button>
       </div>
-      <div class="col-md-5"></div>
     </div>
   </form>
 </div>

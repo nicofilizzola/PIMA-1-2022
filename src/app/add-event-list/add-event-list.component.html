@@ -4,8 +4,12 @@
     <br>
     <app-add-event-item *ngFor="let item of items" [itemId]="item" (deleteItem)="onDeleteItem($event)"></app-add-event-item>
     <div class="container-md">
-        <button (click)="onAddItem()" class="btn btn-outline-primary m-2">Ajouter tache</button> 
-        <button type="button" class="btn btn-primary m-2">Valider</button>
+        <div class="row">
+            <button (click)="onAddItem()" class="btn btn-outline-primary mt-2 col-md-5">Ajouter tache</button> 
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-primary mt-2 col-md-5">Valider</button>
+        </div>
     </div>
 </div>
 
