@@ -14,7 +14,7 @@ export class AddEventListComponent implements OnInit {
   }
 
   onAddItem(){
-    this.items[this.items.length] = this.items.length
+    this.items[this.items.length] = this.items.length + 1
   }
 
   onDeleteItem(itemId){
