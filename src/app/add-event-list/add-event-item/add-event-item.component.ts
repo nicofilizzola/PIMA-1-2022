@@ -1,12 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { trigger, state, style } from '@angular/animations';
 @Component({
   selector: 'app-add-event-item',
   templateUrl: './add-event-item.component.html',
   styleUrls: ['./add-event-item.component.scss'],
 })
 export class AddEventItemComponent {
-  isVisible = true;
   @Input() itemId;
   @Input() isDeletable;
   @Output() deleteItem = new EventEmitter<number>();
