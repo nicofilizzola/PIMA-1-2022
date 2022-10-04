@@ -12,43 +12,23 @@ import { calendarListEvents } from 'src/fixtures/fixtures';
 })
 export class PieChartComponent implements OnInit {
 
-  pieChartDatasets;
-  pieChartLabels;
-  dateInf;
-  dateSup;
-
-  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+  pieChartDatasets = [{ data: [] }]
+  pieChartLabels = [] 
   pieChartOptions: ChartOptions<'pie'> = {
     responsive: true,
     maintainAspectRatio: false
   };
 
+  dateInf = Date.now()
+  dateSup = Date.now()
   
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
-  constructor() {
-
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    console.log(this.chart)
-    //Initialisation des bornes
-
-    this.dateInf = Date.now()
-    this.dateSup = Date.now()
-
-
-
-    //DataSet Creation
-
-    this.createChart();
-    console.log(this.pieChartDatasets)
-    console.log(this.pieChartLabels)
-    console.log(this.chart)
-    this.chart?.update()
-    console.log(this.chart)
+    this.setupChart();
   }
-
-  /*   Setters     */
 
   public setDateInf(dateInf) {
     this.dateInf = dateInf;
@@ -58,33 +38,18 @@ export class PieChartComponent implements OnInit {
     this.dateSup = dateSup;
   }
 
-
-  createChart() {
-
-
-    this.pieChartDatasets = [{ data: [] }]
-    this.pieChartLabels = []
-
-    //Accès rapide au data 
+  setupChart() {
 
     for (const fields of Object.entries(calendarListEvents)) {
 
       var calendarName = fields[0]
-      var fieldContent = fields[1]
+      var calendarContent = fields[1]
 
-      var totalDuration = 0
-
-      if ('items' in fieldContent) {
-        totalDuration = + fieldContent.items.length
+      if ('items' in calendarContent) {
+        this.pieChartDatasets[0].data.push(calendarContent.items.length) //TODO : Implementation de la gestion du temps
         this.pieChartLabels.push(calendarName)
       }
-      this.pieChartDatasets[0].data.push(totalDuration)
     }
-  }
-
-  onAction() {
-    this.chart?.update()
-    console.log(this.chart)
   }
 
 }
