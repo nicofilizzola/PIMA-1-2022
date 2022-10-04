@@ -4,13 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddEventListComponent } from './add-event-list/add-event-list.component';
-import { CustomFormComponent } from './add-event-list/custom-form/custom-form.component';
+import { AddEventItemComponent } from './add-event-list/add-event-item/add-event-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CustomFormComponent,
-    AddEventListComponent
+    AddEventListComponent,
+    AddEventItemComponent
   ],
   imports: [
     BrowserModule,
