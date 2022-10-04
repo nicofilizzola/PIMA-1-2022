@@ -19,9 +19,12 @@ export class AddEventListComponent implements OnInit {
 
   onDeleteItem(itemId){
     let deleteIndex = this.items.indexOf(itemId);
-
-    if (deleteIndex > -1) { // only splice array when item is found
-      this.items.splice(deleteIndex, 1); // 2nd parameter means remove one item only
+    if (this.items.length == 1) {
+      return;
+    } else {
+      if (deleteIndex > -1) { // only splice array when item is found
+        this.items.splice(deleteIndex, 1); // 2nd parameter means remove one item only
+      }
     }
   }
 }

@@ -1,3 +1,11 @@
-<h1>Ajouter evenement</h1>
-<app-custom-form *ngFor="let item of items" [itemId]="item" (deleteItem)="onDeleteItem($event)"></app-custom-form>
-<button (click)="onAddItem()">Ajouter tache</button>
+<br>
+<div>
+    <h1 class="display-6 text-center">Ajouter evenement a un calendrier</h1>
+    <br>
+    <app-custom-form *ngFor="let item of items" [itemId]="item" (deleteItem)="onDeleteItem($event)"></app-custom-form>
+    <div class="text-center">
+        <button (click)="onAddItem()" class="btn btn-info">Ajouter tache</button> <button type="button" class="btn btn-success">Valider</button>
+    </div>
+</div>
+
+

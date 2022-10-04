@@ -1,20 +1,40 @@
+<div class="container-md bg-light">
 <div id="nouvel-evenement" *ngIf="isVisible">
-    <label>Titre :</label> 
-    <input type="text">
-    <label>Durée :</label>
-    <input type="text">
-    <br>
-    <label>Priorité :</label>
-    <input type="text">
-    
-    <select required>
-        <option value="" disabled selected hidden>Choisir Calendrier...</option>
+  <form class="row g-2 justify-content-center">
+    <div class="col-md-5">
+      <label for="inputEmail4" class="form-label">Titre</label>
+      <input type="text" class="form-control" id="inputEmail4">
+    </div>
+    <div class="col-md-5">
+      <label for="inputPassword4" class="form-label">Duree</label>
+      <input type="time" class="form-control" id="inputPassword4">
+    </div>
+
+    <div class="col-md-5">
+      <label for="inputCity" class="form-label">Priorite</label>
+      <select id="inputState" class="form-select">
+        <option selected>Choisir priorite...</option>
+        <option value="PLACEHOLDER 1">Basse</option>
+        <option value="PLACEHOLDER 2">Moyenne</option>
+        <option value="PLACEHOLDER 3">Haute</option>
+        <option value="PLACEHOLDER 4">Urgent</option>
+      </select>
+    </div>
+    <div class="col-md-5">
+      <label for="inputState" class="form-label">Calendrier</label>
+      <select id="inputState" class="form-select">
+        <option selected>Choisir calendrier...</option>
         <option value="PLACEHOLDER 1">PLACEHOLDER 1</option>
         <option value="PLACEHOLDER 2">PLACEHOLDER 2</option>
         <option value="PLACEHOLDER 3">PLACEHOLDER 3</option>
         <option value="PLACEHOLDER 4">PLACEHOLDER 4</option>
       </select>
-
-      <button (click)="onDeleteItem()">Enlever tache</button>
+    </div>
+    <div class="col-md-10">
+      <button (click)="onDeleteItem()" type="button" class="btn btn-danger">Enlever tache</button>
+    </div>
+    <div class="col-md-5"></div>
+  </form>
+</div>
 </div>
 <br>
