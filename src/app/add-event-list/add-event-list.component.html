@@ -5,7 +5,7 @@
   <app-add-event-item
     *ngFor="let item of items"
     [itemId]="item"
-    [isDeletable]="items > 1"
+    [isDeletable]="isItemsLengthGreaterThan1()"
     (deleteItem)="onDeleteItem($event)"
   ></app-add-event-item>
   <div class="container-md">

@@ -27,4 +27,8 @@ export class AddEventListComponent implements OnInit {
       this.items.splice(deleteIndex, 1); // 2nd parameter means remove one item only
     }
   }
+
+  isItemsLengthGreaterThan1(){
+    return this.items.length > 1
+  }
 }
