@@ -46,6 +46,46 @@
           <option value="PLACEHOLDER 4">PLACEHOLDER 4</option>
         </select>
       </div>
+    </div>
+    
+    <hr>
+    <div class="row m-4" *ngIf="true">
+      
+      <div class="col-md-6 mt-3">
+        <label [for]="'aei-' + itemId + '-localisation'" class="form-label"
+          >Localisation :</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          [id]="'aei-' + itemId + '-localisation'"
+        />
+      </div>
+      <div class="col-md-3 mt-3">
+        <label [for]="'aei-' + itemId + '-localisation'" class="form-label"
+          >Nombre d'instances :</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          [id]="'aei-' + itemId + '-localisation'"
+        />
+      </div>
+      <div class="col-md-3 mt-3">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+          <label class="form-check-label" for="flexSwitchCheckDefault">Peuvent-elles se suivre ?</label>
+        </div>
+      </div>
+      <div class="col-md-12 mt-3">
+        <div class="form-group">
+          <label [for]="'aei-' + itemId + 'description'">Description de l'événement :</label>
+          <textarea class="form-control mt-2" [id]="'aei-' + itemId + 'description'" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-4">
       <div class="col-md-12">
         <button
           (click)="onDeleteItem()"
