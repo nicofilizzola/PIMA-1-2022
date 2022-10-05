@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PercentageService } from '../shared/services/percentage.service';
 import { Event } from '../models/event.model';
-import {calendarListEvents} from '../../fixtures/fixtures';
+import { calendarListEvents } from '../../fixtures/fixtures';
 
 @Component({
   selector: 'app-test-percentage',
@@ -18,7 +18,7 @@ export class TestPercentageComponent implements OnInit {
     
   }
 
-  public test(calendar : Event[]){
+  public test(calendar){
     console.log(this._percentageService.getCalendarPercentage(calendar));
   }
 
