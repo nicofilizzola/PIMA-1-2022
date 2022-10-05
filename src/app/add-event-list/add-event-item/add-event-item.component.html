@@ -47,10 +47,9 @@
         </select>
       </div>
     </div>
-    
-    <hr>
+
+    <hr />
     <div class="row m-4" *ngIf="true">
-      
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-localisation'" class="form-label"
           >Localisation :</label
@@ -59,6 +58,7 @@
           type="text"
           class="form-control"
           [id]="'aei-' + itemId + '-localisation'"
+          [disabled]="fixedEvent"
         />
       </div>
       <div class="col-md-3 mt-3">
@@ -66,9 +66,11 @@
           >Nombre d'instances :</label
         >
         <input
+          min="0"
           type="number"
           class="form-control"
           [id]="'aei-' + itemId + '-instance-total'"
+          [disabled]="fixedEvent"
         />
       </div>
 
@@ -80,6 +82,7 @@
           type="number"
           class="form-control"
           [id]="'aei-' + itemId + '-instance-min'"
+          [disabled]="fixedEvent"
         />
       </div>
 
@@ -91,6 +94,7 @@
           type="number"
           class="form-control"
           [id]="'aei-' + itemId + '-instance-max'"
+          [disabled]="fixedEvent"
         />
       </div>
 
@@ -102,6 +106,7 @@
           type="time"
           class="form-control"
           [id]="'aei-' + itemId + '-lower'"
+          [disabled]="fixedEvent"
         />
       </div>
 
@@ -113,6 +118,7 @@
           type="time"
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
+          [disabled]="fixedEvent"
         />
       </div>
 
@@ -122,8 +128,10 @@
         >
         <input
           type="number"
+          min="0"
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
+          [disabled]="fixedEvent"
         />
       </div>
 
@@ -135,6 +143,7 @@
           type="date"
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
+          [disabled]="!fixedEvent"
         />
       </div>
 
@@ -146,24 +155,52 @@
           type="time"
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
+          [disabled]="!fixedEvent"
         />
       </div>
 
       <div class="col-md-12 mt-3">
         <div class="form-check form-switch mt-1">
-          <input class="form-check-input" type="checkbox" [id]="'aei-' + itemId + 'consecutive-instances'">
-          <label class="form-check-label" [for]="'aei-' + itemId + 'consecutive-instances'">Peuvent les instances se suivre ?</label>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [id]="'aei-' + itemId + 'consecutive-instances'"
+            [checked]="consecutiveInstances"
+            (change)="consecutiveInstances = !consecutiveInstances"
+            [disabled]="fixedEvent"
+          />
+          <label
+            class="form-check-label"
+            [for]="'aei-' + itemId + 'consecutive-instances'"
+            >Peuvent les instances se suivre ?</label
+          >
         </div>
         <div class="form-check form-switch mt-1">
-          <input class="form-check-input" type="checkbox" [id]="'aei-' + itemId + 'fixed-event'">
-          <label class="form-check-label" [for]="'aei-' + itemId + 'fixed-event'">Est-ce un créneau fixe ?</label>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [id]="'aei-' + itemId + 'fixed-event'"
+            [checked]="fixedEvent"
+            (change)="onToggleFixedEvent()"
+          />
+          <label
+            class="form-check-label"
+            [for]="'aei-' + itemId + 'fixed-event'"
+            >Est-ce un créneau fixe ?</label
+          >
         </div>
       </div>
-    
+
       <div class="col-md-12 mt-3">
         <div class="form-group">
-          <label [for]="'aei-' + itemId + 'description'">Description de l'événement :</label>
-          <textarea class="form-control mt-2" [id]="'aei-' + itemId + 'description'" rows="3"></textarea>
+          <label [for]="'aei-' + itemId + 'description'"
+            >Description de l'événement :</label
+          >
+          <textarea
+            class="form-control mt-2"
+            [id]="'aei-' + itemId + 'description'"
+            rows="3"
+          ></textarea>
         </div>
       </div>
     </div>
@@ -178,7 +215,9 @@
         >
           Supprimer cette tâche &times;
         </button>
-        <button type="button" class="btn link-primary">&plus; <u>Options avancées</u></button>
+        <button type="button" class="btn link-primary">
+          &plus; <u>Options avancées</u>
+        </button>
       </div>
     </div>
   </form>

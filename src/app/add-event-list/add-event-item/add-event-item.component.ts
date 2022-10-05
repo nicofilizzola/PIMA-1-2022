@@ -9,8 +9,18 @@ export class AddEventItemComponent {
   @Input() itemId;
   @Input() isDeletable;
   @Output() deleteItem = new EventEmitter<number>();
+  fixedEvent = false;
+  consecutiveInstances = false;
 
   onDeleteItem() {
     this.deleteItem.emit(this.itemId);
+  }
+
+  onToggleFixedEvent() {
+    this.fixedEvent = !this.fixedEvent;
+
+    if (this.consecutiveInstances) {
+      this.consecutiveInstances = false;
+    }
   }
 }
