@@ -151,12 +151,12 @@
 
       <div class="col-md-12 mt-3">
         <div class="form-check form-switch mt-1">
-          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-          <label class="form-check-label" for="flexSwitchCheckDefault">Peuvent les instances se suivre ?</label>
+          <input class="form-check-input" type="checkbox" [id]="'aei-' + itemId + 'consecutive-instances'">
+          <label class="form-check-label" [for]="'aei-' + itemId + 'consecutive-instances'">Peuvent les instances se suivre ?</label>
         </div>
         <div class="form-check form-switch mt-1">
-          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-          <label class="form-check-label" for="flexSwitchCheckDefault">Est-ce un créneau fixe ?</label>
+          <input class="form-check-input" type="checkbox" [id]="'aei-' + itemId + 'fixed-event'">
+          <label class="form-check-label" [for]="'aei-' + itemId + 'fixed-event'">Est-ce un créneau fixe ?</label>
         </div>
       </div>
     
