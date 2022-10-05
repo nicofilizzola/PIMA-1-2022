@@ -40,16 +40,16 @@
         >
         <select [id]="'aei-' + itemId + '-calendar'" class="form-select">
           <option selected>Choisir calendrier...</option>
-          <option value="PLACEHOLDER 1">PLACEHOLDER 1</option>
-          <option value="PLACEHOLDER 2">PLACEHOLDER 2</option>
-          <option value="PLACEHOLDER 3">PLACEHOLDER 3</option>
-          <option value="PLACEHOLDER 4">PLACEHOLDER 4</option>
+          <option value="">Personal</option>
+          <option value="">Sport</option>
+          <option value="">Work</option>
+          <option value="s">Holidays</option>
         </select>
       </div>
     </div>
 
-    <hr />
-    <div class="row m-4" *ngIf="true">
+    <div class="row m-4" *ngIf="advancedOptionsActive">
+      <hr />
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-location'" class="form-label"
           >Localisation :</label
@@ -218,8 +218,21 @@
         >
           Supprimer cette tâche &times;
         </button>
-        <button type="button" class="btn link-primary">
+        <button
+          type="button"
+          class="btn link-primary"
+          *ngIf="!advancedOptionsActive"
+          (click)="setAdvancedOptionsActive(true)"
+        >
           &plus; <u>Options avancées</u>
+        </button>
+        <button
+          type="button"
+          class="btn link-primary"
+          *ngIf="advancedOptionsActive"
+          (click)="setAdvancedOptionsActive(false)"
+        >
+          <u>Cacher les options avancées</u>
         </button>
       </div>
     </div>

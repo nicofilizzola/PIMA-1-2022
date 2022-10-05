@@ -12,6 +12,7 @@ export class AddEventItemComponent {
   fixedEvent = false;
   consecutiveInstances = false;
   instanceTotal = 1;
+  advancedOptionsActive = false;
 
   onDeleteItem() {
     this.deleteItem.emit(this.itemId);
@@ -25,17 +26,17 @@ export class AddEventItemComponent {
     }
   }
 
-  /**
-   * @TODO
-   */
-  getMaxInstancesPerDay(){
-  
+  setAdvancedOptionsActive(advancedOptionsActive: boolean) {
+    this.advancedOptionsActive = advancedOptionsActive;
   }
 
   /**
    * @TODO
    */
-  getMinInstancesPerDay(){
-  
-  }
+  getMaxInstancesPerDay() {}
+
+  /**
+   * @TODO
+   */
+  getMinInstancesPerDay() {}
 }
