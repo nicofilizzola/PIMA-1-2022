@@ -70,8 +70,8 @@
           class="form-control"
           [id]="'aei-' + itemId + '-instance-total'"
           [disabled]="fixedEvent"
-          [(ngModel)]="instanceTotal"
-          [value]="instanceTotal"
+          (change)="setInstanceTotal($event.target.value)"
+          value="1"
         />
       </div>
 
@@ -183,7 +183,7 @@
             [id]="'aei-' + itemId + 'consecutive-instances'"
             [checked]="consecutiveInstances"
             (change)="consecutiveInstances = !consecutiveInstances"
-            [disabled]="fixedEvent"
+            [disabled]="isConsecutiveInstancesInputDisabled()"
           />
           <label
             class="form-check-label"
