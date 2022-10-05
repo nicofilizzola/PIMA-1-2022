@@ -1,0 +1,60 @@
+<div class="container-md bg-light py-1">
+  <form>
+    <div [id]="'add-event-item' + itemId" class="row m-4">
+      <div class="col-md-6 mt-3">
+        <label [for]="'aei-' + itemId + '-title'" class="form-label"
+          >Titre</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          [id]="'aei-' + itemId + '-title'"
+        />
+      </div>
+      <div class="col-md-6 mt-3">
+        <label [for]="'aei-' + itemId + '-duration'" class="form-label"
+          >Durée en heures</label
+        >
+        <input
+          type="number"
+          step="0.5"
+          class="form-control"
+          [id]="'aei-' + itemId + '-duration'"
+        />
+      </div>
+      <div class="col-md-6 mt-3">
+        <label [for]="'aei-' + itemId + '-priority'" class="form-label"
+          >Priorité</label
+        >
+        <select [id]="'aei-' + itemId + '-priority'" class="form-select">
+          <option selected>Choisir priorité...</option>
+          <option value="PLACEHOLDER 1">Basse</option>
+          <option value="PLACEHOLDER 2">Moyenne</option>
+          <option value="PLACEHOLDER 3">Haute</option>
+          <option value="PLACEHOLDER 4">Urgent</option>
+        </select>
+      </div>
+      <div class="col-md-6 mt-3">
+        <label [for]="'aei-' + itemId + '-calendar'" class="form-label"
+          >Calendrier</label
+        >
+        <select [id]="'aei-' + itemId + '-calendar'" class="form-select">
+          <option selected>Choisir calendrier...</option>
+          <option value="PLACEHOLDER 1">PLACEHOLDER 1</option>
+          <option value="PLACEHOLDER 2">PLACEHOLDER 2</option>
+          <option value="PLACEHOLDER 3">PLACEHOLDER 3</option>
+          <option value="PLACEHOLDER 4">PLACEHOLDER 4</option>
+        </select>
+      </div>
+      <div class="col-md-12" *ngIf="isDeletable">
+        <button
+          (click)="onDeleteItem()"
+          type="button"
+          class="btn btn-danger mt-3"
+        >
+          Supprimer cette tâche &times;
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
