@@ -1,7 +1,7 @@
-<div class="container-md bg-light py-1">
+<div class="container-md bg-light py-1 my-2">
   <form>
     <div [id]="'add-event-item' + itemId" class="row m-4">
-      <div class="col-md-6 mt-3">
+      <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-title'" class="form-label"
           >Titre</label
         >
@@ -11,7 +11,7 @@
           [id]="'aei-' + itemId + '-title'"
         />
       </div>
-      <div class="col-md-6 mt-3">
+      <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-duration'" class="form-label"
           >Durée en heures</label
         >
@@ -22,7 +22,7 @@
           [id]="'aei-' + itemId + '-duration'"
         />
       </div>
-      <div class="col-md-6 mt-3">
+      <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-priority'" class="form-label"
           >Priorité</label
         >
@@ -34,7 +34,7 @@
           <option value="PLACEHOLDER 4">Urgent</option>
         </select>
       </div>
-      <div class="col-md-6 mt-3">
+      <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-calendar'" class="form-label"
           >Calendrier</label
         >
@@ -213,7 +213,7 @@
         <button
           (click)="onDeleteItem()"
           type="button"
-          class="btn btn-danger mt-3"
+          class="btn btn-danger"
           *ngIf="isDeletable"
         >
           Supprimer cette tâche &times;
