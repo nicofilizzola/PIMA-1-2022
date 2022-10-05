@@ -1,7 +1,17 @@
-<br />
-<div>
-  <h1 class="display-6 text-center">Ajouter evenement a un calendrier</h1>
-  <br />
+<div class="container">
+  <div class="row m-4">
+    <div class="col-md-6">
+      <h1>Ajouter evenement a un calendrier</h1>
+      <label for="ael-period" class="form-label">Période</label>
+      <select id="ael-period" class="form-select">
+        <option selected>Choisir la période...</option>
+        <option value="">Un jour</option>
+        <option value="">Une semaine</option>
+        <option value="">Un mois</option>
+      </select>
+    </div>
+  </div>
+
   <app-add-event-item
     *ngFor="let item of items"
     [itemId]="item"

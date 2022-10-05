@@ -51,7 +51,7 @@
     <hr>
     <div class="row m-4" *ngIf="true">
       
-      <div class="col-md-6 mt-3">
+      <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-localisation'" class="form-label"
           >Localisation :</label
         >
@@ -62,21 +62,104 @@
         />
       </div>
       <div class="col-md-3 mt-3">
-        <label [for]="'aei-' + itemId + '-localisation'" class="form-label"
+        <label [for]="'aei-' + itemId + '-instance-total'" class="form-label"
           >Nombre d'instances :</label
         >
         <input
           type="number"
           class="form-control"
-          [id]="'aei-' + itemId + '-localisation'"
+          [id]="'aei-' + itemId + '-instance-total'"
         />
       </div>
+
       <div class="col-md-3 mt-3">
-        <div class="form-check form-switch">
+        <label [for]="'aei-' + itemId + '-instance-min'" class="form-label"
+          >Min d'instances par jour :</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          [id]="'aei-' + itemId + '-instance-min'"
+        />
+      </div>
+
+      <div class="col-md-3 mt-3">
+        <label [for]="'aei-' + itemId + '-instance-max'" class="form-label"
+          >Max d'instances par jour :</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          [id]="'aei-' + itemId + '-instance-max'"
+        />
+      </div>
+
+      <div class="col-md-2 mt-3">
+        <label [for]="'aei-' + itemId + '-lower'" class="form-label"
+          >Borne inférieure :</label
+        >
+        <input
+          type="time"
+          class="form-control"
+          [id]="'aei-' + itemId + '-lower'"
+        />
+      </div>
+
+      <div class="col-md-2 mt-3">
+        <label [for]="'aei-' + itemId + '-higher'" class="form-label"
+          >Borne supérieure :</label
+        >
+        <input
+          type="time"
+          class="form-control"
+          [id]="'aei-' + itemId + '-higher'"
+        />
+      </div>
+
+      <div class="col-md-2 mt-3">
+        <label [for]="'aei-' + itemId + '-higher'" class="form-label"
+          >Minutes de marge :</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          [id]="'aei-' + itemId + '-higher'"
+        />
+      </div>
+
+      <div class="col-md-3 mt-3">
+        <label [for]="'aei-' + itemId + '-higher'" class="form-label"
+          >Date :</label
+        >
+        <input
+          type="date"
+          class="form-control"
+          [id]="'aei-' + itemId + '-higher'"
+        />
+      </div>
+
+      <div class="col-md-3 mt-3">
+        <label [for]="'aei-' + itemId + '-higher'" class="form-label"
+          >Heure :</label
+        >
+        <input
+          type="time"
+          class="form-control"
+          [id]="'aei-' + itemId + '-higher'"
+        />
+      </div>
+
+      <div class="col-md-12 mt-3">
+        <div class="form-check form-switch mt-1">
           <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-          <label class="form-check-label" for="flexSwitchCheckDefault">Peuvent-elles se suivre ?</label>
+          <label class="form-check-label" for="flexSwitchCheckDefault">Peuvent les instances se suivre ?</label>
+        </div>
+        <div class="form-check form-switch mt-1">
+          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+          <label class="form-check-label" for="flexSwitchCheckDefault">Est-ce un créneau fixe ?</label>
         </div>
       </div>
+    
       <div class="col-md-12 mt-3">
         <div class="form-group">
           <label [for]="'aei-' + itemId + 'description'">Description de l'événement :</label>
