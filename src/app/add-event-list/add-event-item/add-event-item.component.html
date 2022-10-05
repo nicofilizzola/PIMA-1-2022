@@ -51,14 +51,13 @@
     <hr />
     <div class="row m-4" *ngIf="true">
       <div class="col-md-3 mt-3">
-        <label [for]="'aei-' + itemId + '-localisation'" class="form-label"
+        <label [for]="'aei-' + itemId + '-location'" class="form-label"
           >Localisation :</label
         >
         <input
           type="text"
           class="form-control"
-          [id]="'aei-' + itemId + '-localisation'"
-          [disabled]="fixedEvent"
+          [id]="'aei-' + itemId + '-location'"
         />
       </div>
       <div class="col-md-3 mt-3">
@@ -71,6 +70,8 @@
           class="form-control"
           [id]="'aei-' + itemId + '-instance-total'"
           [disabled]="fixedEvent"
+          [(ngModel)]="instanceTotal"
+          [value]="instanceTotal"
         />
       </div>
 
@@ -79,6 +80,7 @@
           >Min d'instances par jour :</label
         >
         <input
+          min="0"
           type="number"
           class="form-control"
           [id]="'aei-' + itemId + '-instance-min'"
@@ -91,6 +93,7 @@
           >Max d'instances par jour :</label
         >
         <input
+          min="0"
           type="number"
           class="form-control"
           [id]="'aei-' + itemId + '-instance-max'"
@@ -160,6 +163,19 @@
       </div>
 
       <div class="col-md-12 mt-3">
+        <div class="form-group">
+          <label [for]="'aei-' + itemId + 'description'"
+            >Description de l'événement :</label
+          >
+          <textarea
+            class="form-control mt-2"
+            [id]="'aei-' + itemId + 'description'"
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="col-md-12 mt-3">
         <div class="form-check form-switch mt-1">
           <input
             class="form-check-input"
@@ -188,19 +204,6 @@
             [for]="'aei-' + itemId + 'fixed-event'"
             >Est-ce un créneau fixe ?</label
           >
-        </div>
-      </div>
-
-      <div class="col-md-12 mt-3">
-        <div class="form-group">
-          <label [for]="'aei-' + itemId + 'description'"
-            >Description de l'événement :</label
-          >
-          <textarea
-            class="form-control mt-2"
-            [id]="'aei-' + itemId + 'description'"
-            rows="3"
-          ></textarea>
         </div>
       </div>
     </div>

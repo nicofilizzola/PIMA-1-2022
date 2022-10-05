@@ -11,6 +11,7 @@ export class AddEventItemComponent {
   @Output() deleteItem = new EventEmitter<number>();
   fixedEvent = false;
   consecutiveInstances = false;
+  instanceTotal = 1;
 
   onDeleteItem() {
     this.deleteItem.emit(this.itemId);
@@ -22,5 +23,19 @@ export class AddEventItemComponent {
     if (this.consecutiveInstances) {
       this.consecutiveInstances = false;
     }
+  }
+
+  /**
+   * @TODO
+   */
+  getMaxInstancesPerDay(){
+  
+  }
+
+  /**
+   * @TODO
+   */
+  getMinInstancesPerDay(){
+  
   }
 }
