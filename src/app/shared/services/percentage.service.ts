@@ -26,7 +26,10 @@ export class PercentageService {
       ) {
         continue;
       }
-      let eventDuration = this._getDuration(event.start.dateTime,event.end.dateTime);
+      let eventDuration = this._getDuration(
+        event.start.dateTime,
+        event.end.dateTime
+      );
       calendarTotal += eventDuration;
     }
     return (calendarTotal / this.totalTime) * 100;
@@ -36,25 +39,37 @@ export class PercentageService {
     let totalTimeAcc = 0;
 
     for (let calendar of calendarList) {
-      for (let event of calendar.items) {
-        if (
-          event === undefined ||
-          'dateTime' in event.start === false ||
-          'dateTime' in event.end === false
-        ) {
-          continue;
-        }
-        let eventDuration = this._getDuration(event.start.dateTime,event.end.dateTime);
-        totalTimeAcc += eventDuration;
-      }
+      this._getEventsTotalTime(calendar)
     }
     this.totalTime = totalTimeAcc;
+  }
+
+  private _getEventsTotalTime(calendar) {
+    let timeAccumulator = 0;
+
+    for (let event of calendar.items) {
+      if (
+        event === undefined ||
+        'dateTime' in event.start === false ||
+        'dateTime' in event.end === false
+      ) {
+        continue;
+      }
+      let eventDuration = this._getDuration(
+        event.start.dateTime,
+        event.end.dateTime
+      );
+      timeAccumulator += eventDuration;
+    }
+
+    return timeAccumulator
   }
 
   private _getDuration(startDateTime, endDateTime) {
     var eventDateStart = new Date(startDateTime);
     var eventDateEnd = new Date(endDateTime);
-    var eventDuration = (eventDateEnd.getTime() - eventDateStart.getTime()) / 60000;
+    var eventDuration =
+      (eventDateEnd.getTime() - eventDateStart.getTime()) / 60000;
     return eventDuration;
   }
 }
