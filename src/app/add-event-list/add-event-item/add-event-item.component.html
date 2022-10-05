@@ -211,14 +211,6 @@
     <div class="row m-4">
       <div class="col-md-12">
         <button
-          (click)="onDeleteItem()"
-          type="button"
-          class="btn btn-danger"
-          *ngIf="isDeletable"
-        >
-          Supprimer cette tâche &times;
-        </button>
-        <button
           type="button"
           class="btn link-primary"
           *ngIf="!advancedOptionsActive"
@@ -233,6 +225,14 @@
           (click)="setAdvancedOptionsActive(false)"
         >
           <u>Cacher les options avancées</u>
+        </button>
+        <button
+          (click)="onDeleteItem()"
+          type="button"
+          class="btn btn-danger"
+          *ngIf="isDeletable"
+        >
+          Supprimer cette tâche &times;
         </button>
       </div>
     </div>

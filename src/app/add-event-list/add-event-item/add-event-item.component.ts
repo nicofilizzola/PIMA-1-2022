@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { trigger, state, style } from '@angular/animations';
 @Component({
   selector: 'app-add-event-item',
   templateUrl: './add-event-item.component.html',
@@ -39,9 +38,6 @@ export class AddEventItemComponent {
     return this.instanceTotal < 2 || this.fixedEvent
   }
 
-  a(){
-    console.log(this.instanceTotal)
-  }
   /**
    * @TODO
    */
