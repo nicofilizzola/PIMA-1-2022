@@ -12,12 +12,11 @@ const oAuthConfig: AuthConfig = {
   scope:
     'openid profile email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events',
 };
-const INIT = 'INIT_BS';
 @Injectable({
   providedIn: 'root',
 })
 export class GapiService {
-  authedUserEmail = new BehaviorSubject<string>(INIT); // infinite loop bug if initialized null
+  authenticatedUserEmail = new BehaviorSubject<string>("INIT");
 
   constructor(private _oAuthService: OAuthService) {
     this._oAuthService.configure(oAuthConfig);
@@ -27,7 +26,7 @@ export class GapiService {
           return this._oAuthService.initLoginFlow();
         }
         this._oAuthService.loadUserProfile().then((userProfile: any) => {
-          this.authedUserEmail.next(userProfile.info.email);
+          this.authenticatedUserEmail.next(userProfile.info.email);
         });
       });
     });
@@ -45,10 +44,10 @@ export class GapiService {
 
   logOut() {
     this._oAuthService.logOut();
-    this.authedUserEmail.next(null);
+    this.authenticatedUserEmail.next(null);
   }
 
-  getAuthedUserEmail() {
-    return this.authedUserEmail.getValue();
+  getAuthenticatedUserEmail() {
+    return this.authenticatedUserEmail.getValue();
   }
 }
