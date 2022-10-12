@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { GapiService } from './shared/services/gapi-service/gapi.service';
+import { GapiService } from './shared/services/gapi/gapi.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._subscriptions.push(
-      this._gapiService.authenticatedUserEmail.subscribe(
+      this._gapiService.authenticatedUserEmail$.subscribe(
         (authenticatedUserEmail: string) => {
           if (authenticatedUserEmail === null) {
             window.location.reload();

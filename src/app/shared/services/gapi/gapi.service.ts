@@ -12,11 +12,15 @@ const oAuthConfig: AuthConfig = {
   scope:
     'openid profile email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events',
 };
+
+/**
+ * @note Gapi stands for Google API
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class GapiService {
-  authenticatedUserEmail = new BehaviorSubject<string>("INIT");
+  authenticatedUserEmail$ = new BehaviorSubject<string>("INIT");
 
   constructor(private _oAuthService: OAuthService) {
     this._oAuthService.configure(oAuthConfig);
@@ -26,7 +30,7 @@ export class GapiService {
           return this._oAuthService.initLoginFlow();
         }
         this._oAuthService.loadUserProfile().then((userProfile: any) => {
-          this.authenticatedUserEmail.next(userProfile.info.email);
+          this.authenticatedUserEmail$.next(userProfile.info.email);
         });
       });
     });
@@ -44,10 +48,10 @@ export class GapiService {
 
   logOut() {
     this._oAuthService.logOut();
-    this.authenticatedUserEmail.next(null);
+    this.authenticatedUserEmail$.next(null);
   }
 
-  getAuthenticatedUserEmail() {
-    return this.authenticatedUserEmail.getValue();
+  getauthenticatedUserEmail() {
+    return this.authenticatedUserEmail$.getValue();
   }
 }

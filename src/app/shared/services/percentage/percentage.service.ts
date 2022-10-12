@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { calendarListEvents } from 'src/fixtures/fixtures';
-import { Event } from '../../models/event.model';
+import { Event } from '../../../models.old/event.model';
 
 @Injectable({
   providedIn: 'root',
