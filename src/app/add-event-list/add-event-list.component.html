@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row m-4">
+    <div class="col-md-6">
+      <h1>Ajouter evenement a un calendrier</h1>
+      <label for="ael-period" class="form-label">Période</label>
+      <select id="ael-period" class="form-select">
+        <option selected>Choisir la période...</option>
+        <option value="">Un jour</option>
+        <option value="">Une semaine</option>
+        <option value="">Un mois</option>
+      </select>
+    </div>
+  </div>
+
+  <app-add-event-item
+    *ngFor="let item of items"
+    [itemId]="item"
+    [isDeletable]="isItemsLengthGreaterThan1()"
+    (deleteItem)="onDeleteItem($event)"
+  ></app-add-event-item>
+  <div class="container-md">
+    <div class="row">
+      <button
+        (click)="onAddItem()"
+        class="btn btn-outline-primary mt-2 col-md-6"
+      >
+        Ajouter tache
+      </button>
+    </div>
+    <div class="row">
+      <button type="button" class="btn btn-primary mt-2 col-md-6">
+        Valider
+      </button>
+    </div>
+  </div>
+</div>
