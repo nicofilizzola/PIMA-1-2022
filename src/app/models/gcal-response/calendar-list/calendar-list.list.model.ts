@@ -1,4 +1,4 @@
-import { CalendarListEntry } from '../calendar-list.model';
+import { CalendarListEntry } from '../../calendar-list.model';
 
 export interface CalendarListListResponse {
   kind: 'calendar#calendarList';

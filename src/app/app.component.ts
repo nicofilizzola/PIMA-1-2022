@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ONE_WEEK_AGO } from './constants';
+import { CalendarList } from './models/calendar-list.model';
 import { GapiService } from './shared/services/gapi/gapi.service';
 import { GcalService } from './shared/services/gcal/gcal.service';
 
@@ -11,7 +13,10 @@ import { GcalService } from './shared/services/gcal/gcal.service';
 export class AppComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
 
-  constructor(private readonly _gapiService: GapiService, private gcal : GcalService) {}
+  constructor(
+    private readonly _gapiService: GapiService,
+    private gcal: GcalService
+  ) {}
 
   ngOnInit(): void {
     this._subscriptions.push(
@@ -23,13 +28,11 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       )
     );
-
-    this.gcal.fetchCalendarList()
   }
 
   ngOnDestroy(): void {
     for (let subscription of this._subscriptions) {
-      subscription.unsubscribe()
+      subscription.unsubscribe();
     }
   }
 
