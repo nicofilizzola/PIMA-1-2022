@@ -3,7 +3,7 @@
     class="collapsed title"
     *ngIf="isCollapsed"
   >
-    <h2></h2>
+    <h2>{{title}}</h2>
   </div>
 
   <form
@@ -18,6 +18,8 @@
           type="text"
           class="form-control"
           [id]="'aei-' + itemId + '-title'"
+          [(ngModel)]="title"
+          [ngModelOptions]="{standalone: true}"
         />
       </div>
       <div class="col-md-3 mt-3">
