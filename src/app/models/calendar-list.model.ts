@@ -1,4 +1,4 @@
-export interface CalendarList {
+export interface CalendarListEntry {
   kind: 'calendar#calendarListEntry';
   etag: string; // type etag
   id: string;
@@ -33,3 +33,5 @@ export interface CalendarList {
     allowedConferenceSolutionTypes: string[];
   };
 }
+
+export type CalendarList = CalendarListEntry[];

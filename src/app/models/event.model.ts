@@ -1,4 +1,4 @@
-export interface GCalEvent {
+export interface Event {
   kind: 'calendar#event';
   etag: string; // type etag
   id: string;
