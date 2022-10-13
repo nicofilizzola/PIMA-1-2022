@@ -8,8 +8,9 @@ import { NgChartsModule } from 'ng2-charts';
 import { AddEventListComponent } from './add-event-list/add-event-list.component';
 import { AddEventItemComponent } from './add-event-list/add-event-item/add-event-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
-import { OAuthModule } from 'angular-oauth2-oidc';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
+import { GcalInterceptor } from './interceptors/gcal.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,14 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     HttpClientModule,
     OAuthModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: GcalInterceptor,
+      multi: true,
+      deps: [OAuthService],
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
