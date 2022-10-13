@@ -22,12 +22,11 @@ export class GcalService {
   fetchCalendarList() {
     this._http.get(`${GOOGLE_CALENDAR_API}/users/me/calendarList`).subscribe({
       next: (response: CalendarListListResponse) => {
-        let holidaylessCalendarList: CalendarList = this._removeHolidayCalendarListEntries(response.items)
-        return this.calendarList$.next(holidaylessCalendarList);
+        let timedCalendarList: CalendarList = this._removeAllDayCLEs(response.items)
+        return this.calendarList$.next(timedCalendarList);
       },
       error: (error: Error) => console.error(error)
     });
-    this.calendarList$.subscribe(hola => console.log(hola))
   }
 
   // fetchCalendarEventList(calendarId: string) {
@@ -80,8 +79,15 @@ export class GcalService {
   //   }
   // }
 
-  private _removeHolidayCalendarListEntries(calendarList: CalendarList): CalendarList {
+  private _removeHolidayCLEs(calendarList: CalendarList): CalendarList {
     return calendarList.filter((calendarListEntry: CalendarListEntry) => !calendarListEntry.id.includes('#holiday'))
+  }
+  private _removeBirthdayCLEs(calendarList: CalendarList): CalendarList {
+    return calendarList.filter((calendarListEntry: CalendarListEntry) => !calendarListEntry.id.includes('#contacts'))
+  }
+  private _removeAllDayCLEs(calendarList: CalendarList): CalendarList {
+    let holidaylessCL = this._removeHolidayCLEs(calendarList)
+    return this._removeBirthdayCLEs(holidaylessCL);
   }
 
   // private _isArrayUndefined(array: Array<any>): boolean {
