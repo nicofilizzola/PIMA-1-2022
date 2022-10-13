@@ -1,5 +1,14 @@
 <div class="container-md bg-light py-1 my-2">
-  <form>
+  <div 
+    class="collapsed title"
+    *ngIf="isCollapsed"
+  >
+    <h2></h2>
+  </div>
+
+  <form
+    *ngIf="!isCollapsed"
+  >
     <div [id]="'add-event-item' + itemId" class="row m-4">
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-title'" class="form-label"
@@ -236,5 +245,12 @@
         </button>
       </div>
     </div>
+    <button
+      type="button"
+      class="btn save"
+      (click)="saveItem()"
+    >
+      Sauvegarder
+    </button>
   </form>
 </div>

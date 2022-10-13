@@ -12,6 +12,8 @@ export class AddEventItemComponent {
   consecutiveInstances = false;
   instanceTotal = 1;
   advancedOptionsActive = false;
+  isCollapsed = false; 
+  title = "";
 
   onDeleteItem() {
     this.deleteItem.emit(this.itemId);
@@ -47,4 +49,8 @@ export class AddEventItemComponent {
    * @TODO
    */
   getMinInstancesPerDay() {}
+
+  saveItem() {
+    this.isCollapsed = true;
+  }
 }
