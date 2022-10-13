@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GapiService } from './shared/services/gapi/gapi.service';
+import { GcalService } from './shared/services/gcal/gcal.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { GapiService } from './shared/services/gapi/gapi.service';
 export class AppComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
 
-  constructor(private readonly _gapiService: GapiService) {}
+  constructor(private readonly _gapiService: GapiService, private gcal : GcalService) {}
 
   ngOnInit(): void {
     this._subscriptions.push(
@@ -22,6 +23,8 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       )
     );
+
+    this.gcal.fetchCalendarList()
   }
 
   ngOnDestroy(): void {

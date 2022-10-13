@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CalendarList, CalendarListEntry } from 'src/app/models/calendar-list.model';
+import { CalendarListListResponse } from 'src/app/models/gcal-response/calendar-list.list.model';
 
 const GOOGLE_CALENDAR_API = 'https://www.googleapis.com/calendar/v3';
 
@@ -12,7 +13,7 @@ const GOOGLE_CALENDAR_API = 'https://www.googleapis.com/calendar/v3';
   providedIn: 'root',
 })
 export class GcalService {
-  calendarList$ = new BehaviorSubject<CalendarList[]>([]);
+  calendarList$ = new BehaviorSubject<CalendarList>([]);
   // eventLists$ = new BehaviorSubject<EventList[]>([]);
   // colors$ = new BehaviorSubject<Colors>(null);
 
@@ -20,13 +21,13 @@ export class GcalService {
 
   fetchCalendarList() {
     this._http.get(`${GOOGLE_CALENDAR_API}/users/me/calendarList`).subscribe({
-      next: (response: CalendarList) => {
-        let calendarList = this._removeHolidayCalendars(response.items);
-        // this.eventLists$.next(new Array<EventList>(calendarList.length));
-        // return this.calendarList$.next(calendarList);
+      next: (response: CalendarListListResponse) => {
+        let holidaylessCalendarList: CalendarList = this._removeHolidayCalendarListEntries(response.items)
+        return this.calendarList$.next(holidaylessCalendarList);
       },
-      error: (error: Error) => console.error(error);
+      error: (error: Error) => console.error(error)
     });
+    this.calendarList$.subscribe(hola => console.log(hola))
   }
 
   // fetchCalendarEventList(calendarId: string) {
@@ -79,24 +80,8 @@ export class GcalService {
   //   }
   // }
 
-  private _removeHolidayCalendars(calendarList: CalendarList[]): Calendar[] {
-    let holidayCalendars: Calendar[] = [];
-
-    for (let calendar of calendarList) {
-      if (
-        calendar.id.includes('#holiday') ||
-        calendar.id.includes('nicofilizzola')
-      ) {
-        holidayCalendars.push(calendar);
-      }
-    }
-    for (let holidayCalendar of holidayCalendars) {
-      let holidayCalendarIndex = calendarList.findIndex(
-        (calendar) => calendar.id === holidayCalendar.id
-      );
-      calendarList.splice(holidayCalendarIndex, 1);
-    }
-    return calendarList;
+  private _removeHolidayCalendarListEntries(calendarList: CalendarList): CalendarList {
+    return calendarList.filter((calendarListEntry: CalendarListEntry) => !calendarListEntry.id.includes('#holiday'))
   }
 
   // private _isArrayUndefined(array: Array<any>): boolean {
