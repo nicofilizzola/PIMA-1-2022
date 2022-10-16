@@ -1,3 +1,15 @@
+$black: #000;
+
 textarea {
     resize: none;
+}
+
+.question-mark-tooltip {
+
+    color: lighten($black,60);
+    transition: 0.3s;
+
+    &:hover {
+        color: $black
+    }
 }

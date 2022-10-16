@@ -62,17 +62,8 @@
       </div>
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-instance-total'" class="form-label"
-          >Nombre d'instances :</label
-        >
-
-        <i class="fa-solid fa-question" data-toggle="tooltip" title="Test"></i>
-        <i class="fa-light fa-circle-question"></i>
-        <i class="fa-regular fa-circle-question"></i>
-
-
-
-
-
+          >Nombre d'instances :</label>
+          <i class="fa-regular fa-circle-question fa-2xs ms-1 question-mark-tooltip" placement="end" ngbTooltip="test"></i>
         <input
           min="0"
           type="number"
@@ -88,6 +79,7 @@
         <label [for]="'aei-' + itemId + '-instance-min'" class="form-label"
           >Min d'instances par jour :</label
         >
+        <i class="fa-regular fa-circle-question fa-2xs ms-1 question-mark-tooltip" placement="end" ngbTooltip="test"></i>
         <input
           min="0"
           type="number"
@@ -101,6 +93,7 @@
         <label [for]="'aei-' + itemId + '-instance-max'" class="form-label"
           >Max d'instances par jour :</label
         >
+        <i class="fa-regular fa-circle-question fa-2xs ms-1 question-mark-tooltip" placement="end" ngbTooltip="test"></i>
         <input
           min="0"
           type="number"

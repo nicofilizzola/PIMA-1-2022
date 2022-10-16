@@ -1,10 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 @Component({
   selector: 'app-add-event-item',
   templateUrl: './add-event-item.component.html',
   styleUrls: ['./add-event-item.component.scss'],
 })
 export class AddEventItemComponent {
+
   @Input() itemId;
   @Input() isDeletable;
   @Output() deleteItem = new EventEmitter<number>();
@@ -12,6 +13,10 @@ export class AddEventItemComponent {
   consecutiveInstances = false;
   instanceTotal = 1;
   advancedOptionsActive = false;
+
+  ngOnInit() : void{
+
+  }
 
   onDeleteItem() {
     this.deleteItem.emit(this.itemId);
