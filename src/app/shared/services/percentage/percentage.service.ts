@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { calendarListEvents } from 'src/fixtures/fixtures';
 import { Event, EventList, EventListEntry } from 'src/app/models/event.model';
 import { GcalService } from '../gcal/gcal.service';
-import { Calendar } from 'src/app/models/calendar.model';
 
 @Injectable({
   providedIn: 'root',
