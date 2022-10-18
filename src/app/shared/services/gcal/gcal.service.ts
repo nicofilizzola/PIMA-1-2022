@@ -6,7 +6,7 @@ import {
   CalendarList,
   CalendarListEntry,
 } from 'src/app/models/calendar-list.model';
-import { Event } from 'src/app/models/event.model';
+import { Event, EventList } from 'src/app/models/event.model';
 import { CalendarListListResponse } from 'src/app/models/gcal-response/calendar-list/calendar-list.list.model';
 import { EventListResponse } from 'src/app/models/gcal-response/event/event.list.model';
 
@@ -25,9 +25,12 @@ enum TimeMinFlag {
   providedIn: 'root',
 })
 export class GcalService {
+  /**
+   * @note before using state values stored in BehaviorSubjects,
+   * always verify that they differ from their initialization value.
+   */
   calendarList$ = new BehaviorSubject<CalendarList>([]);
-  events$ = new BehaviorSubject<Event[]>([]);
-  // colors$ = new BehaviorSubject<Colors>(null);
+  eventList$ = new BehaviorSubject<EventList>(null);
 
   constructor(private _http: HttpClient) {}
 
@@ -64,7 +67,9 @@ export class GcalService {
       })
       .subscribe((response: EventListResponse) => {
         let timedEvents = this._removeAllDayEvents(response.items);
-        return this.events$.next(timedEvents);
+        let calendarEvents = <EventList>{ ...this.eventList$.getValue() }
+        calendarEvents[calendarId] = timedEvents;
+        return this.eventList$.next(calendarEvents);
       });
   }
 
@@ -110,13 +115,4 @@ export class GcalService {
         console.error("timeMinFlag's value is not recognized");
     }
   }
-
-  // private _isArrayUndefined(array: Array<any>): boolean {
-  //   for (let element of array) {
-  //     if (element != null) {
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // }
 }

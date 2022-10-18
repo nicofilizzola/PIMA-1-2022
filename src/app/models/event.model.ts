@@ -143,3 +143,10 @@ export interface Event {
   ];
   eventType: string;
 }
+
+/**
+ * @brief Not-privided by the API, this interface allows to easily categorize events by calendar
+ */
+export interface EventList {
+  (calendarId): Event[];
+}
