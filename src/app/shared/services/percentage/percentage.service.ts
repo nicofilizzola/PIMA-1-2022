@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { calendarListEvents } from 'src/fixtures/fixtures';
-import { Event, EventList } from 'src/app/models/event.model';
+import { Event, EventList, EventListEntry } from 'src/app/models/event.model';
 import { GcalService } from '../gcal/gcal.service';
 import { Calendar } from 'src/app/models/calendar.model';
-import { CalendarListEntry } from 'src/app/models/calendar-list.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +13,9 @@ export class PercentageService {
   constructor(private _gcalService: GcalService) {
     this._gcalService.eventList$.subscribe((eventList: EventList) => {
       if (this._gcalService.eventList$.getValue() != null) {
-        let events = Object.entries(eventList).map(
-          (eventListEntry: [string, Event[]]) => eventListEntry[1]
-        ).flat();
+        let events = Object.entries(eventList)
+          .map((eventListEntry: EventListEntry) => eventListEntry[1])
+          .flat();
         this._setTotalEventsTime(events);
       }
     });

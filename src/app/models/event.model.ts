@@ -150,3 +150,11 @@ export interface Event {
 export interface EventList {
   (calendarId): Event[];
 }
+
+/**
+ * @note This type may be used if eventList accessed via Object.entries
+ */
+export type EventListEntry = [
+  string, // calendarId
+  Event[]
+];
