@@ -18,5 +18,5 @@ describe('PercentageService', () => {
     expect(service).toBeTruthy();
   });
 
-  
+
 });
