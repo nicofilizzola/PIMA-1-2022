@@ -12,7 +12,7 @@ export class AddEventItemComponent {
   consecutiveInstances = false;
   instanceTotal = 1;
   advancedOptionsActive = false;
-  isCollapsed = false; 
+  collapsed = false; 
   title = "";
 
   onDeleteItem() {
@@ -50,7 +50,7 @@ export class AddEventItemComponent {
    */
   getMinInstancesPerDay() {}
 
-  saveItem() {
-    this.isCollapsed = true;
+  onToggleCollapsed() {
+    this.collapsed = !this.collapsed;
   }
 }
