@@ -63,7 +63,10 @@
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-instance-total'" class="form-label"
           >Nombre d'instances :</label>
-          <i class="fa-regular fa-circle-question fa-2xs ms-1 question-mark-tooltip" placement="end" ngbTooltip="test"></i>
+          <i 
+            class="fa-regular fa-circle-question fa-2xs ms-1 question-mark-tooltip" 
+            placement="end" 
+            ngbTooltip="Permet de préciser le nombre d'instances à créer de cet évènement."></i>
         <input
           min="0"
           type="number"
@@ -79,7 +82,10 @@
         <label [for]="'aei-' + itemId + '-instance-min'" class="form-label"
           >Min d'instances par jour :</label
         >
-        <i class="fa-regular fa-circle-question fa-2xs ms-1 question-mark-tooltip" placement="end" ngbTooltip="test"></i>
+        <i 
+          class="fa-regular fa-circle-question fa-2xs ms-1 question-mark-tooltip" 
+          placement="end" 
+          ngbTooltip="Permet de préciser combien de fois au minimum une instance de cet évènement doit apparaitre par jour."></i>
         <input
           min="0"
           type="number"
@@ -93,7 +99,10 @@
         <label [for]="'aei-' + itemId + '-instance-max'" class="form-label"
           >Max d'instances par jour :</label
         >
-        <i class="fa-regular fa-circle-question fa-2xs ms-1 question-mark-tooltip" placement="end" ngbTooltip="test"></i>
+        <i 
+          class="fa-regular fa-circle-question fa-2xs ms-1 question-mark-tooltip" 
+          placement="end" 
+          ngbTooltip="Permet de préciser combien de fois au maximum une instance de cet évènement peut apparaitre par jour."></i>
         <input
           min="0"
           type="number"
@@ -107,6 +116,10 @@
         <label [for]="'aei-' + itemId + '-lower'" class="form-label"
           >Borne inférieure :</label
         >
+        <i 
+          class="fa-regular fa-circle-question fa-2xs ms-1 question-mark-tooltip" 
+          placement="end" 
+          ngbTooltip="Permet de préciser une date à partir de laquelle une instance de cet évènement peut être créée."></i>
         <input
           type="time"
           class="form-control"
@@ -119,6 +132,10 @@
         <label [for]="'aei-' + itemId + '-higher'" class="form-label"
           >Borne supérieure :</label
         >
+        <i 
+          class="fa-regular fa-circle-question fa-2xs ms-1 question-mark-tooltip" 
+          placement="end" 
+          ngbTooltip="Permet de préciser une date à ne pas dépasser pour la création d'une instance de cet évènement."></i>
         <input
           type="time"
           class="form-control"
@@ -131,6 +148,10 @@
         <label [for]="'aei-' + itemId + '-higher'" class="form-label"
           >Minutes de marge :</label
         >
+        <i 
+          class="fa-regular fa-circle-question fa-2xs ms-1 question-mark-tooltip" 
+          placement="end" 
+          ngbTooltip="Permet de préciser la durée en minute avant et après les autres évènements."></i>
         <input
           type="number"
           min="0"
