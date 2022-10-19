@@ -26,6 +26,7 @@
     "@fullcalendar/web-component": "^6.0.0-beta.1",
     "@ng-bootstrap/ng-bootstrap": "^13.0.0",
     "@popperjs/core": "^2.10.2",
+    "angular-oauth2-oidc": "^13.0.1",
     "bootstrap": "^5.2.0",
     "chart.js": "^3.9.1",
     "ng": "^0.0.0",
