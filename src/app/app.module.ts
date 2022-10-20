@@ -10,6 +10,7 @@ import { AddEventListComponent } from './add-event-list/add-event-list.component
 import { AddEventItemComponent } from './add-event-list/add-event-item/add-event-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 @NgModule({
   declarations: [
     AppComponent,
