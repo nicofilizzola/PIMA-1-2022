@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarOptions, defineFullCalendarElement } from '@fullcalendar/web-component';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { calendarListEvents } from 'src/fixtures/fixtures';
 
 
 // make the <full-calendar> element globally available by calling this function at the top-level
@@ -17,7 +18,7 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  
+
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin],
     headerToolbar: {
