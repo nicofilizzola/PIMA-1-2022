@@ -9,6 +9,6 @@ textarea {
     transition: 0.3s;
 
     &:hover{
-        background-color: $gray;
+        background-color: $gray !important;
     }
 }

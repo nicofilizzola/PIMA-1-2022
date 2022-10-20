@@ -45,11 +45,6 @@ export class AddEventItemComponent {
     this.advancedOptionsActive = advancedOptionsActive;
   }
 
-  setInstanceTotal(instanceTotal: number){
-    this.instanceTotal = instanceTotal
-    console.log(this.instanceTotal)
-  }
-
   isConsecutiveInstancesInputDisabled(){
     return this.instanceTotal < 2 || this.fixedEvent
   }
