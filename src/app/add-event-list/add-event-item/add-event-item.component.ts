@@ -8,12 +8,26 @@ export class AddEventItemComponent {
   @Input() itemId;
   @Input() isDeletable;
   @Output() deleteItem = new EventEmitter<number>();
-  fixedEvent = false;
-  consecutiveInstances = false;
-  instanceTotal = 1;
+  
   advancedOptionsActive = false;
   collapsed = false; 
+
   title = "";
+  dureeEnHeures=1; 
+  priorite="Choisir priorité..."; 
+  calendrier="Choisir calendrier..."; 
+  localisation; 
+  instanceTotal=1;
+  minInstancesParJour; 
+  maxInstancesParJour; 
+  borneInf; 
+  borneSup; 
+  marge; 
+  itemDate; 
+  itemHour; 
+  description;
+  fixedEvent = false;
+  consecutiveInstances = false;
 
   onDeleteItem() {
     this.deleteItem.emit(this.itemId);
@@ -51,6 +65,9 @@ export class AddEventItemComponent {
   getMinInstancesPerDay() {}
 
   onToggleCollapsed() {
+    if( this.title === "" ){
+      this.title = "Untitled task"
+    }
     this.collapsed = true;
   }
 
