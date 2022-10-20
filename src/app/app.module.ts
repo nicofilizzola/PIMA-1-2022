@@ -9,6 +9,9 @@ import { AddEventListComponent } from './add-event-list/add-event-list.component
 import { AddEventItemComponent } from './add-event-list/add-event-item/add-event-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
+import { GcalInterceptor } from './interceptors/gcal.interceptor';
 
 @NgModule({
   declarations: [
@@ -23,8 +26,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgChartsModule,
     BrowserAnimationsModule,
     NgbModule,
+    HttpClientModule,
+    OAuthModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: GcalInterceptor,
+      multi: true,
+      deps: [OAuthService],
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

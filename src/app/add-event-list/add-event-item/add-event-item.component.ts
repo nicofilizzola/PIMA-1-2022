@@ -36,7 +36,6 @@ export class AddEventItemComponent {
 
   setInstanceTotal(instanceTotal: number){
     this.instanceTotal = instanceTotal
-    console.log(this.instanceTotal)
   }
 
   isConsecutiveInstancesInputDisabled(){
