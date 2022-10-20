@@ -12,13 +12,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { GcalInterceptor } from './interceptors/gcal.interceptor';
+import { AddEventTooltipComponent } from './add-event-list/add-event-item/add-event-tooltip/add-event-tooltip.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PieChartComponent,
     AddEventListComponent,
-    AddEventItemComponent
+    AddEventItemComponent,
+    AddEventTooltipComponent
   ],
   imports: [
     BrowserModule,
