@@ -51,6 +51,10 @@ export class AddEventItemComponent {
   getMinInstancesPerDay() {}
 
   onToggleCollapsed() {
-    this.collapsed = !this.collapsed;
+    this.collapsed = true;
+  }
+
+  onToggleUnCollapsed(){
+    this.collapsed = false;
   }
 }
