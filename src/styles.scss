@@ -1,2 +1,10 @@
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+html {
+  scroll-behavior: smooth;
+}
+
+.trans {
+  transition: 0.3s ease-out;
+}
