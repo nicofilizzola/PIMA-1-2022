@@ -8,28 +8,30 @@ import { trigger, state, style } from '@angular/animations';
 })
 export class AddEventListComponent implements OnInit {
   items = [1];
+  timeMin = '09:00';
+  timeMax = '18:00';
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  onAddItem() {
+    let greatestItemId = Math.max(...this.items);
+    this.items[this.items.length] = greatestItemId + 1;
   }
 
-  onAddItem(){
-    let greatestItemId = Math.max(...this.items)
-    this.items[this.items.length] = greatestItemId + 1
-  }
-
-  onDeleteItem(itemId){
+  onDeleteItem(itemId) {
     let deleteIndex = this.items.indexOf(itemId);
     if (this.items.length == 1) {
       return;
-    } 
-    if (deleteIndex > -1) { // only splice array when item is found
+    }
+    if (deleteIndex > -1) {
+      // only splice array when item is found
       this.items.splice(deleteIndex, 1); // 2nd parameter means remove one item only
     }
   }
 
-  isItemsLengthGreaterThan1(){
-    return this.items.length > 1
+  isItemsLengthGreaterThan1() {
+    return this.items.length > 1;
   }
 }
