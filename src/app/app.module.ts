@@ -12,13 +12,14 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { GcalInterceptor } from './interceptors/gcal.interceptor';
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     PieChartComponent,
     AddEventListComponent,
-    AddEventItemComponent
+    AddEventItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,7 +28,8 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     HttpClientModule,
     OAuthModule.forRoot(),
-    FormsModule
+    FormsModule,
+    NgbModule,
   ],
   providers: [
     {
