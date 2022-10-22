@@ -1,0 +1,22 @@
+.a{
+  width: 200px;
+  height: 200px;
+  margin: 1rem;
+  background-color: aqua;
+  transition: 0.3s ease-out;
+  &:hover{
+    border-radius: 50%;
+    background-color: blueviolet;
+  }
+}
+
+.b{
+  width: 200px;
+  height: 200px;
+  margin: 1rem;
+  background-color: aqua;
+  &:hover{
+    border-radius: 50%;
+    background-color: blueviolet;
+  }
+}
