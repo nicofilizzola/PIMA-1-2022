@@ -27,7 +27,7 @@ import { ViewportService } from 'src/app/shared/services/viewport/viewport.servi
       state(
         'on',
         style({
-          height: '400px', // must be responsive
+          height: '400px',
           opacity: '1',
           overflow: 'hidden',
         })
@@ -35,7 +35,7 @@ import { ViewportService } from 'src/app/shared/services/viewport/viewport.servi
       state(
         'on-sm',
         style({
-          height: '1100px', // must be responsive
+          height: '1100px',
           opacity: '1',
           overflow: 'hidden',
         })
@@ -91,9 +91,12 @@ export class AddEventItemComponent {
   getMinInstancesPerDay() {}
 
   getAdvancedOptionsAnimationState() {
-    if (this.advancedOptionsActive === false) return 'off';
-    if (this._viewportService.isXs() || this._viewportService.isSm())
+    if (this.advancedOptionsActive === false) {
+      return 'off';
+    }
+    if (this._viewportService.isXs() || this._viewportService.isSm()) {
       return 'on-sm';
+    }
     return 'on';
   }
 }
