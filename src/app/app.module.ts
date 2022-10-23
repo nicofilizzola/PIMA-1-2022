@@ -8,11 +8,12 @@ import { NgChartsModule } from 'ng2-charts';
 import { AddEventListComponent } from './add-event-list/add-event-list.component';
 import { AddEventItemComponent } from './add-event-list/add-event-item/add-event-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { GcalInterceptor } from './interceptors/gcal.interceptor';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AddEventTooltipComponent } from './add-event-list/add-event-item/add-event-tooltip/add-event-tooltip.component';
 
 @NgModule({
   declarations: [
@@ -20,12 +21,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     PieChartComponent,
     AddEventListComponent,
     AddEventItemComponent,
+    AddEventTooltipComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgChartsModule,
     BrowserAnimationsModule,
+    NgbModule,
     HttpClientModule,
     OAuthModule.forRoot(),
     FormsModule,

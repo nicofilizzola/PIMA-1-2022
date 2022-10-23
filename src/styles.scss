@@ -1,5 +1,6 @@
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+@import '~@fortawesome/fontawesome-free/scss/';
 
 html {
   scroll-behavior: smooth;
@@ -8,3 +9,4 @@ html {
 .trans {
   transition: 0.3s ease-out;
 }
+

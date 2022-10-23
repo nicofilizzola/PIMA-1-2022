@@ -56,6 +56,8 @@ export class AddEventItemComponent {
 
   constructor(private _viewportService: ViewportService) {}
 
+  ngOnInit(): void {}
+
   onDeleteItem() {
     this.deleteItem.emit(this.itemId);
   }
