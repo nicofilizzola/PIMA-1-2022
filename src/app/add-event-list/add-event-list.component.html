@@ -1,7 +1,8 @@
 <div class="container">
   <div class="row m-4">
-    <div class="col-md-6">
-      <h1>Ajouter evenement a un calendrier</h1>
+    <h1 class="col-md-12">Ajouter evenement a un calendrier</h1>
+
+    <div class="col-md-8 mt-2">
       <label for="ael-period" class="form-label">Période</label>
       <select id="ael-period" class="form-select">
         <option selected>Choisir la période...</option>
@@ -9,6 +10,45 @@
         <option value="">Une semaine</option>
         <option value="">Un mois</option>
       </select>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-6 mt-2">
+          <label for="ael-lower" class="form-label">Borne inférieure :</label>
+          <input
+            type="time"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': errorMessageOn
+            }"
+            id="ael-lower"
+            [(ngModel)]="lower"
+            [max]="higher"
+            (change)="onCheckBounds()"
+          />
+        </div>
+        <div class="col-md-6 mt-2">
+          <label for="ael-higher" class="form-label">Borne supérieure :</label>
+          <input
+            type="time"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid': errorMessageOn
+            }"
+            class="form-control"
+            id="ael-higher"
+            [(ngModel)]="higher"
+            [min]="lower"
+            (change)="onCheckBounds()"
+          />
+        </div>
+
+        <div class="col-md-12" *ngIf="errorMessageOn">
+          <ngb-alert [dismissible]="false" [type]="'danger'" class="mt-2">
+            <strong>Attention :</strong> La borne inférieure ne peut pas être plus tard que la borne supérieure.
+          </ngb-alert>
+        </div>
+      </div>
     </div>
   </div>
 

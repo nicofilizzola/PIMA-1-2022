@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { GcalInterceptor } from './interceptors/gcal.interceptor';
+import { FormsModule } from '@angular/forms';
 import { AddEventTooltipComponent } from './add-event-list/add-event-item/add-event-tooltip/add-event-tooltip.component';
 
 @NgModule({
@@ -29,7 +30,9 @@ import { AddEventTooltipComponent } from './add-event-list/add-event-item/add-ev
     BrowserAnimationsModule,
     NgbModule,
     HttpClientModule,
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(),
+    FormsModule,
+    NgbModule,
   ],
   providers: [
     {
