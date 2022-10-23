@@ -13,6 +13,8 @@ export class AddEventItemComponent {
   instanceTotal = 1;
   advancedOptionsActive = false;
 
+  ngOnInit(): void {}
+
   onDeleteItem() {
     this.deleteItem.emit(this.itemId);
   }
@@ -29,12 +31,12 @@ export class AddEventItemComponent {
     this.advancedOptionsActive = advancedOptionsActive;
   }
 
-  setInstanceTotal(instanceTotal: number){
-    this.instanceTotal = instanceTotal
+  setInstanceTotal(instanceTotal: number) {
+    this.instanceTotal = instanceTotal;
   }
 
-  isConsecutiveInstancesInputDisabled(){
-    return this.instanceTotal < 2 || this.fixedEvent
+  isConsecutiveInstancesInputDisabled() {
+    return this.instanceTotal < 2 || this.fixedEvent;
   }
 
   /**
