@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { AddEventListComponent } from './add-event-list/add-event-list.component';
 import { AddEventItemComponent } from './add-event-list/add-event-item/add-event-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TimeFrameSelectComponent } from './time-frame-select/time-frame-select.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddEventListComponent,
-    AddEventItemComponent
+    AddEventItemComponent,
+    TimeFrameSelectComponent
   ],
   imports: [
     BrowserModule,

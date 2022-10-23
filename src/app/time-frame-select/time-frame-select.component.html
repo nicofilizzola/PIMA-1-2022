@@ -1,0 +1,31 @@
+<h1 class="display-6 text-center">Choisir période</h1>
+<div class="container-md bg-light py-1">
+    <select (change)="selectCustomCheck($event.target.value)">
+        <option selected value="notCustomPeriod">Choisir période...</option>
+        <option value="notCustomPeriod">Jour</option>
+        <option value="notCustomPeriod">Semaine</option>
+        <option value="notCustomPeriod">Mois</option>
+        <option value="customPeriod">Période personalisée</option>
+    </select>
+    
+    <br>
+    
+    <div *ngIf="customPeriodSelected">
+        <div class="row m-4">
+            <u>Date et temps de debut</u>
+            <br>
+            <label>Date</label> <input type="date" [(ngModel)]="startDate" class="col-md-6 mt-3">
+            <label>Heure</label><input type="time" id="startTime" class="col-md-6 mt-3">
+            <br>
+            <u>Date et temps de fin</u>
+            <br>
+            <label>Date</label><input type="date" id="endDate" class="col-md-6 mt-3">
+            <label>Heure</label><input type="time" id="endTime" class="col-md-6 mt-3">
+            <br>
+            <br>
+            <button type="button" (click)="verifyCustomPeriodSelection()" class="btn btn-primary">Valider</button>
+        </div>   
+    </div>
+    <br>
+    <button type="button" *ngIf="!customPeriodSelected">Valider selection</button>
+</div>
