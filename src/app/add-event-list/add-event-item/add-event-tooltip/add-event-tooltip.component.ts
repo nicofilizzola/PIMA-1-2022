@@ -10,9 +10,4 @@ export class AddEventTooltipComponent implements OnInit {
   tooltip;
 
   ngOnInit(): void {}
-
-  ngAfterContentInit(): void {
-    this.tooltip = document.getElementById('tooltip');
-    this.tooltip.setAttribute('ngbTooltip', this.content);
-  }
 }
