@@ -8,8 +8,9 @@ import { trigger, state, style } from '@angular/animations';
 })
 export class AddEventListComponent implements OnInit {
   items = [1];
-  timeMin = '09:00';
-  timeMax = '18:00';
+  lower = '09:00';
+  higher = '18:00';
+  errorMessageOn = false;
 
   constructor() {}
 
@@ -26,9 +27,27 @@ export class AddEventListComponent implements OnInit {
       return;
     }
     if (deleteIndex > -1) {
-      // only splice array when item is found
-      this.items.splice(deleteIndex, 1); // 2nd parameter means remove one item only
+      this.items.splice(deleteIndex, 1);
     }
+  }
+
+  onCheckBounds() {
+    let lower = {
+      hour: parseInt(this.lower.split(':')[0]),
+      mins: parseInt(this.lower.split(':')[1]),
+    };
+    let higher = {
+      hour: parseInt(this.higher.split(':')[0]),
+      mins: parseInt(this.higher.split(':')[1]),
+    };
+
+    if (
+      lower.hour > higher.hour ||
+      (lower.hour == higher.hour && lower.mins <= higher.mins)
+    ) {
+      return this.errorMessageOn = true;
+    }
+    return this.errorMessageOn = false;
   }
 
   isItemsLengthGreaterThan1() {
