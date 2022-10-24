@@ -15,22 +15,22 @@
         <div class="row">
           <div class="col-md-6 mt-2">
             <label for="tfs-start" class="w-100">Début</label>
-            <input type="date" [(ngModel)]="startDate" id="tfs-start" (change)="onVerifyCustomPeriodSelection()" [ngClass]="{
+            <input type="date" [(ngModel)]="startDate" id="tfs-start" (change)="onCheckBounds()" [ngClass]="{
                 'form-control mt-2': true,
                 'is-invalid': errorMessageOn
               }">
-            <input type="time" [(ngModel)]="startTime" (change)="onVerifyCustomPeriodSelection()" [ngClass]="{
+            <input type="time" [(ngModel)]="startTime" (change)="onCheckBounds()" [ngClass]="{
                 'form-control mt-2': true,
                 'is-invalid': errorMessageOn
               }">
           </div>
           <div class="col-md-6 mt-2">
             <label for="tfs-end" class="w-100">Fin</label>
-            <input type="date" [(ngModel)]="endDate" id="tfs-end" (change)="onVerifyCustomPeriodSelection()" [ngClass]="{
+            <input type="date" [(ngModel)]="endDate" id="tfs-end" (change)="onCheckBounds()" [ngClass]="{
                 'form-control mt-2': true,
                 'is-invalid': errorMessageOn
               }">
-            <input type="time" [(ngModel)]="endTime" (change)="onVerifyCustomPeriodSelection()" [ngClass]="{
+            <input type="time" [(ngModel)]="endTime" (change)="onCheckBounds()" [ngClass]="{
                 'form-control mt-2': true,
                 'is-invalid': errorMessageOn
               }">

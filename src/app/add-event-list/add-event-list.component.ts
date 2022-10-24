@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style } from '@angular/animations';
+import { BoundsCheckerService } from '../shared/services/bounds-checker/bounds-checker.service';
 
 @Component({
   selector: 'app-add-event-list',
@@ -12,7 +13,7 @@ export class AddEventListComponent implements OnInit {
   higher = '18:00';
   errorMessageOn = false;
 
-  constructor() {}
+  constructor(private _boundsCheckerService: BoundsCheckerService) {}
 
   ngOnInit(): void {}
 
@@ -32,22 +33,12 @@ export class AddEventListComponent implements OnInit {
   }
 
   onCheckBounds() {
-    let lower = {
-      hour: parseInt(this.lower.split(':')[0]),
-      mins: parseInt(this.lower.split(':')[1]),
-    };
-    let higher = {
-      hour: parseInt(this.higher.split(':')[0]),
-      mins: parseInt(this.higher.split(':')[1]),
-    };
-
-    if (
-      lower.hour > higher.hour ||
-      (lower.hour == higher.hour && lower.mins <= higher.mins)
-    ) {
-      return this.errorMessageOn = true;
-    }
-    return this.errorMessageOn = false;
+    this.errorMessageOn = this._boundsCheckerService.checkTimeBounds(
+      this.lower,
+      this.higher
+    )
+      ? false
+      : true;
   }
 
   isItemsLengthGreaterThan1() {

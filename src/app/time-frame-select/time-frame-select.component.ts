@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BoundsCheckerService } from '../shared/services/bounds-checker/bounds-checker.service';
 
 @Component({
   selector: 'app-time-frame-select',
@@ -13,12 +14,12 @@ export class TimeFrameSelectComponent implements OnInit {
   startTime = '00:00';
   endTime = '00:00';
 
-  constructor() {
-    this._setStartDayToTomorrow()
-    this._setEndDayOneWeekFromTomorrow()
-  }
+  constructor(private _boundsCheckerService: BoundsCheckerService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._setStartDayToTomorrow();
+    this._setEndDayOneWeekFromTomorrow();
+  }
 
   onSelectCustomPeriod(customPeriodSelected: boolean) {
     this.customPeriodSelected = customPeriodSelected;
@@ -32,25 +33,26 @@ export class TimeFrameSelectComponent implements OnInit {
     }
   }
 
-  onVerifyCustomPeriodSelection() {
-    if (this.startDate > this.endDate) {
-      this.errorMessageOn = true;
-    }
-    if (this.startDate == this.endDate && this.endTime < this.startTime) {
-      this.errorMessageOn = true;
-    }
-    if (this.startDate < this.endDate) {
-      this.errorMessageOn = false;
-    }
-    if (this.startDate == this.endDate && this.endTime > this.startTime) {
-      this.errorMessageOn = false;
-    }
+  onCheckBounds() {
+    const dateBoundsRespected = this._boundsCheckerService.checkDateBounds(
+      this.startDate,
+      this.endDate
+    );
+    this.errorMessageOn =
+      dateBoundsRespected ||
+      (dateBoundsRespected === false &&
+        this._boundsCheckerService.checkTimeBounds(
+          this.startTime,
+          this.endTime
+        ))
+        ? false
+        : true;
   }
 
   private _setStartDayToTomorrow() {
-    const today = new Date()
-    const tomorrow = new Date(today)
-    tomorrow.setDate(tomorrow.getDate() + 1)
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     const yyyy = tomorrow.getFullYear();
     let mm = (tomorrow.getMonth() + 1).toString();
     let dd = tomorrow.getDate().toString();
@@ -62,9 +64,9 @@ export class TimeFrameSelectComponent implements OnInit {
   }
 
   private _setEndDayOneWeekFromTomorrow() {
-    const today = new Date()
-    const oneWeekFromTomorrow = new Date(today)
-    oneWeekFromTomorrow.setDate(oneWeekFromTomorrow.getDate() + 8)
+    const today = new Date();
+    const oneWeekFromTomorrow = new Date(today);
+    oneWeekFromTomorrow.setDate(oneWeekFromTomorrow.getDate() + 8);
     const yyyy = oneWeekFromTomorrow.getFullYear();
     let mm = (oneWeekFromTomorrow.getMonth() + 1).toString();
     let dd = oneWeekFromTomorrow.getDate().toString();
