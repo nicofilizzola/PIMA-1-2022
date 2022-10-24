@@ -21,10 +21,6 @@ export class TimeFrameSelectComponent implements OnInit {
     this._setEndDayOneWeekFromTomorrow();
   }
 
-  onSelectCustomPeriod(customPeriodSelected: boolean) {
-    this.customPeriodSelected = customPeriodSelected;
-  }
-
   onSelectCustomCheck(value: string) {
     if (value == 'customPeriod') {
       this.customPeriodSelected = true;
