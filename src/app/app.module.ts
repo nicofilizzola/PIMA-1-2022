@@ -30,6 +30,7 @@ import { AddEventTooltipComponent } from './add-event-list/add-event-item/add-ev
     AppRoutingModule,
     NgChartsModule,
     BrowserAnimationsModule,
+    NgbModule,
     HttpClientModule,
     OAuthModule.forRoot(),
     FormsModule,
