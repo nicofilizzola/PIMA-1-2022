@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TimeFrameSelectComponent implements OnInit {
   customPeriodSelected = false;
+  errorMessageOn = false;
   startDate = "2001-01-01";
   startTime = "00:00";
   endDate = "2001-01-01";
@@ -32,13 +33,16 @@ export class TimeFrameSelectComponent implements OnInit {
 
   verifyCustomPeriodSelection() {
     if (this.startDate > this.endDate) {
-      alert("Saisie de dates impossibles. Le début doit etre avant la fin.");
+      this.errorMessageOn = true;
     }
     if (this.startDate == this.endDate && this.endTime < this.startTime ) {
-      alert("Saisie de temps impossibles. Le début doit etre avant la fin.");
-    } else {
-      alert("Saisie validée");
+      this.errorMessageOn = true;
     }
-
+    if (this.startDate < this.endDate) {
+      this.errorMessageOn = false;
+    }
+    if (this.startDate == this.endDate && this.endTime > this.startTime ) {
+      this.errorMessageOn = false;
+    }
   }
 }

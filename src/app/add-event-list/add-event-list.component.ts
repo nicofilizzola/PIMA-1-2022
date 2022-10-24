@@ -8,28 +8,49 @@ import { trigger, state, style } from '@angular/animations';
 })
 export class AddEventListComponent implements OnInit {
   items = [1];
+  lower = '09:00';
+  higher = '18:00';
+  errorMessageOn = false;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  onAddItem() {
+    let greatestItemId = Math.max(...this.items);
+    this.items[this.items.length] = greatestItemId + 1;
   }
 
-  onAddItem(){
-    let greatestItemId = Math.max(...this.items)
-    this.items[this.items.length] = greatestItemId + 1
-  }
-
-  onDeleteItem(itemId){
+  onDeleteItem(itemId) {
     let deleteIndex = this.items.indexOf(itemId);
     if (this.items.length == 1) {
       return;
-    } 
-    if (deleteIndex > -1) { // only splice array when item is found
-      this.items.splice(deleteIndex, 1); // 2nd parameter means remove one item only
+    }
+    if (deleteIndex > -1) {
+      this.items.splice(deleteIndex, 1);
     }
   }
 
-  isItemsLengthGreaterThan1(){
-    return this.items.length > 1
+  onCheckBounds() {
+    let lower = {
+      hour: parseInt(this.lower.split(':')[0]),
+      mins: parseInt(this.lower.split(':')[1]),
+    };
+    let higher = {
+      hour: parseInt(this.higher.split(':')[0]),
+      mins: parseInt(this.higher.split(':')[1]),
+    };
+
+    if (
+      lower.hour > higher.hour ||
+      (lower.hour == higher.hour && lower.mins <= higher.mins)
+    ) {
+      return this.errorMessageOn = true;
+    }
+    return this.errorMessageOn = false;
+  }
+
+  isItemsLengthGreaterThan1() {
+    return this.items.length > 1;
   }
 }
