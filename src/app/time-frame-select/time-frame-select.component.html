@@ -1,9 +1,9 @@
 <div class="container">
     <div class="row m-4">
       <h1 class="col-md-12">Choisir période</h1>
-  
+
       <div class="col-md-8 mt-2">
-        <select (change)="selectCustomCheck($event.target.value)" class="form-select">
+        <select (change)="onSelectCustomCheck($event.target.value)" class="form-select">
             <option selected value="notCustomPeriod">Choisir période...</option>
             <option value="notCustomPeriod">Jour</option>
             <option value="notCustomPeriod">Semaine</option>
@@ -11,33 +11,29 @@
             <option value="customPeriod">Période personalisée</option>
         </select>
       </div>
-      <div class="col-md-4" *ngIf="customPeriodSelected">
+      <div class="col-md-8 mt-2" *ngIf="customPeriodSelected">
         <div class="row">
           <div class="col-md-6 mt-2">
-            Date et temps de debut
-            <br>
-            <input type="date" [(ngModel)]="startDate" class="col-md-6 mt-3" (change)="verifyCustomPeriodSelection()" [ngClass]="{
-                'form-control': true,
+            <label for="tfs-start" class="w-100">Début</label>
+            <input type="date" [(ngModel)]="startDate" id="tfs-start" (change)="onVerifyCustomPeriodSelection()" [ngClass]="{
+                'form-control mt-2': true,
                 'is-invalid': errorMessageOn
               }">
-            <input type="time" [(ngModel)]="startTime" class="col-md-6 mt-3" (change)="verifyCustomPeriodSelection()" [ngClass]="{
-                'form-control': true,
+            <input type="time" [(ngModel)]="startTime" (change)="onVerifyCustomPeriodSelection()" [ngClass]="{
+                'form-control mt-2': true,
                 'is-invalid': errorMessageOn
               }">
-            <br>
           </div>
           <div class="col-md-6 mt-2">
-            Date et temps de fin
-            <br>
-            <input type="date" [(ngModel)]="endDate" class="col-md-6 mt-3" (change)="verifyCustomPeriodSelection()" [ngClass]="{
-                'form-control': true,
+            <label for="tfs-end" class="w-100">Fin</label>
+            <input type="date" [(ngModel)]="endDate" id="tfs-end" (change)="onVerifyCustomPeriodSelection()" [ngClass]="{
+                'form-control mt-2': true,
                 'is-invalid': errorMessageOn
               }">
-            <input type="time" [(ngModel)]="endTime" class="col-md-6 mt-3" (change)="verifyCustomPeriodSelection()" [ngClass]="{
-                'form-control': true,
+            <input type="time" [(ngModel)]="endTime" (change)="onVerifyCustomPeriodSelection()" [ngClass]="{
+                'form-control mt-2': true,
                 'is-invalid': errorMessageOn
               }">
-            <br>
           </div>
           <div class="col-md-12" *ngIf="errorMessageOn">
             <ngb-alert [dismissible]="false" [type]="'danger'" class="mt-2">
@@ -47,5 +43,4 @@
         </div>
       </div>
     </div>
-    <button type="button" [disabled]="errorMessageOn" class="btn btn-primary mt-2 col-md-6">Valider selection</button>
 </div>

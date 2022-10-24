@@ -14,7 +14,7 @@ export class TimeFrameSelectComponent implements OnInit {
   endTime = "00:00";
 
   constructor() { }
-  
+
   ngOnInit(): void {
   }
 
@@ -22,7 +22,7 @@ export class TimeFrameSelectComponent implements OnInit {
     this.customPeriodSelected = customPeriodSelected;
   }
 
-  selectCustomCheck(value: string) {
+  onSelectCustomCheck(value: string) {
     if (value == "customPeriod") {
       this.customPeriodSelected = true;
     }
@@ -31,7 +31,7 @@ export class TimeFrameSelectComponent implements OnInit {
     }
   }
 
-  verifyCustomPeriodSelection() {
+  onVerifyCustomPeriodSelection() {
     if (this.startDate > this.endDate) {
       this.errorMessageOn = true;
     }
