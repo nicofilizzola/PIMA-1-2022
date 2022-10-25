@@ -8,7 +8,12 @@ export class AddEventItemComponent {
   @Input() itemId;
   @Input() isDeletable;
   @Output() deleteItem = new EventEmitter<number>();
+  @Output() openItem = new EventEmitter<number>();
   
+  ngOnInit(){
+    this.openItem.emit(this.itemId)
+  }
+
   advancedOptionsActive = false;
   collapsed = false; 
 
@@ -68,5 +73,6 @@ export class AddEventItemComponent {
 
   onToggleUnCollapsed(){
     this.collapsed = false;
+    this.openItem.emit(this.itemId);
   }
 }

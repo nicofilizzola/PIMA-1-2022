@@ -8,6 +8,7 @@ import { trigger, state, style } from '@angular/animations';
 })
 export class AddEventListComponent implements OnInit {
   items = [1];
+  openedItem = 1;
 
   constructor() { }
 
@@ -27,6 +28,12 @@ export class AddEventListComponent implements OnInit {
     if (deleteIndex > -1) { // only splice array when item is found
       this.items.splice(deleteIndex, 1); // 2nd parameter means remove one item only
     }
+  }
+
+  onOpenItem(itemId){
+    //Close l'item d'id openedItem
+    //Fin de la close
+    this.openedItem = itemId;
   }
 
   isItemsLengthGreaterThan1(){
