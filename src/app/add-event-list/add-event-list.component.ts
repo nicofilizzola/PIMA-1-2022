@@ -41,14 +41,14 @@ export class AddEventListComponent implements OnInit {
       : true;
   }
 
-  onDeleteAll(){
+  onClear(){
     let size = this.items.length
     for(let i=0; i< size; i++){
         this.items.pop();
     }
   }
 
-  openDeleteAll(targetModal){
+  onOpenClearModal(targetModal){
     this.modalService.open(targetModal, {
       backdrop: 'static',
       size: 'lg'
