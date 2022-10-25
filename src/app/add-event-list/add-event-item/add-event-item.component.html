@@ -4,9 +4,9 @@
     'container-md bg-light py-1 my-2': true
   }"
 >
-  <div *ngIf="collapsed" (click)="onToggleUnCollapsed()">
-    <h2>{{ title }}</h2>
-    <button (onClick)="onDeleteItem()" *ngIf="isDeletable">Suppr</button>
+  <div class="row" *ngIf="collapsed" (click)="onToggleUnCollapsed()">
+    <h2 class="col-md-10">{{ title }}</h2>
+    <button class="btn btn-danger col-md-2" (click)="onDeleteItem($event)" *ngIf="isDeletable">Supprimer évènement</button>
   </div>
 
   <form *ngIf="!collapsed">

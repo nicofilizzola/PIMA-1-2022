@@ -5,7 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 @Component({
@@ -45,7 +45,7 @@ import { ViewportService } from 'src/app/shared/services/viewport/viewport.servi
     ]),
   ],
 })
-export class AddEventItemComponent {
+export class AddEventItemComponent implements OnInit, OnDestroy{
 
   private eventsSubscription: Subscription;
 
@@ -87,7 +87,8 @@ export class AddEventItemComponent {
     this.eventsSubscription.unsubscribe();
   }
 
-  onDeleteItem() {
+  onDeleteItem(event: MouseEvent) {
+    event?.stopPropagation()
     this.deleteItem.emit(this.itemId);
   }
 
