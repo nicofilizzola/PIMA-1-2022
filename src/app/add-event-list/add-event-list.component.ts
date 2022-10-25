@@ -49,7 +49,6 @@ export class AddEventListComponent implements OnInit {
   }
 
   openDeleteAll(targetModal){
-    console.log(this.items)
     this.modalService.open(targetModal, {
       backdrop: 'static',
       size: 'lg'

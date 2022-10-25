@@ -10,13 +10,10 @@
         <option value="">Une semaine</option>
         <option value="">Un mois</option>
       </select>
-      
-      <!-- ICP-6 -->
-
       <button
           (click)="openDeleteAll(contentDeleteAll)"
           type="button"
-          class="btn btn-danger"
+          class="btn btn-danger mt-2"
           *ngIf="isItemsLengthGreaterThan1()"
         >
         Supprimer tous les évènements
@@ -87,13 +84,15 @@
   </div>
 </div>
 
+<!-- Template de la modale permettant de supprimer tous les évènements -->
+
 <ng-template #contentDeleteAll let-modal>
   <div class="modal-header">
       <h4 class="modal-title" id="modal-title">Suppression de tous les évènements </h4>
       <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-      <p><strong>Etes-vous sur de vouloir supprimer <span class="text-primary" style="color: red"> tous les évènements </span>?</strong></p>
+      <p><strong>Etes-vous sur de vouloir supprimer tous les évènements ?</strong></p>
       <p>Toutes les informations liées à ces évènements seront définitivement supprimées.
       <span class="text-danger">Cette opération est irréversible.</span>
       </p>
