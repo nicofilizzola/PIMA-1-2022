@@ -17,6 +17,7 @@ export class AddEventItemComponent {
   
   ngOnInit(){
     this.eventsSubscription = this.closeItem.subscribe((openedId) => this.onCloseItem(openedId));
+    this.openItem.emit(this.itemId)
   }
 
   ngOnDestroy(){

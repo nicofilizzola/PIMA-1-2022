@@ -35,8 +35,8 @@ export class AddEventListComponent implements OnInit {
   }
 
   onOpenItem(itemId){
-    this.eventsCloseItem.next(this.openedItem);
     this.openedItem = itemId;
+    this.eventsCloseItem.next(this.openedItem);
   }
 
   isItemsLengthGreaterThan1(){
