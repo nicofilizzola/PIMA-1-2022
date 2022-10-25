@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { trigger, state, style } from '@angular/animations';
 import { BoundsCheckerService } from '../shared/services/bounds-checker/bounds-checker.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-event-list',
@@ -13,7 +13,7 @@ export class AddEventListComponent implements OnInit {
   higher = '18:00';
   errorMessageOn = false;
 
-  constructor(private _boundsCheckerService: BoundsCheckerService) {}
+  constructor(private _boundsCheckerService: BoundsCheckerService, private modalService : NgbModal) { }
 
   ngOnInit(): void {}
 
@@ -41,7 +41,19 @@ export class AddEventListComponent implements OnInit {
       : true;
   }
 
-  isItemsLengthGreaterThan1() {
-    return this.items.length > 1;
+  onClear(){
+    const lastItem = this.items[this.items.length - 1]
+    this.items = [lastItem + 1]
+  }
+
+  onOpenClearModal(targetModal){
+    this.modalService.open(targetModal, {
+      backdrop: 'static',
+      size: 'lg'
+    });
+  }
+
+  isItemsLengthGreaterThan1(){
+    return this.items.length > 1
   }
 }
