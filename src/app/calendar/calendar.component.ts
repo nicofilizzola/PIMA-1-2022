@@ -5,8 +5,13 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { calendarListEvents } from 'src/fixtures/fixtures';
 import rrulePlugin from '@fullcalendar/rrule'
 import { start } from '@popperjs/core';
-import { GapiService } from '../shared/services/gapi/gapi.service';
-
+import { GcalService } from '../shared/services/gcal/gcal.service';
+import { CalendarList, CalendarListEntry } from '../models/calendar-list.model'
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { ONE_DAY_AGO, ONE_MONTH_AGO, ONE_WEEK_AGO } from 'src/app/constants';
+import { Event, EventList } from 'src/app/models/event.model';
+import { CalendarListListResponse } from 'src/app/models/gcal-response/calendar-list/calendar-list.list.model';
+import { EventListResponse } from 'src/app/models/gcal-response/event/event.list.model';
 
 // make the <full-calendar> element globally available by calling this function at the top-level
 defineFullCalendarElement();
@@ -44,7 +49,7 @@ export class CalendarComponent implements OnInit {
   };
 
 
-  constructor() { }
+  constructor(private gcal : GcalService) { }
 
   ngOnInit(): void {
 
@@ -67,39 +72,39 @@ export class CalendarComponent implements OnInit {
       recurringDays = [1,2,3,4,5,6,7];
     }
     else {
-
-    var rec =  split_string.find(x=> x.substring(0,5) == "BYDAY");
-    var days = rec.split(",");
-
-
-    if(days !== undefined) {
-    days.forEach(day => {
-      switch(day) {
-        case "MO":
-          recurringDays.push(1);
-          break;
-        case "TU":
-          recurringDays.push(2);
-          break;
-        case "WE":
-          recurringDays.push(3);
-          break;
-        case "TH":
-          recurringDays.push(4);
-          break;
-        case "FR":
-          recurringDays.push(5);
-          break;
-        case "SA":
-          recurringDays.push(6);
-          break;
-        case "SU":
-          recurringDays.push(7);
-          break;
-        default:
-          break;
-      }
       
+      var rec =  split_string.find(x=> x.substring(0,5) == "BYDAY");
+      var days = rec.split(/,|=/);
+
+
+      if(days !== undefined) {
+      days.forEach(day => {
+        switch(day) {
+          case "SU":
+            recurringDays.push(0);
+            break;
+          case "MO":
+            recurringDays.push(1);
+            break;
+          case "TU":
+            recurringDays.push(2);
+            break;
+          case "WE":
+            recurringDays.push(3);
+            break;
+          case "TH":
+            recurringDays.push(4);
+            break;
+          case "FR":
+            recurringDays.push(5);
+            break;
+          case "SA":
+            recurringDays.push(6);
+            break;
+          default:
+            break;
+        }
+        
     });
   }
     }
@@ -107,7 +112,9 @@ export class CalendarComponent implements OnInit {
   }
 
   setupEvents() {
-    
+
+
+
     var events = [];
     for (const fields of Object.entries(calendarListEvents)) {
 
@@ -119,21 +126,22 @@ export class CalendarComponent implements OnInit {
         for (const event of (calendarContent.items)){
           
           if( 'dateTime' in event.start && 'dateTime' in event.end) {
+
             if( 'recurrence' in event) {
-              console.log(event.summary);
               events.push({ // this object will be "parsed" into an Event Object
-                title: event.summary, // a property!
+                title: event.summary, 
                 daysOfWeek: this.getRecurr(event.recurrence[0]),
-                startTime: this.getTimeString(event.start.dateTime), // a property!
+                startTime: this.getTimeString(event.start.dateTime),
                 endTime: this.getTimeString(event.end.dateTime), 
+                startRecur: event.start.dateTime,
               }
             );
             }
             else {
               events.push({ // this object will be "parsed" into an Event Object
-                title: event.summary, // a property!
-                start: event.start.dateTime, // a property!
-                end: event.end.dateTime, // a property! ** see important note below about 'end' **
+                title: event.summary, 
+                start: event.start.dateTime, 
+                end: event.end.dateTime, 
               }
             );    
             }
