@@ -85,11 +85,10 @@
 </div>
 
 <!-- #contentClear allows to display the modal correctly -->
-
 <ng-template #contentClear let-modal>
   <div class="modal-header">
       <h4 class="modal-title" id="modal-title">Suppression de tous les évènements </h4>
-      <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')"></button>
+      <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
     </div>
     <div class="modal-body">
       <p><strong>Etes-vous sur de vouloir supprimer tous les évènements ?</strong></p>
@@ -98,7 +97,7 @@
       </p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Annuler</button>
-      <button type="button" class="btn btn-danger" (click)="onClear()" (click)="modal.close('Ok click')">Supprimer</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Annuler</button>
+      <button type="button" class="btn btn-danger" (click)="onClear()" (click)="modal.close()">Supprimer</button>
     </div>
 </ng-template>
