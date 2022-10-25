@@ -42,10 +42,8 @@ export class AddEventListComponent implements OnInit {
   }
 
   onClear(){
-    let size = this.items.length
-    for(let i=0; i< size; i++){
-        this.items.pop();
-    }
+    const lastItem = this.items[this.items.length - 1]
+    this.items = [lastItem + 1]
   }
 
   onOpenClearModal(targetModal){
