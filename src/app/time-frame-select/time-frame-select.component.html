@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row m-4">
+      <h1 class="col-md-12">Choisir période</h1>
+
+      <div class="col-md-8 mt-2">
+        <select (change)="onSelectCustomCheck($event.target.value)" class="form-select">
+            <option selected value="notCustomPeriod">Choisir période...</option>
+            <option value="notCustomPeriod">Jour</option>
+            <option value="notCustomPeriod">Semaine</option>
+            <option value="notCustomPeriod">Mois</option>
+            <option value="customPeriod">Période personalisée</option>
+        </select>
+      </div>
+      <div class="col-md-8 mt-2" *ngIf="customPeriodSelected">
+        <div class="row">
+          <div class="col-md-6 mt-2">
+            <label for="tfs-start" class="w-100">Début</label>
+            <input type="date" [(ngModel)]="startDate" id="tfs-start" (change)="onCheckBounds()" [ngClass]="{
+                'form-control mt-2': true,
+                'is-invalid': errorMessageOn
+              }">
+            <input type="time" [(ngModel)]="startTime" (change)="onCheckBounds()" [ngClass]="{
+                'form-control mt-2': true,
+                'is-invalid': errorMessageOn
+              }">
+          </div>
+          <div class="col-md-6 mt-2">
+            <label for="tfs-end" class="w-100">Fin</label>
+            <input type="date" [(ngModel)]="endDate" id="tfs-end" (change)="onCheckBounds()" [ngClass]="{
+                'form-control mt-2': true,
+                'is-invalid': errorMessageOn
+              }">
+            <input type="time" [(ngModel)]="endTime" (change)="onCheckBounds()" [ngClass]="{
+                'form-control mt-2': true,
+                'is-invalid': errorMessageOn
+              }">
+          </div>
+          <div class="col-md-12" *ngIf="errorMessageOn">
+            <ngb-alert [dismissible]="false" [type]="'danger'" class="mt-2">
+              <strong>Attention :</strong> Saisie de periode impossible, verifiez les dates de debut et fin.
+            </ngb-alert>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
