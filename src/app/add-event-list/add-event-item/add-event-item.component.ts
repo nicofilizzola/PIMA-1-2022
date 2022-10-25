@@ -1,17 +1,26 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'app-add-event-item',
   templateUrl: './add-event-item.component.html',
   styleUrls: ['./add-event-item.component.scss'],
 })
 export class AddEventItemComponent {
+
+  private eventsSubscription: Subscription;
+
+  @Input() closeItem: Observable<number>;
   @Input() itemId;
   @Input() isDeletable;
   @Output() deleteItem = new EventEmitter<number>();
   @Output() openItem = new EventEmitter<number>();
   
   ngOnInit(){
-    this.openItem.emit(this.itemId)
+    this.eventsSubscription = this.closeItem.subscribe((openedId) => this.onCloseItem(openedId));
+  }
+
+  ngOnDestroy(){
+    this.eventsSubscription.unsubscribe();
   }
 
   advancedOptionsActive = false;
@@ -74,5 +83,11 @@ export class AddEventItemComponent {
   onToggleUnCollapsed(){
     this.collapsed = false;
     this.openItem.emit(this.itemId);
+  }
+
+  onCloseItem(openedId){
+    if(this.itemId != openedId){
+      this.onToggleCollapsed()
+    }
   }
 }

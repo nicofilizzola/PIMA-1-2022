@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { trigger, state, style } from '@angular/animations';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-add-event-list',
@@ -7,6 +8,9 @@ import { trigger, state, style } from '@angular/animations';
   styleUrls: ['./add-event-list.component.scss'],
 })
 export class AddEventListComponent implements OnInit {
+
+  eventsCloseItem: Subject<number> = new Subject<number>()
+
   items = [1];
   openedItem = 1;
 
@@ -31,8 +35,7 @@ export class AddEventListComponent implements OnInit {
   }
 
   onOpenItem(itemId){
-    //Close l'item d'id openedItem
-    //Fin de la close
+    this.eventsCloseItem.next(this.openedItem);
     this.openedItem = itemId;
   }
 
