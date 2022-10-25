@@ -6,7 +6,7 @@
 >
   <div *ngIf="collapsed" (click)="onToggleUnCollapsed()">
     <h2>{{ title }}</h2>
-    <i class="fa-solid fa-trash" placement="end"></i>
+    <button (onClick)="onDeleteItem()" *ngIf="isDeletable">Suppr</button>
   </div>
 
   <form *ngIf="!collapsed">
