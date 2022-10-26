@@ -142,8 +142,10 @@ export class CalendarComponent implements OnInit {
 
           var calendarId = fields[0];
 
-          if (true) 
+          if (!calendarIdListSeen.includes(calendarId)) 
           {
+            calendarIdListSeen.push(calendarId);
+
             var eventlist = fields[1];
 
             eventlist.forEach( _event => 
