@@ -8,6 +8,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { AddEventListComponent } from './add-event-list/add-event-list.component';
 import { AddEventItemComponent } from './add-event-list/add-event-item/add-event-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule }   from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     AppRoutingModule,
     NgChartsModule,
+    FormsModule,
     BrowserAnimationsModule
   ],
   providers: [],

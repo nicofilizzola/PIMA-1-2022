@@ -1,4 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgForm} from '@angular/forms';
+
+
 @Component({
   selector: 'app-add-event-item',
   templateUrl: './add-event-item.component.html',
@@ -12,6 +16,8 @@ export class AddEventItemComponent {
   consecutiveInstances = false;
   instanceTotal = 1;
   advancedOptionsActive = false;
+
+  constructor( private modalService: NgbModal) {}
 
   onDeleteItem() {
     this.deleteItem.emit(this.itemId);
@@ -36,6 +42,18 @@ export class AddEventItemComponent {
 
   isConsecutiveInstancesInputDisabled(){
     return this.instanceTotal < 2 || this.fixedEvent
+  }
+
+  openDelete(targetModal){
+    this.modalService.open(targetModal, {
+      backdrop: 'static',
+      size: 'lg'
+    });
+  }
+
+
+  formEmpty(form : NgForm){
+    return !form.dirty;
   }
 
   /**

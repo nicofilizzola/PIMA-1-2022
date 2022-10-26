@@ -1,5 +1,5 @@
 <div class="container-md bg-light py-1 my-2">
-  <form>
+  <form #addEvent="ngForm" >
     <div [id]="'add-event-item' + itemId" class="row m-4">
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-title'" class="form-label"
@@ -9,6 +9,7 @@
           type="text"
           class="form-control"
           [id]="'aei-' + itemId + '-title'"
+          name="title" ngModel
         />
       </div>
       <div class="col-md-3 mt-3">
@@ -20,13 +21,14 @@
           step="0.5"
           class="form-control"
           [id]="'aei-' + itemId + '-duration'"
+          name="duration" ngModel
         />
       </div>
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-priority'" class="form-label"
           >Priorité</label
         >
-        <select [id]="'aei-' + itemId + '-priority'" class="form-select">
+        <select [id]="'aei-' + itemId + '-priority'" class="form-select" name="selectPriority" ngModel>
           <option selected>Choisir priorité...</option>
           <option value="PLACEHOLDER 1">Basse</option>
           <option value="PLACEHOLDER 2">Moyenne</option>
@@ -38,7 +40,7 @@
         <label [for]="'aei-' + itemId + '-calendar'" class="form-label"
           >Calendrier</label
         >
-        <select [id]="'aei-' + itemId + '-calendar'" class="form-select">
+        <select [id]="'aei-' + itemId + '-calendar'" class="form-select" name="selectCalendar" ngModel>
           <option selected>Choisir calendrier...</option>
           <option value="">Personal</option>
           <option value="">Sport</option>
@@ -58,6 +60,7 @@
           type="text"
           class="form-control"
           [id]="'aei-' + itemId + '-location'"
+          name="Localisation" ngModel
         />
       </div>
       <div class="col-md-3 mt-3">
@@ -72,6 +75,7 @@
           [disabled]="fixedEvent"
           (change)="setInstanceTotal($event.target.value)"
           value="1"
+          name="instanceNumber" ngModel
         />
       </div>
 
@@ -85,6 +89,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-instance-min'"
           [disabled]="fixedEvent"
+          name="minInstances" ngModel
         />
       </div>
 
@@ -98,6 +103,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-instance-max'"
           [disabled]="fixedEvent"
+          name="maxInstances" ngModel
         />
       </div>
 
@@ -110,6 +116,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-lower'"
           [disabled]="fixedEvent"
+          name="lowerBound" ngModel
         />
       </div>
 
@@ -122,6 +129,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
           [disabled]="fixedEvent"
+          name="upperBound" ngModel
         />
       </div>
 
@@ -135,6 +143,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
           [disabled]="fixedEvent"
+          name="minuteMargin" ngModel
         />
       </div>
 
@@ -147,6 +156,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
           [disabled]="!fixedEvent"
+          name="date" ngModel
         />
       </div>
 
@@ -159,6 +169,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
           [disabled]="!fixedEvent"
+          name="hour" ngModel
         />
       </div>
 
@@ -171,6 +182,7 @@
             class="form-control mt-2"
             [id]="'aei-' + itemId + 'description'"
             rows="3"
+            name="description" ngModel
           ></textarea>
         </div>
       </div>
@@ -184,6 +196,7 @@
             [checked]="consecutiveInstances"
             (change)="consecutiveInstances = !consecutiveInstances"
             [disabled]="isConsecutiveInstancesInputDisabled()"
+            name="consecutive-instances" ngModel
           />
           <label
             class="form-check-label"
@@ -198,6 +211,7 @@
             [id]="'aei-' + itemId + 'fixed-event'"
             [checked]="fixedEvent"
             (change)="onToggleFixedEvent()"
+            name="fixed-event " ngModel
           />
           <label
             class="form-check-label"
@@ -227,7 +241,7 @@
           <u>Cacher les options avancées</u>
         </button>
         <button
-          (click)="onDeleteItem()"
+          (click)="formEmpty(addEvent) ?  onDeleteItem() : openDelete(contentDelete)"
           type="button"
           class="btn btn-danger"
           *ngIf="isDeletable"
@@ -238,3 +252,24 @@
     </div>
   </form>
 </div>
+
+<!-- #contentDelete allows to display the modal correctly  -->
+
+<ng-template #contentDelete let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">Suppression d'évènement </h4>
+      <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Etes-vous sur de vouloir supprimer <span class="text-primary"> cet évènement </span>?</strong></p>
+      <p>Toutes les informations liées à cet évènement seront définitivement supprimées.
+      <span class="text-danger">Cette opération est irréversible.</span>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Annuler</button>
+      <button type="button" class="btn btn-danger" (click)="onDeleteItem()" (click)="modal.close('Ok click')">Supprimer</button>
+    </div>
+</ng-template>
+
+
