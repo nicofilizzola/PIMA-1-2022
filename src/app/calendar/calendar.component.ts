@@ -141,10 +141,9 @@ export class CalendarComponent implements OnInit {
         for (const fields of Object.entries(_eventList) ){
 
           var calendarId = fields[0];
-          if (!calendarIdListSeen.includes(calendarId)) 
-          {
-            calendarIdListSeen.push(calendarId);
 
+          if (true) 
+          {
             var eventlist = fields[1];
 
             eventlist.forEach( _event => 
@@ -186,6 +185,7 @@ export class CalendarComponent implements OnInit {
   })
 
   this.gcal.fetchCalendarList();
+  
   }
 
 
