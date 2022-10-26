@@ -1,0 +1,11 @@
+$black: #000;
+
+.question-mark-tooltip {
+
+    color: lighten($black,60);
+    transition: 0.3s;
+
+    &:hover {
+        color: $black
+    }
+}
