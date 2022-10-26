@@ -13,6 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { GcalInterceptor } from './interceptors/gcal.interceptor';
+import { CalendarComponent } from './calendar/calendar.component';
 import { FormsModule } from '@angular/forms';
 import { AddEventTooltipComponent } from './add-event-list/add-event-item/add-event-tooltip/add-event-tooltip.component';
 
@@ -22,6 +23,7 @@ import { AddEventTooltipComponent } from './add-event-list/add-event-item/add-ev
     PieChartComponent,
     AddEventListComponent,
     AddEventItemComponent,
+    CalendarComponent,
     TimeFrameSelectComponent,
     AddEventTooltipComponent
   ],
@@ -44,6 +46,6 @@ import { AddEventTooltipComponent } from './add-event-list/add-event-item/add-ev
       deps: [OAuthService],
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
