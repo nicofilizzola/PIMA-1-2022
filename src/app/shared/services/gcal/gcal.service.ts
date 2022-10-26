@@ -87,6 +87,9 @@ export class GcalService {
       });
     });
     this.eventList$.subscribe((eventList: EventList) => {
+      if (eventList === null) {
+        return
+      }
       if (eventList.length < this.calendarList$.getValue().length) {
         return
       }
