@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { trigger, state, style } from '@angular/animations';
+import { BoundsCheckerService } from '../shared/services/bounds-checker/bounds-checker.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-event-list',
@@ -8,25 +9,48 @@ import { trigger, state, style } from '@angular/animations';
 })
 export class AddEventListComponent implements OnInit {
   items = [1];
+  lower = '09:00';
+  higher = '18:00';
+  errorMessageOn = false;
 
-  constructor() { }
+  constructor(private _boundsCheckerService: BoundsCheckerService, private modalService : NgbModal) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  onAddItem() {
+    let greatestItemId = Math.max(...this.items);
+    this.items[this.items.length] = greatestItemId + 1;
   }
 
-  onAddItem(){
-    let greatestItemId = Math.max(...this.items)
-    this.items[this.items.length] = greatestItemId + 1
-  }
-
-  onDeleteItem(itemId){
+  onDeleteItem(itemId) {
     let deleteIndex = this.items.indexOf(itemId);
     if (this.items.length == 1) {
       return;
-    } 
-    if (deleteIndex > -1) { // only splice array when item is found
-      this.items.splice(deleteIndex, 1); // 2nd parameter means remove one item only
     }
+    if (deleteIndex > -1) {
+      this.items.splice(deleteIndex, 1);
+    }
+  }
+
+  onCheckBounds() {
+    this.errorMessageOn = this._boundsCheckerService.checkTimeBounds(
+      this.lower,
+      this.higher
+    )
+      ? false
+      : true;
+  }
+
+  onClear(){
+    const lastItem = this.items[this.items.length - 1]
+    this.items = [lastItem + 1]
+  }
+
+  onOpenClearModal(targetModal){
+    this.modalService.open(targetModal, {
+      backdrop: 'static',
+      size: 'lg'
+    });
   }
 
   isItemsLengthGreaterThan1(){
