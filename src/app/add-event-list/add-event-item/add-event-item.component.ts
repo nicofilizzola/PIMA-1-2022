@@ -84,7 +84,7 @@ export class AddEventItemComponent {
     return this.instanceTotal < 2 || this.fixedEvent;
   }
 
-  openDelete(targetModal){
+  onOpenDeleteModal(targetModal){
     this.modalService.open(targetModal, {
       backdrop: 'static',
       size: 'lg'
