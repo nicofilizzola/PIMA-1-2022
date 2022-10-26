@@ -82,6 +82,10 @@ export class GcalService {
   fetchAllCalendarEvents(timeMinFlag: TimeMinFlag) {
     this.fetchCalendarList();
     this.calendarList$.subscribe((calendarList: CalendarList) => {
+      if (this.calendarList$.getValue().length === 0) {
+        return
+      }
+
       calendarList.forEach((calendarListEntry: CalendarListEntry) => {
         this.fetchCalendarEvents(calendarListEntry.id, timeMinFlag);
       });
