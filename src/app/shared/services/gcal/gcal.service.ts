@@ -1,6 +1,7 @@
+import { Time } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { ONE_DAY_AGO, ONE_MONTH_AGO, ONE_WEEK_AGO } from 'src/app/constants';
 import {
   CalendarList,
@@ -31,6 +32,7 @@ export class GcalService {
    */
   calendarList$ = new BehaviorSubject<CalendarList>([]);
   eventList$ = new BehaviorSubject<EventList>(null);
+  allCalendarsFetched$ = new Subject<boolean>();
 
   constructor(private _http: HttpClient) {}
 
@@ -67,10 +69,29 @@ export class GcalService {
       })
       .subscribe((response: EventListResponse) => {
         let timedEvents = this._removeAllDayEvents(response.items);
-        let calendarEvents = <EventList>{ ...this.eventList$.getValue() }
+        let calendarEvents = <EventList>{ ...this.eventList$.getValue() };
         calendarEvents[calendarId] = timedEvents;
         return this.eventList$.next(calendarEvents);
       });
+  }
+
+  /**
+   * @brief Runs **CalendarList.list** and **Events.list** for each calendarList
+   * @note Once all the events are fetched, this.allEventsFetc
+   */
+  fetchAllCalendarEvents(timeMinFlag: TimeMinFlag) {
+    this.fetchCalendarList();
+    this.calendarList$.subscribe((calendarList: CalendarList) => {
+      calendarList.forEach((calendarListEntry: CalendarListEntry) => {
+        this.fetchCalendarEvents(calendarListEntry.id, timeMinFlag);
+      });
+    });
+    this.eventList$.subscribe((eventList: EventList) => {
+      if (eventList.length < this.calendarList$.getValue().length) {
+        return
+      }
+      return this.allCalendarsFetched$.next(true)
+    })
   }
 
   /**
