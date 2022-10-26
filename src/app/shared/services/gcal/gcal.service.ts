@@ -68,9 +68,15 @@ export class GcalService {
         },
       })
       .subscribe((response: EventListResponse) => {
-        let timedEvents = this._removeAllDayEvents(response.items);
         let calendarEvents = <EventList>{ ...this.eventList$.getValue() };
-        calendarEvents[calendarId] = timedEvents;
+
+        if (response.items.length === 0) {
+          calendarEvents[calendarId] = [];
+        } else {
+          let timedEvents = this._removeAllDayEvents(response.items);
+          calendarEvents[calendarId] = timedEvents;
+        }
+
         return this.eventList$.next(calendarEvents);
       });
   }
@@ -82,16 +88,25 @@ export class GcalService {
   fetchAllCalendarEvents(timeMinFlag: TimeMinFlag) {
     this.fetchCalendarList();
     this.calendarList$.subscribe((calendarList: CalendarList) => {
+      // skip init value
+      if (this.calendarList$.getValue().length === 0) {
+        return;
+      }
+
       calendarList.forEach((calendarListEntry: CalendarListEntry) => {
         this.fetchCalendarEvents(calendarListEntry.id, timeMinFlag);
       });
     });
     this.eventList$.subscribe((eventList: EventList) => {
-      if (eventList.length < this.calendarList$.getValue().length) {
-        return
+      // skip init value
+      if (eventList === null) {
+        return;
       }
-      return this.allCalendarsFetched$.next(true)
-    })
+      if (eventList.length < this.calendarList$.getValue().length) {
+        return;
+      }
+      return this.allCalendarsFetched$.next(true);
+    });
   }
 
   /**
