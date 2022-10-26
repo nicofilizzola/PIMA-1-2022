@@ -80,7 +80,7 @@ export class CalendarComponent implements OnInit {
     var type_recurr= split_string.find(x=> x.substring(0,5) == "FREQ=");
 
     if (type_recurr == "FREQ=DAILY") {
-      recurringDays = [1,2,3,4,5,6,7];
+      recurringDays = [0,1,2,3,4,5,6];
     }
     else {
       
