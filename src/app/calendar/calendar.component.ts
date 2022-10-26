@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CalendarOptions, defineFullCalendarElement, DateSelectArg } from '@fullcalendar/web-component';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -18,13 +18,14 @@ defineFullCalendarElement();
   styleUrls: ['./calendar.component.scss']
 })
 
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements AfterViewInit {
   
 
-  //Array of all events to display on the calendar
   events = [];
 
-  //calendarOptions used to create the calendar
+
+  @ViewChild('myCalendar') myCalendar: ElementRef;
+
   calendarOptions: CalendarOptions = {
     plugins: [ timeGridPlugin, dayGridPlugin, rrulePlugin],
     headerToolbar: {
@@ -43,7 +44,7 @@ export class CalendarComponent implements OnInit {
   };
   constructor(private gcal : GcalService) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
 
     this.setUpCalendar();
   }
@@ -124,67 +125,73 @@ export class CalendarComponent implements OnInit {
 
   setUpCalendar() {
 
-    //Array of calendar's id that are already taken into account 
+    //Array of calendar's id that are already taken into account, to not include events from the same calendar multiple times 
     var calendarIdListSeen = [];
 
-    //Subscribing to the calendarList
-    this.gcal.calendarList$.subscribe( (_calendarList: CalendarList) => {
+    this.gcal.calendarList$.subscribe( (_calendarList: CalendarList) => 
+      {
       _calendarList.forEach( calendar => {
         this.gcal.fetchCalendarEvents(calendar.id,ONE_MONTH_AGO);
       })
       } );
 
-    //Subscribing to the eventList
-    this.gcal.eventList$.subscribe ( (_eventList: EventList) => {
-      if (_eventList != null) {
+    this.gcal.eventList$.subscribe ( (_eventList: EventList) => 
+      {
+      
 
-        for (const fields of Object.entries(_eventList) ){
+      if (_eventList==null) {
+        return;
+      }
 
-          var calendarId = fields[0];
+      for (const fields of Object.entries(_eventList) ){
 
-          if (!calendarIdListSeen.includes(calendarId)) 
+        var calendarId = fields[0];
+
+        if (!calendarIdListSeen.includes(calendarId)) {
+        
+
+          calendarIdListSeen.push(calendarId);
+
+          var eventlist = fields[1];
+          eventlist.forEach( _event => 
           {
-            calendarIdListSeen.push(calendarId);
-
-            var eventlist = fields[1];
-
-            eventlist.forEach( _event => 
-            {
-              if(_event["start"]["dateTime"] != undefined && _event["end"]["dateTime"]) 
+            if(_event["start"]["dateTime"] == undefined){
+              return;
+            } 
+              
+              if(_event["recurrence"]!=undefined) 
               {
-                
-                if(_event["recurrence"]!=undefined) 
-                {
-                  this.events.push({
-                    title: _event["summary"],
-                    daysOfWeek: this.getRecurr(_event["recurrence"][0]),
-                    startTime: this.getTimeString(_event["start"]["dateTime"]),
-                    endTime: this.getTimeString(_event["end"]["dateTime"]),
-                    startRecur: _event["start"]["dateTime"],
-                    endRecur: this.getEndRecurr(_event["recurrence"][0]),
-                  })
-                }
-                else 
-                {
-                  this.events.push({ 
-                    title: _event["summary"], 
-                    start: _event["start"]["dateTime"], 
-                    end: _event["end"]["dateTime"], 
-                  }
-                );    
-                }
+                this.events.push({
+                  title: _event["summary"],
+                  daysOfWeek: this.getRecurr(_event["recurrence"][0]),
+                  startTime: this.getTimeString(_event["start"]["dateTime"]),
+                  endTime: this.getTimeString(_event["end"]["dateTime"]),
+                  startRecur: _event["start"]["dateTime"],
+                  endRecur: this.getEndRecurr(_event["recurrence"][0]),
+                })
               }
-            })
-            
-          } 
-        }
+              else 
+              {
+                this.events.push({ 
+                  title: _event["summary"], 
+                  start: _event["start"]["dateTime"], 
+                  end: _event["end"]["dateTime"], 
+                }
+              );    
+              }
+            }
+          )
+          
+        } 
+      }
+      
 
         this.calendarOptions.events = this.events;
-        let calendar = new Calendar(document.getElementById("calendar"), this.calendarOptions);
+        let calendar = new Calendar(this.myCalendar.nativeElement, this.calendarOptions);
         calendar.render();
     }
 
-  })
+  )
 
   this.gcal.fetchCalendarList();
   

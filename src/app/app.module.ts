@@ -47,8 +47,5 @@ import { AddEventTooltipComponent } from './add-event-list/add-event-item/add-ev
     },
   ],
   bootstrap: [AppComponent],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ]
 })
 export class AppModule { }
