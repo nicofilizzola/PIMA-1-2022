@@ -9,8 +9,6 @@ import { CalendarList, CalendarListEntry } from '../models/calendar-list.model'
 import { ONE_DAY_AGO, ONE_MONTH_AGO, ONE_WEEK_AGO } from 'src/app/constants';
 import { Event, EventList } from 'src/app/models/event.model';
 
-// make the <full-calendar> element globally available by calling this function at the top-level
-defineFullCalendarElement();
 
 @Component({
   selector: 'app-calendar',
