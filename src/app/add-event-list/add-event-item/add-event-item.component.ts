@@ -114,7 +114,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   }
 
   onDeleteItem(event: MouseEvent) {
-    event?.stopPropagation(); // avoid triggering parent event
+    event?.stopPropagation(); // Avoids triggering parent event
 
     this.deleteItem.emit(this.itemId);
   }
@@ -147,7 +147,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   onCollapse() {
     if (this.title == null) {
-      this.title = 'Untitled task';
+      this.title = 'Tâche sans nom';
     }
     this.collapsed = true;
   }
