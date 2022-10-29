@@ -5,7 +5,15 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 @Component({
   selector: 'app-add-event-item',
@@ -44,21 +52,59 @@ import { ViewportService } from 'src/app/shared/services/viewport/viewport.servi
     ]),
   ],
 })
-export class AddEventItemComponent {
+export class AddEventItemComponent implements OnInit, OnDestroy {
+  private _subscription: Subscription;
+
+  @Input() expandedItem$: Subject<number>;
   @Input() itemId;
   @Input() isDeletable;
+
+  /**
+   * @brief Communicate to parent if current item deleted
+   */
   @Output() deleteItem = new EventEmitter<number>();
+
+  advancedOptionsActive = false;
+  collapsed = false;
+
+  title = '';
+  dureeEnHeures = 1;
+  priorite = 'Choisir priorité...';
+  calendrier = 'Choisir calendrier...';
+  localisation;
+  instanceTotal = 1;
+  minInstancesParJour;
+  maxInstancesParJour;
+  borneInf;
+  borneSup;
+  marge;
+  itemDate;
+  itemHour;
+  description;
   fixedEvent = false;
   consecutiveInstances = false;
-  instanceTotal = 1;
-  advancedOptionsActive = false;
   advancedOptionsAnimationState = 'off';
 
   constructor(private _viewportService: ViewportService) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.expandedItem$.next(this.itemId);
 
-  onDeleteItem() {
+    this._subscription = this.expandedItem$.subscribe((expandedId) => {
+      if (expandedId != this.itemId) {
+        console.log(this.itemId)
+        this.collapsed = true;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
+
+  onDeleteItem(event: MouseEvent) {
+    event?.stopPropagation(); // avoid triggering parent event
+
     this.deleteItem.emit(this.itemId);
   }
 
@@ -74,10 +120,6 @@ export class AddEventItemComponent {
     this.advancedOptionsActive = advancedOptionsActive;
   }
 
-  setInstanceTotal(instanceTotal: number) {
-    this.instanceTotal = instanceTotal;
-  }
-
   isConsecutiveInstancesInputDisabled() {
     return this.instanceTotal < 2 || this.fixedEvent;
   }
@@ -91,6 +133,18 @@ export class AddEventItemComponent {
    * @TODO
    */
   getMinInstancesPerDay() {}
+
+  onCollapse() {
+    if (this.title === '') {
+      this.title = 'Untitled task';
+    }
+    this.collapsed = true;
+  }
+
+  onExpand() {
+    this.collapsed = false;
+    this.expandedItem$.next(this.itemId);
+  }
 
   getAdvancedOptionsAnimationState() {
     if (this.advancedOptionsActive === false) {

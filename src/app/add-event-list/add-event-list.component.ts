@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { BoundsCheckerService } from '../shared/services/bounds-checker/bounds-checker.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-event-list',
@@ -8,12 +9,17 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./add-event-list.component.scss'],
 })
 export class AddEventListComponent implements OnInit {
+  expandedItem$ = new Subject<number>();
+
   items = [1];
   lower = '09:00';
   higher = '18:00';
   errorMessageOn = false;
 
-  constructor(private _boundsCheckerService: BoundsCheckerService, private modalService : NgbModal) { }
+  constructor(
+    private _boundsCheckerService: BoundsCheckerService,
+    private _modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {}
 
@@ -41,19 +47,19 @@ export class AddEventListComponent implements OnInit {
       : true;
   }
 
-  onClear(){
-    const lastItem = this.items[this.items.length - 1]
-    this.items = [lastItem + 1]
+  onClear() {
+    const lastItem = this.items[this.items.length - 1];
+    this.items = [lastItem + 1];
   }
 
-  onOpenClearModal(targetModal){
-    this.modalService.open(targetModal, {
+  onOpenClearModal(targetModal) {
+    this._modalService.open(targetModal, {
       backdrop: 'static',
-      size: 'lg'
+      size: 'lg',
     });
   }
 
-  isItemsLengthGreaterThan1(){
-    return this.items.length > 1
+  isItemsLengthGreaterThan1() {
+    return this.items.length > 1;
   }
 }
