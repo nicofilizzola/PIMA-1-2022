@@ -4,9 +4,15 @@
     'container-md bg-light py-1 my-2': true
   }"
 >
-  <div class="row" *ngIf="collapsed" (click)="onToggleUnCollapsed()">
+  <div class="row" *ngIf="collapsed" (click)="onExpand()">
     <h2 class="col-md-10">{{ title }}</h2>
-    <button class="btn btn-danger col-md-2" (click)="onDeleteItem($event)" *ngIf="isDeletable">Supprimer évènement</button>
+    <button
+      class="btn btn-danger col-md-2"
+      (click)="onDeleteItem($event)"
+      *ngIf="isDeletable"
+    >
+      Supprimer évènement
+    </button>
   </div>
 
   <form *ngIf="!collapsed">
@@ -72,7 +78,11 @@
       </div>
     </div>
 
-    <div class="row m-4 aei-advanced" *ngIf="advancedOptionsActive" [@advancedOptions]="getAdvancedOptionsAnimationState()">
+    <div
+      class="row m-4 aei-advanced"
+      *ngIf="advancedOptionsActive"
+      [@advancedOptions]="getAdvancedOptionsAnimationState()"
+    >
       <hr />
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-location'" class="form-label"
@@ -310,7 +320,7 @@
         </button>
       </div>
     </div>
-    <button type="button" class="btn save" (click)="onToggleCollapsed()">
+    <button type="button" class="btn save" (click)="onCollapse()">
       Sauvegarder
     </button>
   </form>

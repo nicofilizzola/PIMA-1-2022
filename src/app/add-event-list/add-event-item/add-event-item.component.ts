@@ -5,7 +5,14 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 @Component({
@@ -45,8 +52,7 @@ import { ViewportService } from 'src/app/shared/services/viewport/viewport.servi
     ]),
   ],
 })
-export class AddEventItemComponent implements OnInit, OnDestroy{
-
+export class AddEventItemComponent implements OnInit, OnDestroy {
   private eventsSubscription: Subscription;
 
   @Input() closeItem: Observable<number>;
@@ -56,21 +62,21 @@ export class AddEventItemComponent implements OnInit, OnDestroy{
   @Output() openItem = new EventEmitter<number>();
 
   advancedOptionsActive = false;
-  collapsed = false; 
+  collapsed = false;
 
-  title = "";
-  dureeEnHeures=1; 
-  priorite="Choisir priorité..."; 
-  calendrier="Choisir calendrier..."; 
-  localisation; 
-  instanceTotal=1;
-  minInstancesParJour; 
-  maxInstancesParJour; 
-  borneInf; 
-  borneSup; 
-  marge; 
-  itemDate; 
-  itemHour; 
+  title = '';
+  dureeEnHeures = 1;
+  priorite = 'Choisir priorité...';
+  calendrier = 'Choisir calendrier...';
+  localisation;
+  instanceTotal = 1;
+  minInstancesParJour;
+  maxInstancesParJour;
+  borneInf;
+  borneSup;
+  marge;
+  itemDate;
+  itemHour;
   description;
   fixedEvent = false;
   consecutiveInstances = false;
@@ -78,17 +84,19 @@ export class AddEventItemComponent implements OnInit, OnDestroy{
 
   constructor(private _viewportService: ViewportService) {}
 
-  ngOnInit(){
-    this.eventsSubscription = this.closeItem.subscribe((openedId) => this.onCloseItem(openedId));
-    this.openItem.emit(this.itemId)
+  ngOnInit() {
+    this.eventsSubscription = this.closeItem.subscribe((openedId) =>
+      this.onCloseItem(openedId)
+    );
+    this.openItem.emit(this.itemId);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.eventsSubscription.unsubscribe();
   }
 
   onDeleteItem(event: MouseEvent) {
-    event?.stopPropagation()
+    event?.stopPropagation();
     this.deleteItem.emit(this.itemId);
   }
 
@@ -104,8 +112,8 @@ export class AddEventItemComponent implements OnInit, OnDestroy{
     this.advancedOptionsActive = advancedOptionsActive;
   }
 
-  isConsecutiveInstancesInputDisabled(){
-    return this.instanceTotal < 2 || this.fixedEvent
+  isConsecutiveInstancesInputDisabled() {
+    return this.instanceTotal < 2 || this.fixedEvent;
   }
 
   /**
@@ -118,21 +126,21 @@ export class AddEventItemComponent implements OnInit, OnDestroy{
    */
   getMinInstancesPerDay() {}
 
-  onToggleCollapsed() {
-    if( this.title === "" ){
-      this.title = "Untitled task"
+  onCollapse() {
+    if (this.title === '') {
+      this.title = 'Untitled task';
     }
     this.collapsed = true;
   }
 
-  onToggleUnCollapsed(){
+  onExpand() {
     this.collapsed = false;
     this.openItem.emit(this.itemId);
   }
 
-  onCloseItem(openedId){
-    if(this.itemId != openedId){
-      this.onToggleCollapsed()
+  onCloseItem(openedId) {
+    if (this.itemId != openedId) {
+      this.onCollapse();
     }
   }
   getAdvancedOptionsAnimationState() {
