@@ -66,6 +66,7 @@
     [itemId]="item"
     [isDeletable]="isItemsLengthGreaterThan1()"
     (deleteItem)="onDeleteItem($event)"
+    [expandedItem$]="expandedItem$"
   ></app-add-event-item>
   <div class="container-md">
     <div class="row">
