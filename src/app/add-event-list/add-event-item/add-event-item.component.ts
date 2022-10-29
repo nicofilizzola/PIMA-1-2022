@@ -13,7 +13,7 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 @Component({
   selector: 'app-add-event-item',
@@ -53,13 +53,22 @@ import { ViewportService } from 'src/app/shared/services/viewport/viewport.servi
   ],
 })
 export class AddEventItemComponent implements OnInit, OnDestroy {
-  private eventsSubscription: Subscription;
+  private _eventsSubscription: Subscription;
 
-  @Input() closeItem: Observable<number>;
+  @Input() collapsedItem$: Subject<number>;
   @Input() itemId;
   @Input() isDeletable;
+
+  /**
+   * @brief Communicate to parent if current item deleted
+   */
   @Output() deleteItem = new EventEmitter<number>();
-  @Output() openItem = new EventEmitter<number>();
+
+  /**
+   * @brief Communicate to parent if current item is expanded
+   * @note Multiple items can't be expanded at the same time
+   */
+  @Output() expandItem = new EventEmitter<number>();
 
   advancedOptionsActive = false;
   collapsed = false;
@@ -85,18 +94,19 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   constructor(private _viewportService: ViewportService) {}
 
   ngOnInit() {
-    this.eventsSubscription = this.closeItem.subscribe((openedId) =>
-      this.onCloseItem(openedId)
-    );
-    this.openItem.emit(this.itemId);
+    this._eventsSubscription = this.collapsedItem$.subscribe((openedId) => {
+      if (openedId != this.itemId) this.onCollapse();
+    });
+    this.expandItem.emit(this.itemId);
   }
 
   ngOnDestroy() {
-    this.eventsSubscription.unsubscribe();
+    this._eventsSubscription.unsubscribe();
   }
 
   onDeleteItem(event: MouseEvent) {
-    event?.stopPropagation();
+    event?.stopPropagation(); // avoid triggering parent event
+
     this.deleteItem.emit(this.itemId);
   }
 
@@ -135,14 +145,9 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   onExpand() {
     this.collapsed = false;
-    this.openItem.emit(this.itemId);
+    this.expandItem.emit(this.itemId);
   }
 
-  onCloseItem(openedId) {
-    if (this.itemId != openedId) {
-      this.onCollapse();
-    }
-  }
   getAdvancedOptionsAnimationState() {
     if (this.advancedOptionsActive === false) {
       return 'off';
