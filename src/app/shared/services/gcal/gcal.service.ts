@@ -132,7 +132,17 @@ export class GcalService {
   }
 
   private _removeAllDayEvents(events: Event[]): Event[] {
-    return events.filter((event: Event) => 'dateTime' in event.start);
+    return events.filter((event: Event) => this._isTimedEvent(event));
+  }
+
+  private _isTimedEvent(event: Event): boolean {
+    if (!this._isCancelledEvent(event)) return false
+
+    return 'dateTime' in event.start
+  }
+
+  private _isCancelledEvent(event: Event): boolean {
+    return event.status !== 'cancelled'
   }
 
   /**

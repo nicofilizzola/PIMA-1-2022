@@ -9,14 +9,14 @@ export class PercentageService {
   totalEventTime: number;
 
   constructor(private _gcalService: GcalService) {
-    this._gcalService.eventList$.subscribe((eventList: EventList) => {
-      if (this._gcalService.eventList$.getValue() != null) {
-        let events = Object.entries(eventList)
-          .map((eventListEntry: EventListEntry) => eventListEntry[1])
-          .flat();
-        this._setTotalEventsTime(events);
-      }
-    });
+    // this._gcalService.eventList$.subscribe((eventList: EventList) => {
+    //   if (this._gcalService.eventList$.getValue() != null) {
+    //     let events = Object.entries(eventList)
+    //       .map((eventListEntry: EventListEntry) => eventListEntry[1])
+    //       .flat();
+    //     this._setTotalEventsTime(events);
+    //   }
+    // });
   }
 
   /**
