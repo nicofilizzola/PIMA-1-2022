@@ -5,6 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { ChangeDetectionStrategy } from '@angular/compiler';
 import {
   Component,
   Input,
@@ -12,6 +13,7 @@ import {
   EventEmitter,
   OnInit,
   OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
@@ -64,36 +66,45 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
    */
   @Output() deleteItem = new EventEmitter<number>();
 
-  advancedOptionsActive = false;
   collapsed = false;
 
-  title = '';
-  dureeEnHeures = 1;
-  priorite = 'Choisir priorité...';
-  calendrier = 'Choisir calendrier...';
-  localisation;
+  // Base options
+  title: string;
+  hourDuration = 1;
+  priority = 'Choisir priorité...';
+  calendar = 'Choisir calendrier...';
+
+  // Advanced options
+  advancedOptionsActive = false;
+  location: string;
   instanceTotal = 1;
-  minInstancesParJour;
-  maxInstancesParJour;
-  borneInf;
-  borneSup;
-  marge;
-  itemDate;
-  itemHour;
-  description;
+  minDailyInstances: number;
+  maxDailyInstances: number;
+  borneInf: string;
+  borneSup: string;
+  marge: number;
+  date: string;
+  time: string;
+  description: string;
   fixedEvent = false;
   consecutiveInstances = false;
+
+  // Animation
   advancedOptionsAnimationState = 'off';
 
-  constructor(private _viewportService: ViewportService) {}
+  constructor(
+    private _viewportService: ViewportService,
+    private _cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.expandedItem$.next(this.itemId);
 
     this._subscription = this.expandedItem$.subscribe((expandedId) => {
       if (expandedId != this.itemId) {
-        console.log(this.itemId)
-        this.collapsed = true;
+        this.onCollapse();
+
+        this._cd.detectChanges(); // Prevents error after template-used property is changed (this.collapsed)
       }
     });
   }
@@ -135,7 +146,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   getMinInstancesPerDay() {}
 
   onCollapse() {
-    if (this.title === '') {
+    if (this.title == null) {
       this.title = 'Untitled task';
     }
     this.collapsed = true;
