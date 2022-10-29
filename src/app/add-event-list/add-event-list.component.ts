@@ -9,10 +9,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./add-event-list.component.scss'],
 })
 export class AddEventListComponent implements OnInit {
-  collapsedItem$ = new Subject<number>();
+  expandedItem$ = new Subject<number>();
 
   items = [1];
-  expandedItem = 1;
   lower = '09:00';
   higher = '18:00';
   errorMessageOn = false;
@@ -58,11 +57,6 @@ export class AddEventListComponent implements OnInit {
       backdrop: 'static',
       size: 'lg',
     });
-  }
-
-  onExpandItem(itemId) {
-    this.expandedItem = itemId;
-    this.collapsedItem$.next(this.expandedItem);
   }
 
   isItemsLengthGreaterThan1() {

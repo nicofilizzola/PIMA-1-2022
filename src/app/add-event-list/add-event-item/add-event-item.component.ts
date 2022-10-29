@@ -53,9 +53,9 @@ import { ViewportService } from 'src/app/shared/services/viewport/viewport.servi
   ],
 })
 export class AddEventItemComponent implements OnInit, OnDestroy {
-  private _eventsSubscription: Subscription;
+  private _subscription: Subscription;
 
-  @Input() collapsedItem$: Subject<number>;
+  @Input() expandedItem$: Subject<number>;
   @Input() itemId;
   @Input() isDeletable;
 
@@ -63,12 +63,6 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
    * @brief Communicate to parent if current item deleted
    */
   @Output() deleteItem = new EventEmitter<number>();
-
-  /**
-   * @brief Communicate to parent if current item is expanded
-   * @note Multiple items can't be expanded at the same time
-   */
-  @Output() expandItem = new EventEmitter<number>();
 
   advancedOptionsActive = false;
   collapsed = false;
@@ -94,14 +88,18 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   constructor(private _viewportService: ViewportService) {}
 
   ngOnInit() {
-    this._eventsSubscription = this.collapsedItem$.subscribe((openedId) => {
-      if (openedId != this.itemId) this.onCollapse();
+    this.expandedItem$.next(this.itemId);
+
+    this._subscription = this.expandedItem$.subscribe((expandedId) => {
+      if (expandedId != this.itemId) {
+        console.log(this.itemId)
+        this.collapsed = true;
+      }
     });
-    this.expandItem.emit(this.itemId);
   }
 
   ngOnDestroy() {
-    this._eventsSubscription.unsubscribe();
+    this._subscription.unsubscribe();
   }
 
   onDeleteItem(event: MouseEvent) {
@@ -145,7 +143,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   onExpand() {
     this.collapsed = false;
-    this.expandItem.emit(this.itemId);
+    this.expandedItem$.next(this.itemId);
   }
 
   getAdvancedOptionsAnimationState() {
