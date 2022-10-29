@@ -1,5 +1,21 @@
-<div class="container-md bg-light py-1 my-2">
-  <form #addEvent="ngForm">
+<div
+  [ngClass]="{
+    'collapsed-title': collapsed,
+    'container-md bg-light py-1 my-2': true
+  }"
+>
+  <div class="row" *ngIf="collapsed" (click)="onExpand()">
+    <h2 class="col-md-10">{{ title }}</h2>
+    <button
+      class="btn btn-danger col-md-2"
+      (click)="onDeleteItem($event)"
+      *ngIf="isDeletable"
+    >
+      Supprimer évènement
+    </button>
+  </div>
+
+  <form #addEvent="ngForm" *ngIf="!collapsed">
     <div [id]="'add-event-item' + itemId" class="row m-4 bg-light">
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-title'" class="form-label"
@@ -9,7 +25,8 @@
           type="text"
           class="form-control"
           [id]="'aei-' + itemId + '-title'"
-          name="title" ngModel
+          [(ngModel)]="title"
+          [ngModelOptions]="{ standalone: true }"
         />
       </div>
       <div class="col-md-3 mt-3">
@@ -21,15 +38,21 @@
           step="0.5"
           class="form-control"
           [id]="'aei-' + itemId + '-duration'"
-          name="duration" ngModel
+          [(ngModel)]="hourDuration"
+          [ngModelOptions]="{ standalone: true }"
         />
       </div>
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-priority'" class="form-label"
           >Priorité</label
         >
-        <select [id]="'aei-' + itemId + '-priority'" class="form-select" name="selectPriority" ngModel>
-          <option selected>Choisir priorité...</option>
+        <select
+          [id]="'aei-' + itemId + '-priority'"
+          class="form-select"
+          [(ngModel)]="priority"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <option>Choisir priorité...</option>
           <option value="PLACEHOLDER 1">Basse</option>
           <option value="PLACEHOLDER 2">Moyenne</option>
           <option value="PLACEHOLDER 3">Haute</option>
@@ -40,7 +63,12 @@
         <label [for]="'aei-' + itemId + '-calendar'" class="form-label"
           >Calendrier</label
         >
-        <select [id]="'aei-' + itemId + '-calendar'" class="form-select" name="selectCalendar" ngModel>
+        <select
+          [id]="'aei-' + itemId + '-calendar'"
+          class="form-select"
+          [(ngModel)]="calendar"
+          [ngModelOptions]="{ standalone: true }"
+        >
           <option selected>Choisir calendrier...</option>
           <option value="">Personal</option>
           <option value="">Sport</option>
@@ -50,7 +78,11 @@
       </div>
     </div>
 
-    <div class="row m-4 aei-advanced" *ngIf="advancedOptionsActive" [@advancedOptions]="getAdvancedOptionsAnimationState()">
+    <div
+      class="row m-4 aei-advanced"
+      *ngIf="advancedOptionsActive"
+      [@advancedOptions]="getAdvancedOptionsAnimationState()"
+    >
       <hr />
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-location'" class="form-label"
@@ -60,7 +92,8 @@
           type="text"
           class="form-control"
           [id]="'aei-' + itemId + '-location'"
-          name="Localisation" ngModel
+          [(ngModel)]="location"
+          [ngModelOptions]="{ standalone: true }"
         />
       </div>
       <div class="col-md-3 mt-3">
@@ -78,9 +111,8 @@
           class="form-control"
           [id]="'aei-' + itemId + '-instance-total'"
           [disabled]="fixedEvent"
-          (change)="setInstanceTotal($event.target.value)"
-          value="1"
-          name="instanceNumber" ngModel
+          [(ngModel)]="instanceTotal"
+          [ngModelOptions]="{ standalone: true }"
         />
       </div>
 
@@ -99,7 +131,8 @@
           class="form-control"
           [id]="'aei-' + itemId + '-instance-min'"
           [disabled]="fixedEvent"
-          name="minInstances" ngModel
+          [(ngModel)]="minDailyInstances"
+          [ngModelOptions]="{ standalone: true }"
         />
       </div>
 
@@ -118,7 +151,8 @@
           class="form-control"
           [id]="'aei-' + itemId + '-instance-max'"
           [disabled]="fixedEvent"
-          name="maxInstances" ngModel
+          [(ngModel)]="maxDailyInstances"
+          [ngModelOptions]="{ standalone: true }"
         />
       </div>
 
@@ -136,7 +170,8 @@
           class="form-control"
           [id]="'aei-' + itemId + '-lower'"
           [disabled]="fixedEvent"
-          name="lowerBound" ngModel
+          [(ngModel)]="borneInf"
+          [ngModelOptions]="{ standalone: true }"
         />
       </div>
 
@@ -154,7 +189,8 @@
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
           [disabled]="fixedEvent"
-          name="upperBound" ngModel
+          [(ngModel)]="borneSup"
+          [ngModelOptions]="{ standalone: true }"
         />
       </div>
 
@@ -173,7 +209,8 @@
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
           [disabled]="fixedEvent"
-          name="minuteMargin" ngModel
+          [(ngModel)]="marge"
+          [ngModelOptions]="{ standalone: true }"
         />
       </div>
 
@@ -186,7 +223,9 @@
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
           [disabled]="!fixedEvent"
-          name="date" ngModel
+          [(ngModel)]="instanceTotal"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="date"
         />
       </div>
 
@@ -199,7 +238,8 @@
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
           [disabled]="!fixedEvent"
-          name="hour" ngModel
+          [(ngModel)]="time"
+          [ngModelOptions]="{ standalone: true }"
         />
       </div>
 
@@ -212,7 +252,8 @@
             class="form-control mt-2"
             [id]="'aei-' + itemId + 'description'"
             rows="3"
-            name="description" ngModel
+            [(ngModel)]="description"
+            [ngModelOptions]="{ standalone: true }"
           ></textarea>
         </div>
       </div>
@@ -280,6 +321,9 @@
         </button>
       </div>
     </div>
+    <button type="button" class="btn save" (click)="onCollapse()">
+      Sauvegarder
+    </button>
   </form>
 </div>
 

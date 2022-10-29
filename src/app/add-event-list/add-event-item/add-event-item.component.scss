@@ -1,4 +1,14 @@
+$gray: #dadada;
+
 textarea {
     resize: none;
 }
 
+.collapsed-title{
+
+    transition: 0.3s;
+
+    &:hover{
+        background-color: $gray !important;
+    }
+}

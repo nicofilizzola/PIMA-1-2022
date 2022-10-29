@@ -5,9 +5,19 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/compiler';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 @Component({
   selector: 'app-add-event-item',
@@ -46,21 +56,71 @@ import { ViewportService } from 'src/app/shared/services/viewport/viewport.servi
     ]),
   ],
 })
-export class AddEventItemComponent {
+export class AddEventItemComponent implements OnInit, OnDestroy {
+  private _subscription: Subscription;
+
+  @Input() expandedItem$: Subject<number>;
   @Input() itemId;
   @Input() isDeletable;
+
+  /**
+   * @brief Communicate to parent if current item deleted
+   */
   @Output() deleteItem = new EventEmitter<number>();
+
+  collapsed = false;
+
+  // Base options
+  title: string;
+  hourDuration = 1;
+  priority = 'Choisir priorité...';
+  calendar = 'Choisir calendrier...';
+
+  // Advanced options
+  advancedOptionsActive = false;
+  location: string;
+  instanceTotal = 1;
+  minDailyInstances: number;
+  maxDailyInstances: number;
+  borneInf: string;
+  borneSup: string;
+  marge: number;
+  date: string;
+  time: string;
+  description: string;
   fixedEvent = false;
   consecutiveInstances = false;
-  instanceTotal = 1;
-  advancedOptionsActive = false;
+
+  // Animation
   advancedOptionsAnimationState = 'off';
 
-  constructor(private _viewportService: ViewportService, private _modalService: NgbModal) {}
+  constructor(
+    private _viewportService: ViewportService, 
+    private _modalService: NgbModal,
+    private _cd: ChangeDetectorRef
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.expandedItem$.next(this.itemId);
 
-  onDeleteItem() {
+    this._subscription = this.expandedItem$.subscribe((expandedId) => {
+      if (expandedId != this.itemId) {
+        this.onCollapse();
+
+        this._cd.detectChanges(); // Prevents error after template-used property is changed (this.collapsed)
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
+
+
+
+  onDeleteItem(event: MouseEvent) {
+    event?.stopPropagation(); // Avoids triggering parent event
+
     this.deleteItem.emit(this.itemId);
   }
 
@@ -74,10 +134,6 @@ export class AddEventItemComponent {
 
   setAdvancedOptionsActive(advancedOptionsActive: boolean) {
     this.advancedOptionsActive = advancedOptionsActive;
-  }
-
-  setInstanceTotal(instanceTotal: number) {
-    this.instanceTotal = instanceTotal;
   }
 
   isConsecutiveInstancesInputDisabled() {
@@ -105,6 +161,18 @@ export class AddEventItemComponent {
    * @TODO
    */
   getMinInstancesPerDay() {}
+
+  onCollapse() {
+    if (this.title == null) {
+      this.title = 'Tâche sans nom';
+    }
+    this.collapsed = true;
+  }
+
+  onExpand() {
+    this.collapsed = false;
+    this.expandedItem$.next(this.itemId);
+  }
 
   getAdvancedOptionsAnimationState() {
     if (this.advancedOptionsActive === false) {
