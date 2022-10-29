@@ -15,8 +15,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _gapiService: GapiService,
-    private gcal: GcalService,
-    private per: PercentageService
   ) {}
 
   ngOnInit(): void {
