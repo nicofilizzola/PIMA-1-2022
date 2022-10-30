@@ -54,10 +54,11 @@ export class GcalHttpService {
     this.eventListSubscription = this._gcalStorageService.eventList$.subscribe((eventList: EventList) => {
       if (eventList === null) return; // skip init value
       if (
-        eventList.length <
+        Object.entries(eventList).length <
         this._gcalStorageService.calendarList$.getValue().length
-      )
+      ) {
         return;
+      }
 
       return this._gcalStorageService.dataFetched$.next(true);
     });
@@ -150,8 +151,7 @@ export class GcalHttpService {
     return events.filter((event: Event) => !this._isInvalidEvent(event));
   }
   private _isInvalidEvent(event: Event): boolean {
-    if (this._isCancelledEvent(event)) return true
-    return !this._isTimedEvent(event);
+    return this._isCancelledEvent(event) || !this._isTimedEvent(event);
   }
   private _isCancelledEvent(event: Event): boolean {
     return event.status === 'cancelled';

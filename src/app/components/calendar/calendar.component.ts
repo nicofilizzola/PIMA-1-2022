@@ -5,13 +5,13 @@ import {
   ElementRef,
   AfterViewInit,
 } from '@angular/core';
-import { Calendar } from '@fullcalendar/core';
+import { Calendar, createPlugin } from '@fullcalendar/core';
 import { CalendarOptions } from '@fullcalendar/web-component';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import rrulePlugin from '@fullcalendar/rrule';
 import { ONE_MONTH_AGO } from 'src/app/constants';
-import { EventList } from 'src/app/models/event.model';
+import { Event, EventList, EventListEntry } from 'src/app/models/event.model';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { Subscription } from 'rxjs';
 
@@ -40,7 +40,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
-    events: this.events,
+    events: [],
   };
   constructor(private _gcalStorageService: GcalStorageService) {}
 
@@ -116,44 +116,20 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   }
 
   setupCalendar() {
-    // Array of calendar's id that are already taken into account, to not include events from the same calendar multiple times
-    var calendarIdListSeen = [];
-
     this.dataFetchedSubscription =
       this._gcalStorageService.dataFetched$.subscribe(() => {
         this.fetchedEvents = this._gcalStorageService.eventList$.getValue();
 
-        for (const fields of Object.entries(this.fetchedEvents)) {
-          var calendarId = fields[0];
-
-          if (!calendarIdListSeen.includes(calendarId)) {
-            calendarIdListSeen.push(calendarId);
-
-            var eventlist = fields[1];
-            eventlist.forEach((_event) => {
-              if (_event['start']['dateTime'] == undefined) {
-                return;
+        Object.entries(this.fetchedEvents).forEach(
+          (eventListEntry: EventListEntry) => {
+            eventListEntry[1].forEach((event: Event) => {
+              if (event.recurrence) {
+                return this._appendRecurringEvent(event);
               }
-
-              if (_event['recurrence'] != undefined) {
-                this.events.push({
-                  title: _event['summary'],
-                  daysOfWeek: this.getRecurr(_event['recurrence'][0]),
-                  startTime: this.getTimeString(_event['start']['dateTime']),
-                  endTime: this.getTimeString(_event['end']['dateTime']),
-                  startRecur: _event['start']['dateTime'],
-                  endRecur: this.getEndRecurr(_event['recurrence'][0]),
-                });
-              } else {
-                this.events.push({
-                  title: _event['summary'],
-                  start: _event['start']['dateTime'],
-                  end: _event['end']['dateTime'],
-                });
-              }
+              return this._appendRegularEvent(event);
             });
           }
-        }
+        );
 
         this.calendarOptions.events = this.events;
         let calendar = new Calendar(
@@ -162,6 +138,25 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
         );
         calendar.render();
       });
+  }
+
+  private _appendRecurringEvent(event: Event) {
+    this.events.push({
+      title: event.summary,
+      daysOfWeek: this.getRecurr(event.recurrence[0]),
+      startTime: this.getTimeString(event.start.dateTime),
+      endTime: this.getTimeString(event.end.dateTime),
+      startRecur: event.start.dateTime,
+      endRecur: this.getEndRecurr(event.recurrence[0]),
+    });
+  }
+
+  private _appendRegularEvent(event: Event) {
+    this.events.push({
+      title: event.summary,
+      start: event.start.dateTime,
+      end: event.end.dateTime,
+    });
   }
 
   ngOnDestroy(): void {
