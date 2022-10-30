@@ -1,7 +1,7 @@
 import { Time } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { first, Subscription } from 'rxjs';
 import { ONE_DAY_AGO, ONE_MONTH_AGO, ONE_WEEK_AGO } from 'src/app/constants';
 import {
   CalendarList,
@@ -14,8 +14,6 @@ import { GcalStorageService } from '../gcal-storage/gcal-storage.service';
 
 const GOOGLE_CALENDAR_API = 'https://www.googleapis.com/calendar/v3';
 
-
-
 /**
  * @note Gcal stands for Google Calendar
  */
@@ -23,7 +21,9 @@ const GOOGLE_CALENDAR_API = 'https://www.googleapis.com/calendar/v3';
   providedIn: 'root',
 })
 export class GcalHttpService {
-  dataFetched$ = new Subject<boolean>();
+  calendarListSubscription: Subscription
+  eventListSubscription: Subscription
+  dataFetchedSubscription: Subscription
 
   constructor(
     private _http: HttpClient,
@@ -33,7 +33,7 @@ export class GcalHttpService {
   fetchData() {
     this._fetchCalendarList();
 
-    this._gcalStorageService.calendarList$.subscribe(
+    this.calendarListSubscription = this._gcalStorageService.calendarList$.subscribe(
       (calendarList: CalendarList) => {
         if (this._gcalStorageService.calendarList$.getValue() === null) return; // skip init value
 
@@ -43,7 +43,7 @@ export class GcalHttpService {
       }
     );
 
-    this._handleDataFetchedStream()
+    this._handleDataFetchedStream();
   }
 
   /**
@@ -51,7 +51,7 @@ export class GcalHttpService {
    * @see this.fetchData()
    */
   private _handleDataFetchedStream() {
-    this._gcalStorageService.eventList$.subscribe((eventList: EventList) => {
+    this.eventListSubscription = this._gcalStorageService.eventList$.subscribe((eventList: EventList) => {
       if (eventList === null) return; // skip init value
       if (
         eventList.length <
@@ -59,9 +59,13 @@ export class GcalHttpService {
       )
         return;
 
-
-      return this.dataFetched$.next(true);
+      return this._gcalStorageService.dataFetched$.next(true);
     });
+
+    this._gcalStorageService.dataFetched$.pipe(first()).subscribe(() => { // first() unsubscribes after first observation
+      this.calendarListSubscription.unsubscribe()
+      this.eventListSubscription.unsubscribe()
+    })
   }
 
   /**
@@ -143,14 +147,14 @@ export class GcalHttpService {
    * @see _fetchCalendarEvents
    */
   private _removeInvalidEvents(events: Event[]): Event[] {
-    return events.filter((event: Event) => this._isInvalidEvent(event));
+    return events.filter((event: Event) => !this._isInvalidEvent(event));
   }
   private _isInvalidEvent(event: Event): boolean {
-    // if (!this._isCancelledEvent(event)) return false
-    return this._isCancelledEvent(event) || this._isTimedEvent(event);
+    if (this._isCancelledEvent(event)) return true
+    return !this._isTimedEvent(event);
   }
   private _isCancelledEvent(event: Event): boolean {
-    return event.status !== 'cancelled';
+    return event.status === 'cancelled';
   }
   private _isTimedEvent(event: Event): boolean {
     return 'dateTime' in event.start;
