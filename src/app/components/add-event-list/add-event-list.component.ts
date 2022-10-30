@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { BoundsCheckerService } from '../shared/services/bounds-checker/bounds-checker.service';
+import { BoundsCheckerService } from '../../shared/services/bounds-checker/bounds-checker.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

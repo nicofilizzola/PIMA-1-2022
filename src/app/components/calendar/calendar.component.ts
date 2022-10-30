@@ -5,7 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { Calendar } from '@fullcalendar/core';
 import rrulePlugin from '@fullcalendar/rrule'
 import { GcalService } from '../shared/services/gcal/gcal.service';
-import { CalendarList, CalendarListEntry } from '../models/calendar-list.model'
+import { CalendarList, CalendarListEntry } from '../../models/calendar-list.model'
 import { ONE_DAY_AGO, ONE_MONTH_AGO, ONE_WEEK_AGO } from 'src/app/constants';
 import { Event, EventList } from 'src/app/models/event.model';
 
@@ -17,7 +17,7 @@ import { Event, EventList } from 'src/app/models/event.model';
 })
 
 export class CalendarComponent implements AfterViewInit {
-  
+
 
   events = [];
 
@@ -31,14 +31,14 @@ export class CalendarComponent implements AfterViewInit {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
-    initialView: 'timeGridWeek',    
+    initialView: 'timeGridWeek',
     weekends: true,
     editable: true,
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
     events: this.events,
-    
+
   };
   constructor(private gcal : GcalService) { }
 
@@ -48,7 +48,7 @@ export class CalendarComponent implements AfterViewInit {
   }
 
   /**
-   * 
+   *
    * @param str String respecting ISO 8601 date and time
    * @returns string containing only time
    */
@@ -57,13 +57,13 @@ export class CalendarComponent implements AfterViewInit {
   }
 
   /**
-   * 
+   *
    * @param str String respecting RRULE format
    * @returns date after "UNTIL=" if it exists. Otherwise the result is undefined
    * */
   getEndRecurr(str) {
     return (str.substring(
-      str.indexOf("UNTIL=") + 6, 
+      str.indexOf("UNTIL=") + 6,
       str.lastIndexOf("T")));
   }
   /**
@@ -71,18 +71,18 @@ export class CalendarComponent implements AfterViewInit {
    * @returns array containing ints corresponding to days of recurrence from a RRULE string
    *        (Sunday --> 0, Monday --> 1, ..., Saturday --> 6) */
   getRecurr(str) {
-    
+
     var recurringDays = [];
 
     var split_string = str.split(/;|:/);
-    
+
     var type_recurr= split_string.find(x=> x.substring(0,5) == "FREQ=");
 
     if (type_recurr == "FREQ=DAILY") {
       recurringDays = [0,1,2,3,4,5,6];
     }
     else {
-      
+
       var rec =  split_string.find(x=> x.substring(0,5) == "BYDAY");
       var days = rec.split(/,|=/);
 
@@ -114,7 +114,7 @@ export class CalendarComponent implements AfterViewInit {
           default:
             break;
         }
-        
+
     });
   }
     }
@@ -123,19 +123,19 @@ export class CalendarComponent implements AfterViewInit {
 
   setUpCalendar() {
 
-    //Array of calendar's id that are already taken into account, to not include events from the same calendar multiple times 
+    //Array of calendar's id that are already taken into account, to not include events from the same calendar multiple times
     var calendarIdListSeen = [];
 
-    this.gcal.calendarList$.subscribe( (_calendarList: CalendarList) => 
+    this.gcal.calendarList$.subscribe( (_calendarList: CalendarList) =>
       {
       _calendarList.forEach( calendar => {
         this.gcal.fetchCalendarEvents(calendar.id,ONE_MONTH_AGO);
       })
       } );
 
-    this.gcal.eventList$.subscribe ( (_eventList: EventList) => 
+    this.gcal.eventList$.subscribe ( (_eventList: EventList) =>
       {
-      
+
 
       if (_eventList==null) {
         return;
@@ -146,18 +146,18 @@ export class CalendarComponent implements AfterViewInit {
         var calendarId = fields[0];
 
         if (!calendarIdListSeen.includes(calendarId)) {
-        
+
 
           calendarIdListSeen.push(calendarId);
 
           var eventlist = fields[1];
-          eventlist.forEach( _event => 
+          eventlist.forEach( _event =>
           {
             if(_event["start"]["dateTime"] == undefined){
               return;
-            } 
-              
-              if(_event["recurrence"]!=undefined) 
+            }
+
+              if(_event["recurrence"]!=undefined)
               {
                 this.events.push({
                   title: _event["summary"],
@@ -168,21 +168,21 @@ export class CalendarComponent implements AfterViewInit {
                   endRecur: this.getEndRecurr(_event["recurrence"][0]),
                 })
               }
-              else 
+              else
               {
-                this.events.push({ 
-                  title: _event["summary"], 
-                  start: _event["start"]["dateTime"], 
-                  end: _event["end"]["dateTime"], 
+                this.events.push({
+                  title: _event["summary"],
+                  start: _event["start"]["dateTime"],
+                  end: _event["end"]["dateTime"],
                 }
-              );    
+              );
               }
             }
           )
-          
-        } 
+
+        }
       }
-      
+
 
         this.calendarOptions.events = this.events;
         let calendar = new Calendar(this.myCalendar.nativeElement, this.calendarOptions);
@@ -192,7 +192,7 @@ export class CalendarComponent implements AfterViewInit {
   )
 
   this.gcal.fetchCalendarList();
-  
+
   }
 
 
