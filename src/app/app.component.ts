@@ -15,6 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _gapiService: GapiService,
+    private readonly _gcalService: GcalService
   ) {}
 
   ngOnInit(): void {
@@ -27,6 +28,8 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       )
     );
+
+    this._gcalService.fetchAllCalendarEvents()
   }
 
   ngOnDestroy(): void {
