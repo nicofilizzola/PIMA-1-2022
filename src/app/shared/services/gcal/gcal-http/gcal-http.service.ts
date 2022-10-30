@@ -14,11 +14,7 @@ import { GcalStorageService } from '../gcal-storage/gcal-storage.service';
 
 const GOOGLE_CALENDAR_API = 'https://www.googleapis.com/calendar/v3';
 
-enum TimeMinFlag {
-  ONE_DAY_AGO,
-  ONE_WEEK_AGO,
-  ONE_MONTH_AGO,
-}
+
 
 /**
  * @note Gcal stands for Google Calendar
