@@ -14,6 +14,9 @@ export class PercentageService {
     this.initialize();
   }
 
+  /**
+   * @note This method must be called whenever there is a relevant data fetch
+   */
   public initialize() {
     this._gcalStorageService.dataFetched$.pipe(first()).subscribe(() => {
       this._fetchedEvents = this._gcalStorageService.getEventList();
@@ -23,14 +26,6 @@ export class PercentageService {
           .map((eventListEntry: EventListEntry) => eventListEntry[1])
           .flat()
       );
-
-      console.log('TOTAL TIME: ' + this.totalEventTime);
-      Object.entries(this._fetchedEvents).forEach((ele) => {
-        console.log('CALENDAR ID: ' + ele[0]);
-        console.log(
-          'CALENDAR PERCENTAGE: ' + this.getCalendarPercentage(ele[0])
-        );
-      });
     });
   }
 
