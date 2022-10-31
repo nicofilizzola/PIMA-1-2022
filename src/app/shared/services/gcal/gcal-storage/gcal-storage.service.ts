@@ -14,7 +14,7 @@ export class GcalStorageService {
    */
   calendarList$ = new BehaviorSubject<CalendarList>(null);
   eventList$ = new BehaviorSubject<EventList>(null);
-  dataFetched$ = new Subject<boolean>()
+  dataFetched$ = new Subject<boolean>();
 
   constructor() {}
 
@@ -62,14 +62,17 @@ export class GcalStorageService {
     let eventListEntries = Object.entries(this.eventList$.getValue());
     let rangedEventListEntries = eventListEntries.map(
       (eventListEntry: EventListEntry) => {
-        return this._getRangedEventList(
-          eventListEntry[1],
-          timestampMin,
-          timestampMax
-        );
+        return [
+          eventListEntry[0],
+          this._getRangedEventList(
+            eventListEntry[1],
+            timestampMin,
+            timestampMax
+          ),
+        ];
       }
     );
-    let rangedEventList = Object.fromEntries(rangedEventListEntries);
+    let rangedEventList: EventList = Object.fromEntries(rangedEventListEntries);
     return rangedEventList;
   }
 

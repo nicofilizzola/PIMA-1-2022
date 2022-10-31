@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GapiService } from './shared/services/gapi/gapi.service';
 import { GcalHttpService } from './shared/services/gcal/gcal-http/gcal-http.service';
+import { PercentageService } from './shared/services/percentage/percentage.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _gapiService: GapiService,
-    private readonly _gcalHttpService: GcalHttpService
+    private readonly _gcalHttpService: GcalHttpService,
+    private per: PercentageService
   ) {}
 
   ngOnInit(): void {

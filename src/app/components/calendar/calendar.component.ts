@@ -5,12 +5,11 @@ import {
   ElementRef,
   AfterViewInit,
 } from '@angular/core';
-import { Calendar, createPlugin } from '@fullcalendar/core';
+import { Calendar } from '@fullcalendar/core';
 import { CalendarOptions } from '@fullcalendar/web-component';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import rrulePlugin from '@fullcalendar/rrule';
-import { ONE_MONTH_AGO } from 'src/app/constants';
 import { Event, EventList, EventListEntry } from 'src/app/models/event.model';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { Subscription } from 'rxjs';
@@ -118,7 +117,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   setupCalendar() {
     this.dataFetchedSubscription =
       this._gcalStorageService.dataFetched$.subscribe(() => {
-        this.fetchedEvents = this._gcalStorageService.eventList$.getValue();
+        this.fetchedEvents = this._gcalStorageService.getEventList()
 
         Object.entries(this.fetchedEvents).forEach(
           (eventListEntry: EventListEntry) => {

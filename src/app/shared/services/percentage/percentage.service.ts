@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { first } from 'rxjs';
 import { Event, EventList, EventListEntry } from 'src/app/models/event.model';
 import { GcalStorageService } from '../gcal/gcal-storage/gcal-storage.service';
 
@@ -9,16 +10,28 @@ export class PercentageService {
   private _fetchedEvents: EventList;
   totalEventTime: number;
 
-  constructor(private _gcalStorageService: GcalStorageService) {}
+  constructor(private _gcalStorageService: GcalStorageService) {
+    this.initialize();
+  }
 
   public initialize() {
-    this._fetchedEvents = this._gcalStorageService.getEventList();
+    this._gcalStorageService.dataFetched$.pipe(first()).subscribe(() => {
+      this._fetchedEvents = this._gcalStorageService.getEventList();
 
-    this._setTotalEventTime(
-      Object.entries(this._fetchedEvents)
-        .map((eventListEntry: EventListEntry) => eventListEntry[1])
-        .flat()
-    );
+      this._setTotalEventTime(
+        Object.entries(this._fetchedEvents)
+          .map((eventListEntry: EventListEntry) => eventListEntry[1])
+          .flat()
+      );
+
+      console.log('TOTAL TIME: ' + this.totalEventTime);
+      Object.entries(this._fetchedEvents).forEach((ele) => {
+        console.log('CALENDAR ID: ' + ele[0]);
+        console.log(
+          'CALENDAR PERCENTAGE: ' + this.getCalendarPercentage(ele[0])
+        );
+      });
+    });
   }
 
   /**
