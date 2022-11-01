@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ONE_WEEK_AGO } from './constants';
 import { GapiService } from './shared/services/gapi/gapi.service';
-import { GcalService } from './shared/services/gcal/gcal.service';
+import { GcalHttpService } from './shared/services/gcal/gcal-http/gcal-http.service';
 import { PercentageService } from './shared/services/percentage/percentage.service';
 
 @Component({
@@ -15,6 +14,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _gapiService: GapiService,
+    private readonly _gcalHttpService: GcalHttpService,
+    private per: PercentageService
   ) {}
 
   ngOnInit(): void {
@@ -27,6 +28,10 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       )
     );
+
+    if (this._gapiService.getAuthenticatedUserEmail()) {
+      this._gcalHttpService.fetchData();
+    }
   }
 
   ngOnDestroy(): void {
