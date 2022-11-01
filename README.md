@@ -9,6 +9,12 @@ Pour pouvoir lancer le projet, il vous faut installer :
 
 * Pour lancer le projet utilisez la commande `ng serve` dans votre terminal. Faites attention de bien vous trouver dans le répertoire correcte, sinon ça marchera pas.
 * Après la première fois que vous avez pull le projet angular, il faudra installer toutes les dépendances spécifiées dans le package JSON sur votre machine. Pour ceci utilisez la commande `npm install`. **Disclaimer, cela peut prendre un peut de temps.**
+
+# Récupération des données de l'API
+
+La mobilisation des données de l'API se fait à travers deux services :
+* Le `GcalHttpService`, qui fait les appels et la communication directement avec l'API, et qui les stocke dans `GcalStorageService`. Vous n'aurez donc à toucher ce service là que si vous devez modifier les appels API.
+* Le `GcalStorageService`, qui contient les données récupérés par l'API et qui les met à disposition pour les différents éléments (**components, services, etc**) de l'application. Ce service sert donc en tant que **storage global**, et chaque élément doit donc contenir son **storage local**. Ce service propose ainsi un certain nombre de méthodes permettant de récupérer et de trier les données du storage global, afin de proposer une gestion simplifiée des données pour chaque élément avec un minimum de requêtes HTTP.
   
 # Tuto angular
 
@@ -18,7 +24,7 @@ Pour plus d'informations vous pouvez toujours consulter [la doc d'Angular](https
 
 ## Composants
 
-Les composants sont "l'unité principale" utilisé dans Angular. Ils s'écrivent sous forme d'objet et ils sont souvent utilisés afin d'éviter de hardcorder des trucs répétitifs (par exemple une liste avec des <li> qui ont un lien à chaque fois et qui ont un traitement particulier) e. Engénéral ils sont composés de la manière suivante :
+Les composants sont "l'unité principale" utilisé dans Angular. Ils s'écrivent sous forme d'objet et ils sont souvent utilisés afin d'éviter de hardcorder des trucs répétitifs (par exemple une liste avec des <li> qui ont un lien à chaque fois et qui ont un traitement particulier) e. En général ils sont composés de la manière suivante :
 
 * _mon-composant.component.ts_ : Contient l'instantiation du composant ;
 * _mon-composant.component.scss_ : Contient le style appliqué sur le composant ;

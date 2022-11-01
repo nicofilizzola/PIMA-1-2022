@@ -20,7 +20,7 @@ const oAuthConfig: AuthConfig = {
   providedIn: 'root',
 })
 export class GapiService {
-  authenticatedUserEmail$ = new BehaviorSubject<string>("INIT"); // Initialization required
+  authenticatedUserEmail$ = new BehaviorSubject<string>("INIT");
 
   constructor(private _oAuthService: OAuthService) {
     this._oAuthService.configure(oAuthConfig);
@@ -51,7 +51,7 @@ export class GapiService {
     this.authenticatedUserEmail$.next(null);
   }
 
-  getauthenticatedUserEmail() {
+  getAuthenticatedUserEmail(): string {
     return this.authenticatedUserEmail$.getValue();
   }
 }
