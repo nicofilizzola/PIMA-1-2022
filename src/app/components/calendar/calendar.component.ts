@@ -44,7 +44,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   constructor(private _gcalStorageService: GcalStorageService) {}
 
   ngAfterViewInit(): void {
-    this.setupCalendar();
+    this._setup();
   }
 
   /**
@@ -114,7 +114,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     return recurringDays;
   }
 
-  setupCalendar() {
+  _setup() {
     this.dataFetchedSubscription =
       this._gcalStorageService.dataFetched$.subscribe(() => {
         this.fetchedEvents = this._gcalStorageService.getEventList()

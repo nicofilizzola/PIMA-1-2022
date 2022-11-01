@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ONE_DAY_AGO, ONE_MONTH_AGO, ONE_WEEK_AGO } from 'src/app/constants';
 import { CalendarList } from 'src/app/models/calendar-list.model';
-import { EventList, EventListEntry, Event } from 'src/app/models/event.model';
+import { EventList, EventListEntry, Event, EventInstances } from 'src/app/models/event.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,8 @@ export class GcalStorageService {
    */
   calendarList$ = new BehaviorSubject<CalendarList>(null);
   eventList$ = new BehaviorSubject<EventList>(null);
+  eventInstances$ = new BehaviorSubject<EventInstances>(null)
+
   dataFetched$ = new Subject<boolean>();
 
   constructor() {}
