@@ -155,7 +155,9 @@ export interface EventList {
  * @note Not provided by the API, this interface allows to easily categorize recurring event instances
  */
 export interface EventInstances {
-  (calendarId): { (eventId): Event[] };
+  (calendarId): {
+    (eventId): Event[];
+  };
 }
 
 /**

@@ -7,7 +7,7 @@ import {
   CalendarList,
   CalendarListEntry,
 } from 'src/app/models/calendar-list.model';
-import { Event, EventList } from 'src/app/models/event.model';
+import { Event, EventInstances, EventList } from 'src/app/models/event.model';
 import { CalendarListListResponse } from 'src/app/models/gcal-response/calendar-list/calendar-list.list.model';
 import { EventListResponse } from 'src/app/models/gcal-response/event/event.list.model';
 import { EventInstancesResponse } from 'src/app/models/gcal-response/event/event.list.model copy';
@@ -131,13 +131,22 @@ export class GcalHttpService {
    * @brief Runs the **Events.instances method**
    */
   fetchRecurringEventInstances(calendarId: string, recurringEventId: string) {
-    this._http.get(
-      `${GOOGLE_CALENDAR_API}/calendars/${calendarId}/events/${recurringEventId}/instances`
-    ).subscribe((response: EventInstancesResponse) => {
-      if (this._gcalStorageService.eventInstances$.getValue() !== null) {
-        this._gcalStorageService.eventInstances$.next(response.items)
-      }
-    })
+    this._http
+      .get(
+        `${GOOGLE_CALENDAR_API}/calendars/${calendarId}/events/${recurringEventId}/instances`
+      )
+      .subscribe((response: EventInstancesResponse) => {
+        let currentEventInstances =
+          this._gcalStorageService.eventInstances$.getValue();
+        let newEventInstances: EventInstances;
+
+        if (currentEventInstances !== null) {
+          newEventInstances = <EventInstances>{ ...currentEventInstances };
+        }
+
+        newEventInstances[calendarId][recurringEventId] = response.items;
+        return this._gcalStorageService.eventInstances$.next(newEventInstances);
+      });
   }
 
   /**
