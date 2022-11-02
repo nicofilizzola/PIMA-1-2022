@@ -56,7 +56,7 @@ export class AddEventItemComponent {
   advancedOptionsActive = false;
   advancedOptionsAnimationState = 'off';
 
-  constructor(private _viewportService: ViewportService, private modalService: NgbModal) {}
+  constructor(private _viewportService: ViewportService, private _modalService: NgbModal) {}
 
   ngOnInit(): void {}
 
@@ -85,7 +85,7 @@ export class AddEventItemComponent {
   }
 
   onOpenDeleteModal(targetModal){
-    this.modalService.open(targetModal, {
+    this._modalService.open(targetModal, {
       backdrop: 'static',
       size: 'lg'
     });
