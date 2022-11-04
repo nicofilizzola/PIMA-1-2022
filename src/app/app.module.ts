@@ -15,6 +15,7 @@ import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { GcalInterceptor } from './interceptors/gcal.interceptor';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AddEventTooltipComponent } from './components/add-event-list/add-event-item/add-event-tooltip/add-event-tooltip.component';
+import { HeaderComponent } from './components/header/header.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { AddEventTooltipComponent } from './components/add-event-list/add-event-
     AddEventItemComponent,
     CalendarComponent,
     TimeFrameSelectComponent,
-    AddEventTooltipComponent
+    AddEventTooltipComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
