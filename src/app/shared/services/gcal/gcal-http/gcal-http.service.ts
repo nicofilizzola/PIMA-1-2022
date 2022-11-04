@@ -1,13 +1,18 @@
 import { Time } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { first, Subscription } from 'rxjs';
+import { first, Subscription, Subject, combineLatestWith } from 'rxjs';
 import { ONE_DAY_AGO, ONE_MONTH_AGO, ONE_WEEK_AGO } from 'src/app/constants';
 import {
   CalendarList,
   CalendarListEntry,
 } from 'src/app/models/calendar-list.model';
-import { Event, EventInstances, EventList } from 'src/app/models/event.model';
+import {
+  Event,
+  EventInstances,
+  EventList,
+  EventListEntry,
+} from 'src/app/models/event.model';
 import { CalendarListListResponse } from 'src/app/models/gcal-response/calendar-list/calendar-list.list.model';
 import { EventListResponse } from 'src/app/models/gcal-response/event/event.list.model';
 import { EventInstancesResponse } from 'src/app/models/gcal-response/event/event.list.model copy';
@@ -22,9 +27,12 @@ const GOOGLE_CALENDAR_API = 'https://www.googleapis.com/calendar/v3';
   providedIn: 'root',
 })
 export class GcalHttpService {
-  calendarListSubscription: Subscription;
-  eventListSubscription: Subscription;
-  dataFetchedSubscription: Subscription;
+  private _calendarListSubscription: Subscription;
+  private _eventListSubscription: Subscription;
+  private _eventInstancesSubscription: Subscription;
+  private _eventListFetched$ = new Subject<number>();
+  private _eventInstancesFetched$ = new Subject<number>();
+  private _fetchCounter = 0;
 
   constructor(
     private _http: HttpClient,
@@ -33,28 +41,70 @@ export class GcalHttpService {
 
   fetchData() {
     this._fetchCalendarList();
+    this._handleEventListFetch();
+    this._handleEventInstancesFetch();
+    this._handleDataFetchedStream();
+    this._fetchCounter++;
+  }
 
-    this.calendarListSubscription =
+  /**
+   * @see this.fetchData
+   */
+  private _handleEventListFetch() {
+    this._calendarListSubscription =
       this._gcalStorageService.calendarList$.subscribe(
         (calendarList: CalendarList) => {
-          if (this._gcalStorageService.calendarList$.getValue() === null)
-            return; // skip init value
+          if (calendarList === null) return; // skip init value
 
           calendarList.forEach((calendarListEntry: CalendarListEntry) => {
             this._fetchCalendarEvents(calendarListEntry.id);
           });
         }
       );
+  }
 
-    this._handleDataFetchedStream();
+  /**
+   * @see this.fetchData
+   */
+  private _handleEventInstancesFetch() {
+    this._eventListSubscription = this._gcalStorageService.eventList$.subscribe(
+      (eventList: EventList) => {
+        if (eventList === null) return; // skip init value
+
+        Object.entries(eventList).forEach((eventListEntry: EventListEntry) => {
+          let calendarId = eventListEntry[0];
+          let events = eventListEntry[1];
+          events.forEach((event: Event) => {
+            if ('recurringEventId' in event) {
+              this._fetchRecurringEventInstances(
+                calendarId,
+                event.recurringEventId
+              );
+            }
+          });
+        });
+      }
+    );
   }
 
   /**
    * @brief Updates the dataFetched$ stream only after all events are fetched from all calendars
-   * @see this.fetchData()
+   * @see this.fetchData
    */
   private _handleDataFetchedStream() {
-    this.eventListSubscription = this._gcalStorageService.eventList$.subscribe(
+
+    // TODO
+    this._eventListFetched$
+      .pipe(combineLatestWith(this._eventInstancesFetched$))
+      .subscribe(([eventListFetched, eventInstancesFetched]: number[]) => {
+        console.log(this._gcalStorageService.getEventList())
+
+        if (eventListFetched === eventInstancesFetched) {
+          return this._gcalStorageService.dataFetched$.next(true)
+        }
+      });
+
+    this._eventListSubscription = this._gcalStorageService.eventList$.subscribe(
       (eventList: EventList) => {
         if (eventList === null) return; // skip init value
         if (
@@ -64,14 +114,30 @@ export class GcalHttpService {
           return;
         }
 
-        return this._gcalStorageService.dataFetched$.next(true);
+        return this._eventListFetched$.next(this._fetchCounter);
       }
     );
 
+    this._eventInstancesSubscription =
+      this._gcalStorageService.eventInstances$.subscribe(
+        (eventInstances: EventInstances) => {
+          if (eventInstances === null) return; // skip init value
+          if (
+            Object.entries(eventInstances).length <
+            this._gcalStorageService.calendarList$.getValue().length
+          ) {
+            return;
+          }
+
+        return this._eventInstancesFetched$.next(this._fetchCounter);
+        }
+      );
+
     this._gcalStorageService.dataFetched$.pipe(first()).subscribe(() => {
       // first() unsubscribes after first observation
-      this.calendarListSubscription.unsubscribe();
-      this.eventListSubscription.unsubscribe();
+      this._calendarListSubscription.unsubscribe();
+      this._eventListSubscription.unsubscribe();
+      this._eventInstancesSubscription.unsubscribe();
     });
   }
 
@@ -111,6 +177,7 @@ export class GcalHttpService {
           maxResults: 2500,
         },
       })
+      .pipe(first())
       .subscribe((response: EventListResponse) => {
         let calendarEvents = <EventList>{
           ...this._gcalStorageService.eventList$.getValue(),
@@ -130,11 +197,12 @@ export class GcalHttpService {
   /**
    * @brief Runs the **Events.instances method**
    */
-  fetchRecurringEventInstances(calendarId: string, recurringEventId: string) {
+  _fetchRecurringEventInstances(calendarId: string, recurringEventId: string) {
     this._http
       .get(
         `${GOOGLE_CALENDAR_API}/calendars/${calendarId}/events/${recurringEventId}/instances`
       )
+      .pipe(first())
       .subscribe((response: EventInstancesResponse) => {
         let currentEventInstances =
           this._gcalStorageService.eventInstances$.getValue();
@@ -144,7 +212,7 @@ export class GcalHttpService {
           newEventInstances = <EventInstances>{ ...currentEventInstances };
         }
 
-        newEventInstances[calendarId][recurringEventId] = response.items;
+        newEventInstances[calendarId][recurringEventId] = response.items; // TODO: BUG HERE, first iteration undefined
         return this._gcalStorageService.eventInstances$.next(newEventInstances);
       });
   }
@@ -176,12 +244,7 @@ export class GcalHttpService {
    * @see _fetchCalendarEvents
    */
   private _removeInvalidEvents(events: Event[]): Event[] {
-    return events.filter((event: Event) => {
-      if ('recurrence' in event) {
-        console.log(event);
-      }
-      !this._isInvalidEvent(event);
-    });
+    return events.filter((event: Event) => !this._isInvalidEvent(event));
   }
   private _isInvalidEvent(event: Event): boolean {
     return this._isCancelledEvent(event) || !this._isTimedEvent(event);
