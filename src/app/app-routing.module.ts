@@ -6,8 +6,8 @@ import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 
 
 const routes: Routes = [
-  { path: 'evenements', component: AddEventListComponent},
-  { path: 'statistiques', component: PieChartComponent },
+  { path: 'events', component: AddEventListComponent},
+  { path: 'stats', component: PieChartComponent },
   { path: '', component: CalendarComponent },
   
 ];
