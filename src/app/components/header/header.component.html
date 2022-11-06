@@ -1,36 +1,61 @@
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-	<div class="container-fluid">
-		<a class="navbar-brand" [routerLink]="'.'" (click)="onRefresh();">Google Calendar +</a>
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="'.'" (click)="onRefresh()">
+      Google Calendar +
+    </a>
 
-		<button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="isMenuCollapsed = !isMenuCollapsed"
+    >
+      &#9776;
+    </button>
 
-		<div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
-			<ul class="navbar-nav">
-				<li class="nav-item active">
-					<a class="nav-link" [routerLink]="'events'" (click)="onRefresh(); isMenuCollapsed = true">Ajout d'événements</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" [routerLink]="'stats'" (click)="onRefresh(); isMenuCollapsed = true">Statistiques</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-
-  <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <button (click)="onRefresh(); isMenuCollapsed = true" type="submit" class="btn btn-secondary ms-2 mb-2">
-            <i class="fa fa-refresh" aria-hidden="true"></i> 
-          </button>          
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a
+            class="nav-link"
+            [routerLink]="'events'"
+            (click)="onRefresh(); isMenuCollapsed = true"
+          >
+            Ajout d'événements
+          </a>
         </li>
         <li class="nav-item">
-          <button (click)="onLogout(); isMenuCollapsed = true" type="submit" class="btn btn-secondary mx-2">
-            <i class="fa fa-sign-out" aria-hidden="true"></i>
-          </button>        
+          <a
+            class="nav-link"
+            [routerLink]="'stats'"
+            (click)="onRefresh(); isMenuCollapsed = true"
+          >
+            Statistiques
+          </a>
         </li>
-    </ul>
+      </ul>
+    </div>
   </div>
 
+  <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item">
+        <button
+          (click)="onRefresh(); isMenuCollapsed = true"
+          type="submit"
+          class="btn btn-secondary ms-2 mb-2"
+        >
+          <i class="fa fa-refresh" aria-hidden="true"></i>
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          (click)="onLogout(); isMenuCollapsed = true"
+          type="submit"
+          class="btn btn-secondary mx-2"
+        >
+          <i class="fa fa-sign-out" aria-hidden="true"></i>
+        </button>
+      </li>
+    </ul>
+  </div>
 </nav>
-
