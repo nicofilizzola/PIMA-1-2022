@@ -4,6 +4,7 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
+  OnInit,
 } from '@angular/core';
 import { Calendar } from '@fullcalendar/core';
 import { CalendarOptions } from '@fullcalendar/web-component';
@@ -19,7 +20,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
-export class CalendarComponent implements AfterViewInit, OnDestroy {
+export class CalendarComponent implements OnInit, OnDestroy {
   fetchedEvents: EventList;
   dataFetchedSubscription: Subscription;
   events = [];
@@ -43,7 +44,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   };
   constructor(private _gcalStorageService: GcalStorageService) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.setupCalendar();
   }
 
@@ -117,8 +118,8 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   setupCalendar() {
     this.dataFetchedSubscription =
       this._gcalStorageService.dataFetched$.subscribe(() => {
-        this.fetchedEvents = this._gcalStorageService.getEventList()
-
+        this.fetchedEvents = this._gcalStorageService.getEventList();
+        this.events=[];
         Object.entries(this.fetchedEvents).forEach(
           (eventListEntry: EventListEntry) => {
             eventListEntry[1].forEach((event: Event) => {
@@ -137,6 +138,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
         );
         calendar.render();
       });
+      
   }
 
   private _appendRecurringEvent(event: Event) {
