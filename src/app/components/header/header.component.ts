@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GapiService } from '../../shared/services/gapi/gapi.service';
+import { GcalHttpService } from '../../shared/services/gcal/gcal-http/gcal-http.service';
+
 
 @Component({
   selector: 'app-header',
@@ -8,12 +10,28 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private modalService: NgbModal) { }
+  public isMenuCollapsed = true;
+  constructor(
+    private readonly _gapiService: GapiService,
+    private readonly _gcalHttpService: GcalHttpService,
+
+  ) {}
 
   ngOnInit(): void {
   }
 
-  public open(modal: any): void {
-    this.modalService.open(modal);
+  onLogout() {
+    this._gapiService.logOut();
   }
+
+  /**
+   * onRefresh fetches data from Google Calendar's API. This function is called whenever the user changes page
+   * or if he activates the refresh button.
+   */
+  onRefresh () {
+    if (this._gapiService.getAuthenticatedUserEmail()) {
+      this._gcalHttpService.fetchData();
+    }
+  }
+
 }
