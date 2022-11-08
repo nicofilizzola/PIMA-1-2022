@@ -1,4 +1,5 @@
 $gray: #dadada;
+$darkgray: #888888;
 
 textarea {
     resize: none;
@@ -12,3 +13,15 @@ textarea {
         background-color: $gray !important;
     }
 }
+
+.delete-button{
+
+    transition: 0.3s;
+}
+
+.delete-icon{
+    vertical-align: -0.5em;
+    cursor: pointer;
+}
+
+

@@ -4,15 +4,15 @@
     'container-md bg-light py-1 my-2': true
   }"
 >
-  <div class="row" *ngIf="collapsed" (click)="onExpand()">
-    <h2 class="col-md-10">{{ title }}</h2>
-    <button
-      class="btn btn-danger col-md-2"
-      (click)="onDeleteItem($event)"
-      *ngIf="isDeletable"
-    >
-      Supprimer évènement
-    </button>
+  <div class="item row position-relative" *ngIf="collapsed" (click)="onExpand()">
+    <h2 class="col-md-11">{{ title }}</h2>
+    <div class="col-md-1 delete-button ">
+      <i
+        class="delete-icon fa-regular fa-trash-can fa-xl"
+        (click)="onDeleteItem($event)"
+        *ngIf="isDeletable"
+      ></i>
+    </div>
   </div>
 
   <form *ngIf="!collapsed">
@@ -308,14 +308,6 @@
           (click)="setAdvancedOptionsActive(false)"
         >
           <u>Cacher les options avancées</u>
-        </button>
-        <button
-          (click)="onDeleteItem()"
-          type="button"
-          class="btn btn-danger"
-          *ngIf="isDeletable"
-        >
-          Supprimer cette tâche &times;
         </button>
       </div>
     </div>
