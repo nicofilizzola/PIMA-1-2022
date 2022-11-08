@@ -48,12 +48,21 @@ export class PieChartComponent implements OnInit, OnDestroy {
     this._dataFetchSubscription =
       this._gcalStorageService.dataFetched$.subscribe(() => {
         this.fetchedEvents = this._gcalStorageService.getEventList();
+
+        this._cleanDatasets();
         this._populateDatasets();
+
         this.chart.update();
       });
   }
 
+  private _cleanDatasets() {
+    this.pieChartDatasets[0].data = [];
+    this.pieChartLabels = []
+  }
+
   /**
+   * @todo Take into account recurring
    * @see this.setup
    */
   private _populateDatasets() {
@@ -63,7 +72,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
 
         this.pieChartDatasets[0].data.push(
           this._percentageService.getCalendarPercentage(calendarId)
-        ); // TODO : Implementation de la gestion du temps
+        );
         this.pieChartLabels.push(calendarId);
       }
     );

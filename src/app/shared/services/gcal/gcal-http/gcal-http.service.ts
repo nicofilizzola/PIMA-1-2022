@@ -28,8 +28,6 @@ const GOOGLE_CALENDAR_API = 'https://www.googleapis.com/calendar/v3';
 })
 export class GcalHttpService {
   private _eventInstancesSubscription: Subscription;
-  private _eventInstancesFetched$ = new Subject<number>();
-  private _fetchCounter = 0;
 
   constructor(
     private _http: HttpClient,
@@ -41,7 +39,6 @@ export class GcalHttpService {
     this._handleEventListFetch();
     this._handleEventInstancesFetch();
     this._handleDataFetchedStream();
-    this._fetchCounter++;
   }
 
   /**
@@ -92,14 +89,15 @@ export class GcalHttpService {
       this._gcalStorageService.eventInstances$.subscribe(
         (eventInstances: EventInstances) => {
           if (eventInstances == null) return; // skip init value
-          if (
-            Object.entries(eventInstances).length <
-            this._gcalStorageService.calendarList$.getValue().length
-          ) {
-            return;
-          }
-
-          return this._eventInstancesFetched$.next(this._fetchCounter);
+          // if (
+          //   Object.entries(eventInstances).length < // todo error here
+          //   this._gcalStorageService.calendarList$.getValue().length
+          // ) {
+          //   return;
+          // }
+          setTimeout(() => {
+            return this._gcalStorageService.dataFetched$.next(true);
+          }, 5000)
         }
       );
 
@@ -180,10 +178,12 @@ export class GcalHttpService {
           newEventInstances = <EventInstances>{ ...currentEventInstances };
         }
 
-        newEventInstances[calendarId] = {}
+        newEventInstances[calendarId] = {};
         newEventInstances[calendarId][recurringEventId] = response.items;
 
-        return this._gcalStorageService.eventInstances$.next(<EventInstances>newEventInstances);
+        return this._gcalStorageService.eventInstances$.next(
+          <EventInstances>newEventInstances
+        );
       });
   }
 

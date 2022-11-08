@@ -78,6 +78,29 @@ export class GcalStorageService {
     return rangedEventList;
   }
 
+  /**
+   * @note Gets all of the fetched event instances from all the calendars in the desired time ranged (if specified)
+   * @note Both time parameters `timestampMin` and `timestampMax` can use constants ONE_DAY_AGO, ONE_WEEK_AGO, ONE_MONTH_AGO,
+   * TODAY, ONE_DAY_FROM_TODAY, ONE_WEEK_FROM_TODAY, ONE_MONTH_FROM_TODAY
+   */
+   getEventInstances(timestampMin?: number, timestampMax?: number): EventList {
+    let eventListEntries = Object.entries(this.eventInstances$.getValue());
+    let rangedEventListEntries = eventListEntries.map(
+      (eventListEntry: EventListEntry) => {
+        return [
+          eventListEntry[0],
+          this._getRangedEventList(
+            eventListEntry[1],
+            timestampMin,
+            timestampMax
+          ),
+        ];
+      }
+    );
+    let rangedEventList: EventList = Object.fromEntries(rangedEventListEntries);
+    return rangedEventList;
+  }
+
   private _getRangedEventList(
     calendarEvents: Event[],
     timestampMin?: number,
