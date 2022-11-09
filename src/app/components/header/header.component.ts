@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
 
   /**
    * onRefresh fetches data from Google Calendar's API. This function is called whenever the user changes page
-   * or if he activates the refresh button.
+   * or if they press the refresh button.
    */
   onRefresh() {
     if (this._gapiService.getAuthenticatedUserEmail()) {
