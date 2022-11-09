@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GcalService } from './gcal-http.service';
+import { GcalHttpService } from './gcal-http.service';
 
 describe('GcalService', () => {
-  let service: GcalService;
+  let service: GcalHttpService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(GcalService);
+    service = TestBed.inject(GcalHttpService);
   });
 
   it('should be created', () => {
