@@ -34,7 +34,8 @@ this._gcalStorageService.dataFetched$.subscribe(() => {
   // On met ici nos getters
   this.displayedEvents = this.getEvents()
 })
-...```js
+...
+```
   
 # Tuto angular
 
