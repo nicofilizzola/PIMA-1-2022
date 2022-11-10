@@ -14,7 +14,27 @@ Pour pouvoir lancer le projet, il vous faut installer :
 
 La mobilisation des données de l'API se fait à travers deux services :
 * Le `GcalHttpService`, qui fait les appels et la communication directement avec l'API, et qui les stocke dans `GcalStorageService`. Vous n'aurez donc à toucher ce service là que si vous devez modifier les appels API.
+* Le `GcalRequesHandlerService`, qui fait les opérations nécéssaires pour 'fetcher' les données de l'API correctement.
 * Le `GcalStorageService`, qui contient les données récupérés par l'API et qui les met à disposition pour les différents éléments (**components, services, etc**) de l'application. Ce service sert donc en tant que **storage global**, et chaque élément doit donc contenir son **storage local**. Ce service propose ainsi un certain nombre de méthodes permettant de récupérer et de trier les données du storage global, afin de proposer une gestion simplifiée des données pour chaque élément avec un minimum de requêtes HTTP.
+
+## Utilisation de GcalStorageService
+
+Pour utiliser les données stockées dans `GcalStorageService`, vous devez comprendre le fonctionnement de l'observable `dataFetched$`.
+Celui-ci envoie un signal dès qu'il est determiné au niveau de `GcalRequesHandlerService` que la récupération des données a fini. Il est donc nécessaire que les getters de `GcalStorageService` soient dans le contexte d'un subscribe de `dataFetched$`, dans le but de :
+* Garantir que l'opération soit repétée dynamiquement à chaque fois qu'un nouveau fetch est complété ;
+* Eviter d'utiliser un getter qui va chercher dans le storage alors que la variable pourrait être encore indéfinie.
+
+Voici un exemple indicatif d'utilisation dans un component :
+`js
+...
+displayedEvents;
+constructor(..., private _gcalStorageService: GcalStorageService, ...) { ... }
+...
+this._gcalStorageService.dataFetched$.subscribe(() => {
+  // On met ici nos getters
+  this.displayedEvents = this.getEvents()
+})
+...`
   
 # Tuto angular
 

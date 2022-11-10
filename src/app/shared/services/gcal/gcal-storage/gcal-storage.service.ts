@@ -10,11 +10,14 @@ export class GcalStorageService {
   /**
    * @note before using state values stored in BehaviorSubjects,
    * always verify that they differ from their initialization value.
+   * This variables must be used ONLY from http
    */
   calendarList$ = new BehaviorSubject<CalendarList>(null);
   eventList$ = new BehaviorSubject<EventList>(null);
   eventInstances$ = new BehaviorSubject<EventInstances>(null)
-
+  /**
+   *
+   */
   dataFetched$ = new Subject<boolean>();
 
   constructor() {}
