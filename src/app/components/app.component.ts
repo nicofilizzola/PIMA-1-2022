@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { GapiService } from './shared/services/gapi/gapi.service';
-import { GcalRequestHandlerService } from './shared/services/gcal/gcal-request-handler/gcal-request-handler.service';
+import { GapiService } from '../shared/services/gapi/gapi.service';
+import { GcalRequestHandlerService } from '../shared/services/gcal/gcal-request-handler/gcal-request-handler.service';
 
 @Component({
   selector: 'app-root',
