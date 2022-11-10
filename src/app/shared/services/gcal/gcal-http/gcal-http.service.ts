@@ -1,8 +1,7 @@
 import { Time } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { first, Subscription, Subject, combineLatestWith } from 'rxjs';
-import { ONE_DAY_AGO, ONE_MONTH_AGO, ONE_WEEK_AGO } from 'src/app/constants';
+import { first, Subject, Subscription } from 'rxjs';
 import {
   CalendarList,
   CalendarListEntry,
@@ -28,6 +27,10 @@ const GOOGLE_CALENDAR_API = 'https://www.googleapis.com/calendar/v3';
 })
 export class GcalHttpService {
   private _eventInstancesSubscription: Subscription;
+  /**
+   * @note used for managing the `dataFetched$` stream
+   */
+  private _calendarsWithRecurringEvents = [];
 
   constructor(
     private _http: HttpClient,
@@ -60,22 +63,32 @@ export class GcalHttpService {
    * @see this.fetchData
    */
   private _handleEventInstancesFetch() {
-    this._gcalStorageService.eventList$.subscribe((eventList: EventList) => {
-      if (eventList === null) return; // skip init value
+    let subscription = this._gcalStorageService.eventList$.subscribe(
+      (eventList: EventList) => {
+        if (eventList === null) return; // skip init value
 
-      Object.entries(eventList).forEach((eventListEntry: EventListEntry) => {
-        let calendarId = eventListEntry[0];
-        let events = eventListEntry[1];
-        events.forEach((event: Event) => {
-          if ('recurringEventId' in event) {
-            this._fetchRecurringEventInstances(
-              calendarId,
-              event.recurringEventId
-            );
-          }
+        Object.entries(eventList).forEach((eventListEntry: EventListEntry) => {
+          let calendarId = eventListEntry[0];
+          let events = eventListEntry[1];
+          events.forEach((event: Event) => {
+            if ('recurringEventId' in event) {
+              if (!this._calendarsWithRecurringEvents.includes(calendarId)) {
+                this._calendarsWithRecurringEvents.push(calendarId);
+              }
+
+              this._fetchRecurringEventInstances(
+                calendarId,
+                event.recurringEventId
+              );
+            }
+          });
         });
-      });
-    });
+      }
+    );
+
+    setTimeout(() => {
+      subscription.unsubscribe();
+    }, 5000);
   }
 
   /**
@@ -89,15 +102,14 @@ export class GcalHttpService {
       this._gcalStorageService.eventInstances$.subscribe(
         (eventInstances: EventInstances) => {
           if (eventInstances == null) return; // skip init value
-          // if (
-          //   Object.entries(eventInstances).length < // todo error here
-          //   this._gcalStorageService.calendarList$.getValue().length
-          // ) {
-          //   return;
-          // }
-          setTimeout(() => {
-            return this._gcalStorageService.dataFetched$.next(true);
-          }, 5000)
+
+          if (
+            Object.entries(eventInstances).length <
+            this._calendarsWithRecurringEvents.length
+          ) {
+            return;
+          }
+          return this._gcalStorageService.dataFetched$.next(true);
         }
       );
 
