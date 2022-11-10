@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { CalendarList } from 'src/app/models/calendar-list.model';
-import { EventList, EventListEntry, Event, EventInstances } from 'src/app/models/event.model';
+import {
+  CalendarList,
+  CalendarListEntry,
+} from 'src/app/models/calendar-list.model';
+import {
+  EventList,
+  EventListEntry,
+  Event,
+  EventInstances,
+} from 'src/app/models/event.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +22,7 @@ export class GcalStorageService {
    */
   calendarList$ = new BehaviorSubject<CalendarList>(null);
   eventList$ = new BehaviorSubject<EventList>(null);
-  eventInstances$ = new BehaviorSubject<EventInstances>(null)
+  eventInstances$ = new BehaviorSubject<EventInstances>(null);
   /**
    *
    */
@@ -42,10 +50,7 @@ export class GcalStorageService {
     );
 
     if (calendarEventListEntry.length === 0) {
-      console.error(
-        "The provided calendarId does not match any of the user's calendar ids"
-      );
-      return;
+      return [];
     }
 
     let calendarEvents = calendarEventListEntry[0][1];
@@ -81,11 +86,39 @@ export class GcalStorageService {
   }
 
   /**
+   * @returns All calendar's event instances
+   */
+  getCalendarEventInstances(
+    calendarId: string,
+    timestampMin?: number,
+    timestampMax?: number
+  ): Event[] {
+    let eventInstances = this.eventInstances$.getValue();
+    let returnEventInstances = [];
+
+    if (calendarId in eventInstances === false) {
+      return [];
+    }
+    for (let calendarId in eventInstances) {
+      for (let eventId in eventInstances[calendarId]) {
+        returnEventInstances.push(eventInstances[calendarId][eventId]);
+      }
+    }
+
+    returnEventInstances = returnEventInstances.flat()
+    return this._getRangedEventList(
+      returnEventInstances,
+      timestampMin,
+      timestampMax
+    );
+  }
+
+  /**
    * @note Gets all of the fetched event instances from all the calendars in the desired time ranged (if specified)
    * @note Both time parameters `timestampMin` and `timestampMax` can use constants ONE_DAY_AGO, ONE_WEEK_AGO, ONE_MONTH_AGO,
    * TODAY, ONE_DAY_FROM_TODAY, ONE_WEEK_FROM_TODAY, ONE_MONTH_FROM_TODAY
    */
-   getEventInstances(timestampMin?: number, timestampMax?: number): EventList {
+  getEventInstances(timestampMin?: number, timestampMax?: number): EventList {
     let eventListEntries = Object.entries(this.eventInstances$.getValue());
     let rangedEventListEntries = eventListEntries.map(
       (eventListEntry: EventListEntry) => {
@@ -101,6 +134,40 @@ export class GcalStorageService {
     );
     let rangedEventList: EventList = Object.fromEntries(rangedEventListEntries);
     return rangedEventList;
+  }
+
+  /**
+   * Returns a list with the calendar's events as well as its event instances
+   */
+  getAllCalendarEvents(
+    calendarId: string,
+    timestampMin?: number,
+    timestampMax?: number
+  ) {
+    console.log("calid: "+calendarId)
+    console.log(this.getCalendarEventList(calendarId, timestampMax, timestampMin))
+    console.log(this.getCalendarEventInstances(calendarId, timestampMin, timestampMax))
+    return [
+      ...this.getCalendarEventList(calendarId, timestampMax, timestampMin),
+      ...this.getCalendarEventInstances(calendarId, timestampMin, timestampMax),
+    ];
+  }
+
+  /**
+   * @returns The complete calendar eventList including recurring events
+   */
+  getAllEventList(timestampMin?: number, timestampMax?: number): EventList {
+    let events = {};
+
+    this.getCalendarList().forEach((calendar: CalendarListEntry) => {
+      events[calendar.id] = this.getAllCalendarEvents(
+        calendar.id,
+        timestampMin,
+        timestampMax
+      );
+    });
+
+    return <EventList>events;
   }
 
   private _getRangedEventList(

@@ -3,6 +3,9 @@ import { first } from 'rxjs';
 import { Event, EventList, EventListEntry } from 'src/app/models/event.model';
 import { GcalStorageService } from '../gcal/gcal-storage/gcal-storage.service';
 
+/**
+ * @todo recurring events management
+ */
 @Injectable({
   providedIn: 'root',
 })

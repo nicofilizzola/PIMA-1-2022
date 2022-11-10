@@ -47,7 +47,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
   private _setup() {
     this._dataFetchSubscription =
       this._gcalStorageService.dataFetched$.subscribe(() => {
-        this.fetchedEvents = this._gcalStorageService.getEventList();
+        this.fetchedEvents = this._gcalStorageService.getAllEventList();
 
         this._cleanDatasets();
         this._populateDatasets();
@@ -62,18 +62,18 @@ export class PieChartComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * @todo Take into account recurring
    * @see this.setup
    */
   private _populateDatasets() {
     Object.entries(this.fetchedEvents).forEach(
       (eventListEntry: EventListEntry) => {
-        let calendarId = eventListEntry[0];
+
 
         this.pieChartDatasets[0].data.push(
-          this._percentageService.getCalendarPercentage(calendarId)
+          eventListEntry[1].length
+          // this._percentageService.getCalendarPercentage(calendarId)
         );
-        this.pieChartLabels.push(calendarId);
+        this.pieChartLabels.push(eventListEntry[0]);
       }
     );
   }
