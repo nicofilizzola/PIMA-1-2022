@@ -71,7 +71,6 @@ export class PieChartComponent implements OnInit, OnDestroy {
 
         this.pieChartDatasets[0].data.push(
           eventListEntry[1].length
-          // this._percentageService.getCalendarPercentage(calendarId)
         );
         this.pieChartLabels.push(this._gcalStorageService.getCalendarSummary(eventListEntry[0]));
       }

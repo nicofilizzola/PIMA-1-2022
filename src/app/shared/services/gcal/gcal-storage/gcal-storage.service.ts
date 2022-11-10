@@ -26,7 +26,9 @@ export class GcalStorageService {
   eventList$ = new BehaviorSubject<EventList>(null);
   eventInstances$ = new BehaviorSubject<EventInstances>(null);
   /**
-   *
+   * Used to signal to the whole application when the data fetch is completed
+   * so the data access can be performed. Subscribe to this observable if you ever
+   * want to use the `GcalStorageService` getters
    */
   dataFetched$ = new Subject<boolean>();
 
@@ -87,9 +89,6 @@ export class GcalStorageService {
     return rangedEventList;
   }
 
-  /**
-   * @returns All calendar's event instances
-   */
   getCalendarEventInstances(
     calendarId: string,
     timestampMin?: number,
