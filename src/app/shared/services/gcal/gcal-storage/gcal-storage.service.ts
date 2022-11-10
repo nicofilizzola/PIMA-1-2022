@@ -148,13 +148,6 @@ export class GcalStorageService {
     timestampMin?: number,
     timestampMax?: number
   ) {
-    console.log('calid: ' + calendarId);
-    console.log(
-      this.getCalendarEventList(calendarId, timestampMax, timestampMin)
-    );
-    console.log(
-      this.getCalendarEventInstances(calendarId, timestampMin, timestampMax)
-    );
     return [
       ...this.getCalendarEventList(calendarId, timestampMax, timestampMin),
       ...this.getCalendarEventInstances(calendarId, timestampMin, timestampMax),
