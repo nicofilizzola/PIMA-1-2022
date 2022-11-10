@@ -25,7 +25,7 @@ Celui-ci envoie un signal dès qu'il est determiné au niveau de `GcalRequesHand
 * Eviter d'utiliser un getter qui va chercher dans le storage alors que la variable pourrait être encore indéfinie.
 
 Voici un exemple indicatif d'utilisation dans un component :
-`js
+```js
 ...
 displayedEvents;
 constructor(..., private _gcalStorageService: GcalStorageService, ...) { ... }
