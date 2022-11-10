@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
 import {
   CalendarList,
   CalendarListEntry,
@@ -10,6 +11,7 @@ import {
   Event,
   EventInstances,
 } from 'src/app/models/event.model';
+import { GapiService } from '../../gapi/gapi.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +30,7 @@ export class GcalStorageService {
    */
   dataFetched$ = new Subject<boolean>();
 
-  constructor() {}
+  constructor(private readonly _gapiService: GapiService) {}
 
   getCalendarList(): CalendarList {
     return this.calendarList$.getValue();
@@ -105,7 +107,7 @@ export class GcalStorageService {
       }
     }
 
-    returnEventInstances = returnEventInstances.flat()
+    returnEventInstances = returnEventInstances.flat();
     return this._getRangedEventList(
       returnEventInstances,
       timestampMin,
@@ -137,16 +139,22 @@ export class GcalStorageService {
   }
 
   /**
-   * Returns a list with the calendar's events as well as its event instances
+   * @returns a list with the calendar's events as well as its event instances
+   * @note Both time parameters `timestampMin` and `timestampMax` can use constants ONE_DAY_AGO, ONE_WEEK_AGO, ONE_MONTH_AGO,
+   * TODAY, ONE_DAY_FROM_TODAY, ONE_WEEK_FROM_TODAY, ONE_MONTH_FROM_TODAY
    */
   getAllCalendarEvents(
     calendarId: string,
     timestampMin?: number,
     timestampMax?: number
   ) {
-    console.log("calid: "+calendarId)
-    console.log(this.getCalendarEventList(calendarId, timestampMax, timestampMin))
-    console.log(this.getCalendarEventInstances(calendarId, timestampMin, timestampMax))
+    console.log('calid: ' + calendarId);
+    console.log(
+      this.getCalendarEventList(calendarId, timestampMax, timestampMin)
+    );
+    console.log(
+      this.getCalendarEventInstances(calendarId, timestampMin, timestampMax)
+    );
     return [
       ...this.getCalendarEventList(calendarId, timestampMax, timestampMin),
       ...this.getCalendarEventInstances(calendarId, timestampMin, timestampMax),
@@ -168,6 +176,18 @@ export class GcalStorageService {
     });
 
     return <EventList>events;
+  }
+
+  getCalendarSummary(calendarId): string {
+    let calendar = this.getCalendarList().find(
+      (calendarListEntry: CalendarListEntry) =>
+        calendarListEntry.id === calendarId
+    );
+
+    if (calendar.id === this._gapiService.getAuthenticatedUserEmail()) {
+      return DEFAULT_CALENDAR_SUMMARY;
+    }
+    return calendar.summary;
   }
 
   private _getRangedEventList(
