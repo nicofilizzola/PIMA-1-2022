@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { ONE_DAY_AGO, ONE_MONTH_AGO, ONE_WEEK_AGO } from 'src/app/constants';
 import { CalendarList } from 'src/app/models/calendar-list.model';
 import { EventList, EventListEntry, Event, EventInstances } from 'src/app/models/event.model';
 
