@@ -1,6 +1,7 @@
 import { Time } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Calendar } from '@fullcalendar/core';
 import { first, Subscription } from 'rxjs';
 import { ONE_DAY_AGO, ONE_MONTH_AGO, ONE_WEEK_AGO } from 'src/app/constants';
 import {
@@ -10,6 +11,7 @@ import {
 import { Event, EventList } from 'src/app/models/event.model';
 import { CalendarListListResponse } from 'src/app/models/gcal-response/calendar-list/calendar-list.list.model';
 import { EventListResponse } from 'src/app/models/gcal-response/event/event.list.model';
+import { GapiService } from '../../gapi/gapi.service';
 import { GcalStorageService } from '../gcal-storage/gcal-storage.service';
 
 const GOOGLE_CALENDAR_API = 'https://www.googleapis.com/calendar/v3';
@@ -158,5 +160,15 @@ export class GcalHttpService {
   }
   private _isTimedEvent(event: Event): boolean {
     return 'dateTime' in event.start;
+  }
+
+  //TODO
+  insertEvent(event: Event,calendarId: String){
+    //GCAL maj 
+    this._http.post(
+      `${GOOGLE_CALENDAR_API}/calendars/${calendarId}/events`,
+      event
+    )
+    //Local maj
   }
 }

@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { BoundsCheckerService } from '../../shared/services/bounds-checker/bounds-checker.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GcalCalendarGeneratorService } from 'src/app/shared/services/gcal/gcal-calendar-generator/gcal-calendar-generator.service';
+import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 
 @Component({
   selector: 'app-add-event-list',
@@ -18,7 +20,9 @@ export class AddEventListComponent implements OnInit {
 
   constructor(
     private _boundsCheckerService: BoundsCheckerService,
-    private _modalService: NgbModal
+    private _modalService: NgbModal,
+    private _gcalGeneratorService: GcalCalendarGeneratorService,
+    private _gcalStorageService: GcalStorageService
   ) {}
 
   ngOnInit(): void {}
@@ -61,5 +65,34 @@ export class AddEventListComponent implements OnInit {
 
   isItemsLengthGreaterThan1() {
     return this.items.length > 1;
+  }
+
+  onValidate(){
+    if(!this.isSelectionOk()){
+      console.log("Mauvaise selection")
+      return
+    }
+    this._gcalGeneratorService.setListEvent(this.eventList())
+      this._gcalGeneratorService.generate()
+      this._gcalGeneratorService.updateLocalStorage()
+      this._gcalStorageService.pushDataAPI()
+  }
+
+  //TODO
+  isSelectionOk(){
+    return true
+  }
+
+  //TODO
+  //Return a mapping of calendarsId to list of events which belongs to them.
+  eventList(){
+    var eventList=[]
+    for (var i in this.items){
+      var event = this.getEventItem(i)
+    }
+  }
+
+  getEventItem(i){
+    
   }
 }

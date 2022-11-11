@@ -98,4 +98,9 @@ export class GcalStorageService {
 
     return filteredEvents;
   }
+
+  //TODO
+  pushDataAPI(){
+
+  }
 }
