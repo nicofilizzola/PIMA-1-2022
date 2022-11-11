@@ -17,6 +17,7 @@ import {
 } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
+
 @Component({
   selector: 'app-add-event-item',
   templateUrl: './add-event-item.component.html',
@@ -60,6 +61,8 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   @Input() expandedItem$: Subject<number>;
   @Input() itemId;
   @Input() isDeletable;
+  @Input() calendarList;
+  
 
   /**
    * @brief Communicate to parent if current item deleted
@@ -92,14 +95,15 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   // Animation
   advancedOptionsAnimationState = 'off';
 
+
   constructor(
     private _viewportService: ViewportService,
-    private _cd: ChangeDetectorRef
+    private _cd: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
     this.expandedItem$.next(this.itemId);
-
+    console.log(this.calendarList);
     this._subscription = this.expandedItem$.subscribe((expandedId) => {
       if (expandedId != this.itemId) {
         this.onCollapse();
