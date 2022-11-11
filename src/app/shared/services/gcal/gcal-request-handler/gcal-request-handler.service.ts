@@ -55,14 +55,14 @@ export class GcalRequestHandlerService {
           let calendarId = eventListEntry[0];
           let events = eventListEntry[1];
           events.forEach((event: Event) => {
-            if ('recurringEventId' in event) {
+            if ('recurrence' in event) {
               if (!this._calendarsWithRecurringEvents.includes(calendarId)) {
                 this._calendarsWithRecurringEvents.push(calendarId);
               }
 
               this._gcalHttpService.fetchRecurringEventInstances(
                 calendarId,
-                event.recurringEventId
+                event.id
               );
             }
           });

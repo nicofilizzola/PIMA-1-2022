@@ -86,6 +86,7 @@ export class GcalStorageService {
       }
     );
     let rangedEventList: EventList = Object.fromEntries(rangedEventListEntries);
+    console.log(rangedEventList)
     return rangedEventList;
   }
 
@@ -107,6 +108,7 @@ export class GcalStorageService {
     }
 
     returnEventInstances = returnEventInstances.flat();
+
     return this._getRangedEventList(
       returnEventInstances,
       timestampMin,
