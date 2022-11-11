@@ -1,3 +1,4 @@
+import { Time } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CalendarList } from 'src/app/models/calendar-list.model';
@@ -10,9 +11,12 @@ import { GcalStorageService } from '../gcal-storage/gcal-storage.service';
 })
 export class GcalCalendarGeneratorService {
 
-  calendarList$ = new BehaviorSubject<CalendarList>(null);
-  eventList$ = new BehaviorSubject<EventList>(null);
-  listEvent
+  calendarList : CalendarList;
+  eventList : EventList;
+  //{calendarId : [events]}
+  listNewEvent;
+  startTime : Time;
+  endTime : Time;
 
   constructor(
     private _gcalStorageService: GcalStorageService,
@@ -20,16 +24,36 @@ export class GcalCalendarGeneratorService {
     ) { }
 
   setListEvent(listEvent){
-    this.listEvent=listEvent;
+    this.listNewEvent=listEvent;
+  }
+
+  setTimeStamp(start : Time,end : Time){
+    this.startTime = start;
+    this.endTime = end
+  }
+
+  updateLocalData(){
+    this.calendarList = this._gcalStorageService.getCalendarList();
+    this.eventList = this._gcalStorageService.getEventList();
   }
 
   generate(){
-
+    this.updateLocalData();
+    var calendarList = this._gcalStorageService.getCalendarList();
+    for (var calendarId in calendarList){
+      var events = this.listNewEvent[calendarId]
+      for (var event in events){
+        this.dumbInsert(calendarId,event)
+      }
+    }
   }
 
-  updateLocalStorage(){
-    this._gcalHttpService.fetchData()
+  //TODO
+  //On le met dans l'api, puis dans le local storage, puis n fait une updateLocalDate
+  dumbInsert(calendarId,event){
 
+
+    this.updateLocalData()
   }
 
 }

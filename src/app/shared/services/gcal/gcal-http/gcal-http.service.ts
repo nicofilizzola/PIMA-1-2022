@@ -164,11 +164,9 @@ export class GcalHttpService {
 
   //TODO
   insertEvent(event: Event,calendarId: String){
-    //GCAL maj 
     this._http.post(
       `${GOOGLE_CALENDAR_API}/calendars/${calendarId}/events`,
       event
     )
-    //Local maj
   }
 }
