@@ -10,6 +10,15 @@ import { GcalStorageService } from '../gcal-storage/gcal-storage.service';
   providedIn: 'root'
 })
 export class GcalCalendarGeneratorService {
+  /**
+   * event : classic gcal event
+   * 
+   * bindEvent : {
+   *  calendarId : String
+   *  event : Event
+   * }
+   * 
+   */
 
   calendarList : CalendarList;
   eventList : EventList;

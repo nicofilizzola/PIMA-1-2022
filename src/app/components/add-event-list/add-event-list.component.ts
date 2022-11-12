@@ -73,9 +73,9 @@ export class AddEventListComponent implements OnInit {
       return
     }
     this._gcalGeneratorService.setListEvent(this.eventList())
-      this._gcalGeneratorService.generate()
-      this._gcalGeneratorService.updateLocalStorage()
-      this._gcalStorageService.pushDataAPI()
+    this._gcalGeneratorService.generate()
+    this._gcalStorageService.pushDataAPI()
+    this.removeAllItems()
   }
 
   //TODO
@@ -94,5 +94,12 @@ export class AddEventListComponent implements OnInit {
 
   getEventItem(i){
     
+  }
+
+  //Solution plus opti ? Comment fait le bouton suppr tous ?
+  removeAllItems(){
+    for (var i in this.items){
+      this.onDeleteItem(i)
+    }
   }
 }

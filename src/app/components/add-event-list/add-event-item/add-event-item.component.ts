@@ -166,4 +166,8 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     }
     return 'on';
   }
+
+  getBindedEvent(){
+    
+  }
 }
