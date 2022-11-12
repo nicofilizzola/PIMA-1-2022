@@ -145,10 +145,19 @@ export interface Event {
 }
 
 /**
- * @brief Not-privided by the API, this interface allows to easily categorize events by calendar
+ * @brief Not provided by the API, this interface allows to easily categorize events by calendar
  */
 export interface EventList {
   (calendarId): Event[];
+}
+
+/**
+ * @note Not provided by the API, this interface allows to easily categorize recurring event instances
+ */
+export interface EventInstances {
+  (calendarId): {
+    (eventId): Event[];
+  };
 }
 
 /**

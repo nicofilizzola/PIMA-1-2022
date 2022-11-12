@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GcalRequestHandlerService } from 'src/app/shared/services/gcal/gcal-request-handler/gcal-request-handler.service';
 import { GapiService } from '../../shared/services/gapi/gapi.service';
-import { GcalHttpService } from '../../shared/services/gcal/gcal-http/gcal-http.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +11,7 @@ export class HeaderComponent implements OnInit {
   public isMenuCollapsed = true;
   constructor(
     private readonly _gapiService: GapiService,
-    private readonly _gcalHttpService: GcalHttpService
+    private readonly _gcalRequestHandlerService: GcalRequestHandlerService
   ) {}
 
   ngOnInit(): void {}
@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
    */
   onRefresh() {
     if (this._gapiService.getAuthenticatedUserEmail()) {
-      this._gcalHttpService.fetchData();
+      this._gcalRequestHandlerService.fetchData();
     }
   }
 }
