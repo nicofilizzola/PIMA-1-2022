@@ -15,8 +15,10 @@ import {
   OnDestroy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { from, Observable, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
+import { Event } from 'src/app/models/event.model'
+import { BindEvent} from 'src/app/models/gcal-response/bindEvent/bind-event.model'
 @Component({
   selector: 'app-add-event-item',
   templateUrl: './add-event-item.component.html',
@@ -168,6 +170,6 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   }
 
   getBindedEvent(){
-    
+
   }
 }
