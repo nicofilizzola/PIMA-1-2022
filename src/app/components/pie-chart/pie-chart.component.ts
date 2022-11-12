@@ -1,33 +1,39 @@
-import { ReturnStatement } from '@angular/compiler';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { pairwise } from 'rxjs';
-import { calendarListEvents } from 'src/fixtures/fixtures';
+import { GcalStorageService } from '../../shared/services/gcal/gcal-storage/gcal-storage.service';
+import { Subscription } from 'rxjs';
+import { EventList, EventListEntry } from '../../models/event.model';
+import { PercentageService } from 'src/app/shared/services/percentage/percentage.service';
 
 @Component({
   selector: 'app-pie-chart',
   templateUrl: './pie-chart.component.html',
-  styleUrls: ['./pie-chart.component.scss']
+  styleUrls: ['./pie-chart.component.scss'],
 })
-export class PieChartComponent implements OnInit {
+export class PieChartComponent implements OnInit, OnDestroy {
+  private _dataFetchSubscription: Subscription;
 
-  pieChartDatasets = [{ data: [] }]
-  pieChartLabels = [] 
+  fetchedEvents: EventList;
+  pieChartDatasets = [{ data: [] }];
+  pieChartLabels = [];
   pieChartOptions: ChartOptions<'pie'> = {
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
   };
 
-  dateInf = Date.now()
-  dateSup = Date.now()
-  
+  dateInf = Date.now();
+  dateSup = Date.now();
+
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
-  constructor() {}
+  constructor(
+    private readonly _gcalStorageService: GcalStorageService,
+    private readonly _percentageService: PercentageService
+  ) {}
 
   ngOnInit(): void {
-    this.setupChart();
+    this._setup();
   }
 
   public setDateInf(dateInf) {
@@ -38,19 +44,40 @@ export class PieChartComponent implements OnInit {
     this.dateSup = dateSup;
   }
 
-  setupChart() {
+  private _setup() {
+    this._dataFetchSubscription =
+      this._gcalStorageService.dataFetched$.subscribe(() => {
+        this.fetchedEvents = this._gcalStorageService.getAllEventList();
 
-    for (const fields of Object.entries(calendarListEvents)) {
+        this._cleanDatasets();
+        this._populateDatasets();
 
-      var calendarName = fields[0]
-      var calendarContent = fields[1]
-
-      if ('items' in calendarContent) {
-        this.pieChartDatasets[0].data.push(calendarContent.items.length) //TODO : Implementation de la gestion du temps
-        this.pieChartLabels.push(calendarName)
-      }
-    }
+        this.chart.update();
+      });
   }
 
-}
+  private _cleanDatasets() {
+    this.pieChartDatasets[0].data = [];
+    this.pieChartLabels = []
+  }
 
+  /**
+   * @see this.setup
+   */
+  private _populateDatasets() {
+    Object.entries(this.fetchedEvents).forEach(
+      (eventListEntry: EventListEntry) => {
+
+
+        this.pieChartDatasets[0].data.push(
+          eventListEntry[1].length
+        );
+        this.pieChartLabels.push(this._gcalStorageService.getCalendarSummary(eventListEntry[0]));
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this._dataFetchSubscription.unsubscribe();
+  }
+}

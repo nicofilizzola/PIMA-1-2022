@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BoundsCheckerService } from '../shared/services/bounds-checker/bounds-checker.service';
+import { BoundsCheckerService } from '../../shared/services/bounds-checker/bounds-checker.service';
 
 @Component({
   selector: 'app-time-frame-select',
