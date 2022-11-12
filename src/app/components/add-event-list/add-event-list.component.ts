@@ -1,9 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { BoundsCheckerService } from '../../shared/services/bounds-checker/bounds-checker.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GcalCalendarGeneratorService } from 'src/app/shared/services/gcal/gcal-calendar-generator/gcal-calendar-generator.service';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
+import { BindEvent } from 'src/app/models/gcal-response/bindEvent/bind-event.model';
 
 @Component({
   selector: 'app-add-event-list',
@@ -12,11 +13,19 @@ import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gc
 })
 export class AddEventListComponent implements OnInit {
   expandedItem$ = new Subject<number>();
+  requestBindEvent$ = new EventEmitter();
+
+  //Observable pour la reponse des enfants.
+  _BindEventResponse = new Observable<BindEvent>();
+
+  private _bindEventSubscription : Subscription;
 
   items = [1];
   lower = '09:00';
   higher = '18:00';
   errorMessageOn = false;
+
+  bindEventList: [BindEvent];
 
   constructor(
     private _boundsCheckerService: BoundsCheckerService,
@@ -25,7 +34,12 @@ export class AddEventListComponent implements OnInit {
     private _gcalStorageService: GcalStorageService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    //Ajout d'un bindEvent dans la liste
+    this._bindEventSubscription = this._BindEventResponse.subscribe((bindEvent) => {
+      this.bindEventList.push(bindEvent);
+    })
+  }
 
   onAddItem() {
     let greatestItemId = Math.max(...this.items);
@@ -68,6 +82,9 @@ export class AddEventListComponent implements OnInit {
   }
 
   onValidate(){
+    this.clearBindEventList();
+    this.requestBindEvent$.emit();
+
     if(!this.isSelectionOk()){
       console.log("Mauvaise selection")
       return
@@ -79,6 +96,11 @@ export class AddEventListComponent implements OnInit {
   }
 
   //TODO
+  clearBindEventList(){
+
+  }
+
+  //TODO
   isSelectionOk(){
     return true
   }
@@ -86,13 +108,6 @@ export class AddEventListComponent implements OnInit {
   //TODO
   //Return a mapping of calendarsId to list of events which belongs to them.
   eventList(){
-    var eventList=[]
-    for (var i in this.items){
-      var event = this.getEventItem(i)
-    }
-  }
-
-  getEventItem(i){
     
   }
 
