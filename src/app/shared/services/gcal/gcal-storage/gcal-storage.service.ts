@@ -86,7 +86,6 @@ export class GcalStorageService {
       }
     );
     let rangedEventList: EventList = Object.fromEntries(rangedEventListEntries);
-    console.log(rangedEventList)
     return rangedEventList;
   }
 
