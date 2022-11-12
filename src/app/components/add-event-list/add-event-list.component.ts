@@ -16,16 +16,19 @@ export class AddEventListComponent implements OnInit {
   requestBindEvent$ = new EventEmitter();
 
   //Observable pour la reponse des enfants.
-  _BindEventResponse = new Observable<BindEvent>();
+  _bindEventResponse$ = new Observable<BindEvent>();
+
+  //La liste des bindEvent est un obs : Des que sa taille est bonne => On fait un truc.
+  bindEventList$ = new Subject<[BindEvent]>();
+  bindEventList : [BindEvent]
 
   private _bindEventSubscription : Subscription;
+  private _bindEventListModificationSubscription: Subscription;
 
   items = [1];
   lower = '09:00';
   higher = '18:00';
   errorMessageOn = false;
-
-  bindEventList: [BindEvent];
 
   constructor(
     private _boundsCheckerService: BoundsCheckerService,
@@ -35,10 +38,25 @@ export class AddEventListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //Ajout d'un bindEvent dans la liste
-    this._bindEventSubscription = this._BindEventResponse.subscribe((bindEvent) => {
-      this.bindEventList.push(bindEvent);
+    //Ajout d'un bindEvent dans la liste, a chaque fois qu'un d'entre eux est push.
+    this._bindEventSubscription = this._bindEventResponse$.subscribe((bindEvent) => {
+      this.bindEventList$.next(this.newList(bindEvent));
     })
+
+    this._bindEventListModificationSubscription = this.bindEventList$.subscribe(() => {
+      if
+    })
+  }
+
+  newList(bindEvent){
+    var newlist =  this.bindEventList
+    newlist.push(bindEvent);
+    this.bindEventList = newlist
+    return newlist
+  }
+
+  ngOnDelete(){
+    this._bindEventSubscription.unsubscribe();
   }
 
   onAddItem() {
@@ -89,6 +107,7 @@ export class AddEventListComponent implements OnInit {
       console.log("Mauvaise selection")
       return
     }
+
     this._gcalGeneratorService.setListEvent(this.eventList())
     this._gcalGeneratorService.generate()
     this._gcalStorageService.pushDataAPI()

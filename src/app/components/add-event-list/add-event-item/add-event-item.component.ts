@@ -64,12 +64,12 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   @Input() itemId;
   @Input() isDeletable;
   @Input() requestBindEvent$; //For the event-list to ask for the BindEvent
+  @Input() bindEventResponse$;
 
   /**
    * @brief Communicate to parent if current item deleted
    */
   @Output() deleteItem = new EventEmitter<number>();
-  @Output() bindEventEmit = new EventEmitter<BindEvent>(); //To give the BindEvent to the parent
 
   collapsed = false;
 
@@ -133,7 +133,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   }
 
   onRequestBindEvent(){
-    this.bindEventEmit.emit(this.bindEvent);
+    this.bindEventResponse$.push(this.bindEvent);
   }
 
   onToggleFixedEvent() {
