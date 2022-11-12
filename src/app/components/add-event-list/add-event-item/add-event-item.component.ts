@@ -58,15 +58,18 @@ import { BindEvent} from 'src/app/models/gcal-response/bindEvent/bind-event.mode
 })
 export class AddEventItemComponent implements OnInit, OnDestroy {
   private _subscription: Subscription;
+  private _eventRequestSubscription: Subscription;
 
   @Input() expandedItem$: Subject<number>;
   @Input() itemId;
   @Input() isDeletable;
+  @Input() requestBindEvent$; //For the event-list to ask for the BindEvent
 
   /**
    * @brief Communicate to parent if current item deleted
    */
   @Output() deleteItem = new EventEmitter<number>();
+  @Output() bindEventEmit = new EventEmitter<BindEvent>(); //To give the BindEvent to the parent
 
   collapsed = false;
 
@@ -94,6 +97,9 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   // Animation
   advancedOptionsAnimationState = 'off';
 
+  //Event
+  bindEvent: BindEvent;
+
   constructor(
     private _viewportService: ViewportService,
     private _cd: ChangeDetectorRef
@@ -109,16 +115,25 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
         this._cd.detectChanges(); // Prevents error after template-used property is changed (this.collapsed)
       }
     });
+    
+    this._eventRequestSubscription = this.requestBindEvent$.subscribe(() => {
+      this.onRequestBindEvent();
+    })
   }
 
   ngOnDestroy() {
     this._subscription.unsubscribe();
+    this._eventRequestSubscription.unsubscribe();
   }
 
   onDeleteItem(event: MouseEvent) {
     event?.stopPropagation(); // Avoids triggering parent event
 
     this.deleteItem.emit(this.itemId);
+  }
+
+  onRequestBindEvent(){
+    this.bindEventEmit.emit(this.bindEvent);
   }
 
   onToggleFixedEvent() {
@@ -169,7 +184,17 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     return 'on';
   }
 
-  getBindedEvent(){
+  generateEvent(){
+    var event: Event
+    //TODO
+    //Parcourir tous les champs
 
+    return event
+  }
+
+  generateBindEvent(){
+    this.bindEvent = new BindEvent;
+    this.bindEvent.calendarId = this.calendar
+    this.bindEvent.event = this.generateEvent()
   }
 }
