@@ -17,6 +17,9 @@ import {
 } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
+import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
+import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
+
 
 @Component({
   selector: 'app-add-event-item',
@@ -71,13 +74,14 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
    */
   @Output() deleteItem = new EventEmitter<number>();
 
+
   collapsed = false;
 
   // Base options
   title: string;
   hourDuration = 1;
   priority = 'Choisir priorité...';
-  calendar = 'Choisir calendrier...';
+  calendar : string;
 
   // Advanced options
   advancedOptionsActive = false;
@@ -101,7 +105,10 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   constructor(
     private _viewportService: ViewportService,
     private _cd: ChangeDetectorRef,
-  ) {}
+    private _gcalStorageService: GcalStorageService
+  ) {
+    this.calendar = "0";
+  }
 
   ngOnInit() {
     this.expandedItem$.next(this.itemId);
@@ -113,6 +120,12 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  onGetSummary(calendarId){
+    return this._gcalStorageService.getCalendarSummary(calendarId);
+  }
+
+  i
 
   ngOnDestroy() {
     this._subscription.unsubscribe();

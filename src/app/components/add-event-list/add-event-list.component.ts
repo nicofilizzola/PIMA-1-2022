@@ -7,6 +7,7 @@ import { CalendarList, CalendarListEntry } from 'src/app/models/calendar-list.mo
 import { Calendar } from 'src/app/models/calendar.model';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 import { GapiService } from 'src/app/shared/services/gapi/gapi.service';
+import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
 
 @Component({
   selector: 'app-add-event-list',
@@ -33,17 +34,19 @@ export class AddEventListComponent implements OnInit {
   ngOnInit(): void {
     this.dataFetchedSubscription =
     this._gcalStorageService.dataFetched$.subscribe(() => {
+      this.calendarList = this._gcalStorageService.getCalendarList();
 
-      this.calendarList = this._gcalStorageService.getCalendarList()
-      
       // Changes the main calendar name to 'Events' and reverse the list
       let email = this._gapiService.getAuthenticatedUserEmail();
-      this.calendarList.find(calendar => calendar.summary === email).summary = "Events";
       this.calendarList.reverse();
   });
-
-
   }
+
+
+  
+  getCalendarSummary(calendarId){
+    return this._gcalStorageService.getCalendarSummary(calendarId);
+  };
 
   onAddItem() {
     let greatestItemId = Math.max(...this.items);
