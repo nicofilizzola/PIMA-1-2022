@@ -69,12 +69,7 @@
           [(ngModel)]="calendar"
           [ngModelOptions]="{ standalone: true }"
         >
-        <option *ngFor="let calendar of calendarList" [value]="calendar.value">{{calendar.summary}}</option> 
-          <!-- <option selected>Choisir calendrier...</option>
-          <option value="">Personal</option>
-          <option value="">Sport</option>
-          <option value="">Work</option>
-          <option value="s">Holidays</option> -->
+        <option *ngFor="let calendar of calendarList" [selected]="calendar.summary === 'Events'" [value]="calendar.id">{{calendar.summary}}</option> 
         </select>
       </div>
     </div>

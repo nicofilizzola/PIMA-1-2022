@@ -36,7 +36,7 @@ export class AddEventListComponent implements OnInit {
 
       this.calendarList = this._gcalStorageService.getCalendarList()
       
-      // Changes the main calendar name to 'Events' and place it first in the list
+      // Changes the main calendar name to 'Events' and reverse the list
       let email = this._gapiService.getAuthenticatedUserEmail();
       this.calendarList.find(calendar => calendar.summary === email).summary = "Events";
       this.calendarList.reverse();

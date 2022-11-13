@@ -61,6 +61,8 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   @Input() expandedItem$: Subject<number>;
   @Input() itemId;
   @Input() isDeletable;
+
+  // Load the calendarList one single time for all the addEventItem components
   @Input() calendarList;
   
 
@@ -103,7 +105,6 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.expandedItem$.next(this.itemId);
-    console.log(this.calendarList);
     this._subscription = this.expandedItem$.subscribe((expandedId) => {
       if (expandedId != this.itemId) {
         this.onCollapse();
