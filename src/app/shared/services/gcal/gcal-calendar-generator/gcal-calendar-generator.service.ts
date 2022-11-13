@@ -58,10 +58,8 @@ export class GcalCalendarGeneratorService {
   }
 
   //TODO
-  //On le met dans l'api, puis dans le local storage, puis n fait une updateLocalDate
+  //On le met dans l'api, puis dans le local storage, puis on fait une updateLocalData
   dumbInsert(calendarId,event){
-
-
     this.updateLocalData()
   }
 

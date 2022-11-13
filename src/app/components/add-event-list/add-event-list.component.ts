@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GcalCalendarGeneratorService } from 'src/app/shared/services/gcal/gcal-calendar-generator/gcal-calendar-generator.service';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { BindEvent } from 'src/app/models/gcal-response/bindEvent/bind-event.model';
+import { Calendar } from '@fullcalendar/core';
 
 @Component({
   selector: 'app-add-event-list',
@@ -18,12 +19,9 @@ export class AddEventListComponent implements OnInit {
   //Observable pour la reponse des enfants.
   _bindEventResponse$ = new Observable<BindEvent>();
 
-  //La liste des bindEvent est un obs : Des que sa taille est bonne => On fait un truc.
-  bindEventList$ = new Subject<[BindEvent]>();
-  bindEventList : [BindEvent]
+  bindEventList : BindEvent[]
 
   private _bindEventSubscription : Subscription;
-  private _bindEventListModificationSubscription: Subscription;
 
   items = [1];
   lower = '09:00';
@@ -34,25 +32,17 @@ export class AddEventListComponent implements OnInit {
     private _boundsCheckerService: BoundsCheckerService,
     private _modalService: NgbModal,
     private _gcalGeneratorService: GcalCalendarGeneratorService,
-    private _gcalStorageService: GcalStorageService
   ) {}
 
   ngOnInit(): void {
     //Ajout d'un bindEvent dans la liste, a chaque fois qu'un d'entre eux est push.
     this._bindEventSubscription = this._bindEventResponse$.subscribe((bindEvent) => {
-      this.bindEventList$.next(this.newList(bindEvent));
+      this.bindEventList.push(bindEvent);
+      if(this.bindEventList.length == this.items.length){
+        this.generate()
+      }
     })
 
-    this._bindEventListModificationSubscription = this.bindEventList$.subscribe(() => {
-      if
-    })
-  }
-
-  newList(bindEvent){
-    var newlist =  this.bindEventList
-    newlist.push(bindEvent);
-    this.bindEventList = newlist
-    return newlist
   }
 
   ngOnDelete(){
@@ -102,21 +92,21 @@ export class AddEventListComponent implements OnInit {
   onValidate(){
     this.clearBindEventList();
     this.requestBindEvent$.emit();
-
+  }
+  
+  generate(){
     if(!this.isSelectionOk()){
-      console.log("Mauvaise selection")
-      return
+      return;
     }
-
-    this._gcalGeneratorService.setListEvent(this.eventList())
-    this._gcalGeneratorService.generate()
-    this._gcalStorageService.pushDataAPI()
-    this.removeAllItems()
+    this._gcalGeneratorService.setListEvent(this.eventMap());
+    this.removeAllItems();
   }
 
-  //TODO
+  //Maybe pas le plus otpimal
   clearBindEventList(){
-
+    while(this.bindEventList.length > 0){
+      this.bindEventList.pop();
+    }
   }
 
   //TODO
@@ -126,8 +116,11 @@ export class AddEventListComponent implements OnInit {
 
   //TODO
   //Return a mapping of calendarsId to list of events which belongs to them.
-  eventList(){
-    
+  eventMap(){
+    var map; 
+    for (var bindEvent in this.bindEventList){
+      
+    }
   }
 
   //Solution plus opti ? Comment fait le bouton suppr tous ?
