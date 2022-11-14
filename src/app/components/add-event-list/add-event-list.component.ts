@@ -6,6 +6,7 @@ import { GcalCalendarGeneratorService } from 'src/app/shared/services/gcal/gcal-
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { BindEvent } from 'src/app/models/gcal-response/bindEvent/bind-event.model';
 import { Calendar } from '@fullcalendar/core';
+import { Event } from 'src/app/models/event.model'
 
 @Component({
   selector: 'app-add-event-list',
@@ -123,7 +124,11 @@ export class AddEventListComponent implements OnInit {
       if (map.has(id)) {
         var list = map.get(id);
         list.push(bindEvent.event);
+        //Ok avec le passage par reference ? 
       } else {
+        var list = new Event[1];
+        list.push(bindEvent.event);
+        map.set(id,list);
       }
     });
     return map;
