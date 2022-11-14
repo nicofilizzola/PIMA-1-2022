@@ -194,13 +194,10 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   }
 
   generateEvent() {
-    var event: Event;
     //TODO
     //Parcourir tous les champs
-    event.summary = this.title;
 
     if (this.location) {
-      event.location = this.location;
     }
 
     return event;

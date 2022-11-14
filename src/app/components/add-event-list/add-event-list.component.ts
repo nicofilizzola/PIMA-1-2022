@@ -20,7 +20,7 @@ export class AddEventListComponent implements OnInit {
   //Observable pour la reponse des enfants.
   _bindEventResponse$ = new Observable<BindEvent>();
 
-  bindEventList: BindEvent[];
+  bindEventList: BindEvent[] = [];
 
   private _bindEventSubscription: Subscription;
 
@@ -33,7 +33,7 @@ export class AddEventListComponent implements OnInit {
     private _boundsCheckerService: BoundsCheckerService,
     private _modalService: NgbModal,
     private _gcalGeneratorService: GcalCalendarGeneratorService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     //Ajout d'un bindEvent dans la liste, a chaque fois qu'un d'entre eux est push.
@@ -124,10 +124,8 @@ export class AddEventListComponent implements OnInit {
       if (map.has(id)) {
         var list = map.get(id);
         list.push(bindEvent.event);
-        //Ok avec le passage par reference ? 
       } else {
-        var list = new Event[1];
-        list.push(bindEvent.event);
+        var list = [bindEvent.event];
         map.set(id,list);
       }
     });
