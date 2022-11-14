@@ -19,9 +19,9 @@ export class AddEventListComponent implements OnInit {
   //Observable pour la reponse des enfants.
   _bindEventResponse$ = new Observable<BindEvent>();
 
-  bindEventList : BindEvent[]
+  bindEventList: BindEvent[];
 
-  private _bindEventSubscription : Subscription;
+  private _bindEventSubscription: Subscription;
 
   items = [1];
   lower = '09:00';
@@ -31,21 +31,22 @@ export class AddEventListComponent implements OnInit {
   constructor(
     private _boundsCheckerService: BoundsCheckerService,
     private _modalService: NgbModal,
-    private _gcalGeneratorService: GcalCalendarGeneratorService,
+    private _gcalGeneratorService: GcalCalendarGeneratorService
   ) {}
 
   ngOnInit(): void {
     //Ajout d'un bindEvent dans la liste, a chaque fois qu'un d'entre eux est push.
-    this._bindEventSubscription = this._bindEventResponse$.subscribe((bindEvent) => {
-      this.bindEventList.push(bindEvent);
-      if(this.bindEventList.length == this.items.length){
-        this.generate()
+    this._bindEventSubscription = this._bindEventResponse$.subscribe(
+      (bindEvent) => {
+        this.bindEventList.push(bindEvent);
+        if (this.bindEventList.length == this.items.length) {
+          this.generate();
+        }
       }
-    })
-
+    );
   }
 
-  ngOnDelete(){
+  ngOnDelete() {
     this._bindEventSubscription.unsubscribe();
   }
 
@@ -89,44 +90,48 @@ export class AddEventListComponent implements OnInit {
     return this.items.length > 1;
   }
 
-  onValidate(){
+  onValidate() {
     this.clearBindEventList();
     this.requestBindEvent$.emit();
   }
-  
-  generate(){
-    if(!this.isSelectionOk()){
+
+  generate() {
+    if (!this.isSelectionOk()) {
       return;
     }
     this._gcalGeneratorService.setListEvent(this.eventMap());
     this.removeAllItems();
   }
 
-  //Maybe pas le plus otpimal
-  clearBindEventList(){
-    while(this.bindEventList.length > 0){
+  clearBindEventList() {
+    while (this.bindEventList.length > 0) {
       this.bindEventList.pop();
     }
   }
 
   //TODO
-  isSelectionOk(){
-    return true
+  isSelectionOk() {
+    return true;
   }
 
   //TODO
   //Return a mapping of calendarsId to list of events which belongs to them.
-  eventMap(){
-    var map; 
-    for (var bindEvent in this.bindEventList){
-      
-    }
+  eventMap() {
+    var map = new Map<String, Event[]>();
+    this.bindEventList.forEach((bindEvent) => {
+      var id = bindEvent.calendarId;
+      if (map.has(id)) {
+        var list = map.get(id);
+        list.push(bindEvent.event);
+      } else {
+      }
+    });
+    return map;
   }
 
-  //Solution plus opti ? Comment fait le bouton suppr tous ?
-  removeAllItems(){
-    for (var i in this.items){
-      this.onDeleteItem(i)
+  removeAllItems() {
+    for (var i in this.items) {
+      this.onDeleteItem(i);
     }
   }
 }

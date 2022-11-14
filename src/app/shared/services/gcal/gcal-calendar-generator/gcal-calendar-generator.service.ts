@@ -58,9 +58,15 @@ export class GcalCalendarGeneratorService {
   }
 
   //TODO
-  //On le met dans l'api, puis dans le local storage, puis on fait une updateLocalData
+  //On le met dans l'api, puis dans le local storage, puis ici. 
+  //A la fin on rappelle l'api pour mettre a jour le calendrier local. 
   dumbInsert(calendarId,event){
-    this.updateLocalData()
+    if(event.start != null){
+
+    }
+    else {
+      this._gcalHttpService.insertEvent(event,calendarId);
+    }
   }
 
 }

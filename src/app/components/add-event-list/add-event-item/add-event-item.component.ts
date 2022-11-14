@@ -17,8 +17,8 @@ import {
 } from '@angular/core';
 import { from, Observable, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
-import { Event } from 'src/app/models/event.model'
-import { BindEvent} from 'src/app/models/gcal-response/bindEvent/bind-event.model'
+import { Event } from 'src/app/models/event.model';
+import { BindEvent } from 'src/app/models/gcal-response/bindEvent/bind-event.model';
 @Component({
   selector: 'app-add-event-item',
   templateUrl: './add-event-item.component.html',
@@ -115,10 +115,11 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
         this._cd.detectChanges(); // Prevents error after template-used property is changed (this.collapsed)
       }
     });
-    
+
+    //Observe for the list to ask the item to send its bindEvent.
     this._eventRequestSubscription = this.requestBindEvent$.subscribe(() => {
       this.onRequestBindEvent();
-    })
+    });
   }
 
   ngOnDestroy() {
@@ -130,10 +131,6 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     event?.stopPropagation(); // Avoids triggering parent event
 
     this.deleteItem.emit(this.itemId);
-  }
-
-  onRequestBindEvent(){
-    this.bindEventResponse$.push(this.bindEvent);
   }
 
   onToggleFixedEvent() {
@@ -184,17 +181,28 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     return 'on';
   }
 
-  generateEvent(){
-    var event: Event
-    //TODO
-    //Parcourir tous les champs
-
-    return event
+  //Make the bindEvent relative to this item
+  onRequestBindEvent() {
+    this.generateBindEvent();
+    this.bindEventResponse$.next(this.bindEvent);
   }
 
-  generateBindEvent(){
-    this.bindEvent = new BindEvent;
-    this.bindEvent.calendarId = this.calendar
-    this.bindEvent.event = this.generateEvent()
+  generateBindEvent() {
+    this.bindEvent = new BindEvent();
+    this.bindEvent.calendarId = this.calendar;
+    this.bindEvent.event = this.generateEvent();
+  }
+
+  generateEvent() {
+    var event: Event;
+    //TODO
+    //Parcourir tous les champs
+    event.summary = this.title;
+
+    if (this.location) {
+      event.location = this.location;
+    }
+
+    return event;
   }
 }
