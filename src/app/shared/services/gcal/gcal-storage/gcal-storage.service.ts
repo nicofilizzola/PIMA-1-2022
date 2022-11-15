@@ -177,13 +177,10 @@ export class GcalStorageService {
         calendarListEntry.id === calendarId
     );
 
-    if (calendar != null){
-      if (calendar.id === this._gapiService.getAuthenticatedUserEmail()) {
-        return DEFAULT_CALENDAR_SUMMARY;
-      }
-      return calendar.summary;
+    if (calendar.id === this._gapiService.getAuthenticatedUserEmail()) {
+      return DEFAULT_CALENDAR_SUMMARY;
     }
-    return null;
+    return calendar.summary;
   }
 
   private _getRangedEventList(
