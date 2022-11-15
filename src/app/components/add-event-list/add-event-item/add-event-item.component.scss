@@ -8,6 +8,7 @@ textarea {
 .collapsed-title{
 
     transition: 0.3s;
+    cursor: pointer;
 
     &:hover{
         background-color: $gray !important;
