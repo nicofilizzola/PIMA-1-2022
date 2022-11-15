@@ -38,7 +38,6 @@ import { HeaderComponent } from './components/header/header.component';
     HttpClientModule,
     OAuthModule.forRoot(),
     FormsModule,
-    NgbModule,
   ],
   providers: [
     {

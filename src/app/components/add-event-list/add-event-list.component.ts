@@ -9,6 +9,7 @@ import { ViewportService } from 'src/app/shared/services/viewport/viewport.servi
 import { GapiService } from 'src/app/shared/services/gapi/gapi.service';
 import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
 
+
 @Component({
   selector: 'app-add-event-list',
   templateUrl: './add-event-list.component.html',
@@ -21,6 +22,7 @@ export class AddEventListComponent implements OnInit {
   lower = '09:00';
   higher = '18:00';
   errorMessageOn = false;
+
   calendarList : CalendarList;
   dataFetchedSubscription : Subscription;
 
@@ -47,6 +49,7 @@ export class AddEventListComponent implements OnInit {
   getCalendarSummary(calendarId){
     return this._gcalStorageService.getCalendarSummary(calendarId);
   };
+
 
   onAddItem() {
     let greatestItemId = Math.max(...this.items);

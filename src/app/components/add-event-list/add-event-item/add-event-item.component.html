@@ -19,6 +19,7 @@
     </div>
   </div>
 
+
   <form *ngIf="!collapsed">
     <div [id]="'add-event-item' + itemId" class="row m-4 bg-light">
       <div class="col-md-3 mt-3">
@@ -268,6 +269,8 @@
             [checked]="consecutiveInstances"
             (change)="consecutiveInstances = !consecutiveInstances"
             [disabled]="isConsecutiveInstancesInputDisabled()"
+            name="consecutive-instances" ngModel
+
           />
           <label
             class="form-check-label"
@@ -282,6 +285,8 @@
             [id]="'aei-' + itemId + 'fixed-event'"
             [checked]="fixedEvent"
             (change)="onToggleFixedEvent()"
+            name="fixed-event " ngModel
+
           />
           <label
             class="form-check-label"
@@ -321,10 +326,31 @@
       <div class="delete-button col-md-1">
         <i
           class="delete-icon fa-regular fa-trash-can fa-xl"
-          (click)="onDeleteItem()"
+          (click)="formEmpty() ?  onDeleteItem() : onOpenDeleteModal(contentDelete)"
           *ngIf="isDeletable"
         ></i>
       </div>
     </div>
   </form>
 </div>
+
+<!-- #contentDelete allows to display the modal correctly  -->
+
+<ng-template #contentDelete let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title" id="modal-title">Suppression d'évènement </h4>
+      <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Etes-vous sur de vouloir supprimer cet évènement ?</strong></p>
+      <p>Toutes les informations liées à cet évènement seront définitivement supprimées.
+      Cette opération est irréversible.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Annuler</button>
+      <button type="button" class="btn btn-danger" (click)="onDeleteItem()" (click)="modal.close()">Supprimer</button>
+    </div>
+</ng-template>
+
+

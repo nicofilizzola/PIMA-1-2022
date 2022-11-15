@@ -15,10 +15,12 @@ import {
   OnDestroy,
   ChangeDetectorRef,
 } from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
+
 
 
 @Component({
@@ -65,10 +67,10 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   @Input() itemId;
   @Input() isDeletable;
 
+
   // Load the calendarList one single time for all the addEventItem components
   @Input() calendarList;
   
-
   /**
    * @brief Communicate to parent if current item deleted
    */
@@ -81,7 +83,8 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   title: string;
   hourDuration = 1;
   priority = 'Choisir priorité...';
-  calendar : string;
+  calendar = 'Sélectionner calendrier...';
+
 
   // Advanced options
   advancedOptionsActive = false;
@@ -131,6 +134,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     this._subscription.unsubscribe();
   }
 
+
   onDeleteItem(event: MouseEvent) {
     event?.stopPropagation(); // Avoids triggering parent event
 
@@ -152,6 +156,40 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   isConsecutiveInstancesInputDisabled() {
     return this.instanceTotal < 2 || this.fixedEvent;
   }
+
+
+  onOpenDeleteModal(targetModal){
+    this._modalService.open(targetModal, {
+      backdrop: 'static',
+      size: 'lg'
+    });
+  }
+
+  formEmpty(){    
+
+    // Check if an input from the form has been changed
+    if(this.title !== undefined 
+      || this.hourDuration != 1 
+      || this.priority != "Choisir priorité..."
+      || this.calendar !== "Sélectionner calendrier..."
+      || this.location !== undefined 
+      || this.instanceTotal != 1
+      || this.minDailyInstances !== undefined 
+      || this.maxDailyInstances !== undefined
+      || this.borneInf !== undefined
+      || this.borneSup !== undefined
+      || this.marge !== undefined
+      || this.date !== undefined
+      || this.time !== undefined
+      || this.description !== undefined
+      || this.fixedEvent == true
+      || this.consecutiveInstances == true)
+      {
+        return false;
+      }
+    return true;
+  }
+
 
   /**
    * @TODO
