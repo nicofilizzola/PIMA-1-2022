@@ -19,7 +19,6 @@
     </div>
   </div>
 
-
   <form *ngIf="!collapsed">
     <div [id]="'add-event-item' + itemId" class="row m-4 bg-light">
       <div class="col-md-3 mt-3">
@@ -35,17 +34,47 @@
         />
       </div>
       <div class="col-md-3 mt-3">
-        <label [for]="'aei-' + itemId + '-duration'" class="form-label"
-          >Durée en heures</label
-        >
-        <input
-          type="number"
-          step="0.5"
-          class="form-control"
-          [id]="'aei-' + itemId + '-duration'"
-          [(ngModel)]="hourDuration"
-          [ngModelOptions]="{ standalone: true }"
-        />
+        <div class="row">
+          <div class="col-6">
+            <label [for]="'aei-' + itemId + '-duration'" class="form-label"
+              >Heures</label
+            >
+            <input
+              type="number"
+              step="1"
+              min="0"
+              class="form-control col-6"
+              [id]="'aei-' + itemId + '-duration'"
+              [(ngModel)]="hourDuration"
+              [ngModelOptions]="{ standalone: true }"
+              (change)="onCheckValidTime()"
+              [ngClass]="{ 'is-invalid': errorMessageOn }"
+            />
+          </div>
+
+          <div class="col-6">
+            <label [for]="'aei-' + itemId + '-duration'" class="form-label"
+              >Minutes</label
+            >
+            <input
+              type="number"
+              step="1"
+              min="0"
+              class="form-control"
+              [id]="'aei-' + itemId + '-duration'"
+              [(ngModel)]="minuteDuration"
+              [ngModelOptions]="{ standalone: true }"
+              (change)="onCheckValidTime()"
+              [ngClass]="{ 'is-invalid': errorMessageOn }"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12" *ngIf="errorMessageOn">
+        <ngb-alert [dismissible]="false" [type]="'danger'" class="mt-2">
+          <strong>Attention :</strong> Saisie de periode impossible, verifiez
+          les dates de debut et fin.
+        </ngb-alert>
       </div>
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-priority'" class="form-label"
@@ -74,8 +103,14 @@
           [(ngModel)]="calendar"
           [ngModelOptions]="{ standalone: true }"
         >
-        <option value="0" > Sélectionner un calendrier  </option>
-        <option *ngFor="let calendarTest of calendarList"  [selected]="calendarTest.summary === 'testforapi09@gmail.com'" [value]="calendarTest.id">{{ onGetSummary(calendarTest.id) }}</option> 
+          <option value="0">Sélectionner un calendrier</option>
+          <option
+            *ngFor="let calendarTest of calendarList"
+            [selected]="calendarTest.summary === 'testforapi09@gmail.com'"
+            [value]="calendarTest.id"
+          >
+            {{ onGetSummary(calendarTest.id) }}
+          </option>
         </select>
       </div>
     </div>
@@ -269,8 +304,8 @@
             [checked]="consecutiveInstances"
             (change)="consecutiveInstances = !consecutiveInstances"
             [disabled]="isConsecutiveInstancesInputDisabled()"
-            name="consecutive-instances" ngModel
-
+            name="consecutive-instances"
+            ngModel
           />
           <label
             class="form-check-label"
@@ -285,8 +320,8 @@
             [id]="'aei-' + itemId + 'fixed-event'"
             [checked]="fixedEvent"
             (change)="onToggleFixedEvent()"
-            name="fixed-event " ngModel
-
+            name="fixed-event "
+            ngModel
           />
           <label
             class="form-check-label"
@@ -326,7 +361,9 @@
       <div class="delete-button col-md-1">
         <i
           class="delete-icon fa-regular fa-trash-can fa-xl"
-          (click)="formEmpty() ?  onDeleteItem() : onOpenDeleteModal(contentDelete)"
+          (click)="
+            formEmpty() ? onDeleteItem() : onOpenDeleteModal(contentDelete)
+          "
           *ngIf="isDeletable"
         ></i>
       </div>
@@ -338,19 +375,36 @@
 
 <ng-template #contentDelete let-modal>
   <div class="modal-header">
-      <h4 class="modal-title" id="modal-title">Suppression d'évènement </h4>
-      <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
-    </div>
-    <div class="modal-body">
-      <p><strong>Etes-vous sur de vouloir supprimer cet évènement ?</strong></p>
-      <p>Toutes les informations liées à cet évènement seront définitivement supprimées.
-      Cette opération est irréversible.
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Annuler</button>
-      <button type="button" class="btn btn-danger" (click)="onDeleteItem()" (click)="modal.close()">Supprimer</button>
-    </div>
+    <h4 class="modal-title" id="modal-title">Suppression d'évènement</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-describedby="modal-title"
+      (click)="modal.dismiss()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <p><strong>Etes-vous sur de vouloir supprimer cet évènement ?</strong></p>
+    <p>
+      Toutes les informations liées à cet évènement seront définitivement
+      supprimées. Cette opération est irréversible.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="modal.dismiss()"
+    >
+      Annuler
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="onDeleteItem()"
+      (click)="modal.close()"
+    >
+      Supprimer
+    </button>
+  </div>
 </ng-template>
-
-

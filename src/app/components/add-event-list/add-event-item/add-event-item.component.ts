@@ -5,7 +5,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { ChangeDetectionStrategy } from '@angular/compiler';
 import {
   Component,
   Input,
@@ -16,12 +15,9 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
-import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
-
-
 
 @Component({
   selector: 'app-add-event-item',
@@ -70,7 +66,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   // Load the calendarList one single time for all the addEventItem components
   @Input() calendarList;
-  
+
   /**
    * @brief Communicate to parent if current item deleted
    */
@@ -82,9 +78,10 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   // Base options
   title: string;
   hourDuration = 1;
+  minuteDuration = 1;
   priority = 'Choisir priorité...';
-  calendar = 'Sélectionner calendrier...';
-
+  calendar = 'Choisir calendrier...';
+  errorMessageOn = false;
 
   // Advanced options
   advancedOptionsActive = false;
@@ -108,7 +105,8 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   constructor(
     private _viewportService: ViewportService,
     private _cd: ChangeDetectorRef,
-    private _gcalStorageService: GcalStorageService
+    private _gcalStorageService: GcalStorageService,
+    private _modalService: NgbModal
   ) {
     this.calendar = "0";
   }
@@ -134,7 +132,13 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     this._subscription.unsubscribe();
   }
 
-
+  onCheckValidTime() {
+    if (this.minuteDuration > 59 || this.hourDuration > 23 || this.minuteDuration < 0 || this.hourDuration < 0 || this.minuteDuration % 1 != 0 || this.hourDuration % 1 != 0) {
+      this.errorMessageOn = true;
+    } else {
+      this.errorMessageOn = false;
+    }
+  }
   onDeleteItem(event: MouseEvent) {
     event?.stopPropagation(); // Avoids triggering parent event
 
@@ -165,16 +169,16 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     });
   }
 
-  formEmpty(){    
+  formEmpty(){
 
     // Check if an input from the form has been changed
-    if(this.title !== undefined 
-      || this.hourDuration != 1 
+    if(this.title !== undefined
+      || this.hourDuration != 1
       || this.priority != "Choisir priorité..."
       || this.calendar !== "Sélectionner calendrier..."
-      || this.location !== undefined 
+      || this.location !== undefined
       || this.instanceTotal != 1
-      || this.minDailyInstances !== undefined 
+      || this.minDailyInstances !== undefined
       || this.maxDailyInstances !== undefined
       || this.borneInf !== undefined
       || this.borneSup !== undefined

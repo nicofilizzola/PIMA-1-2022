@@ -16,6 +16,7 @@ import { GcalInterceptor } from './interceptors/gcal.interceptor';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AddEventTooltipComponent } from './components/add-event-list/add-event-item/add-event-tooltip/add-event-tooltip.component';
 import { HeaderComponent } from './components/header/header.component';
+import { StatsViewComponent } from './components/stats-view/stats-view/stats-view.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { HeaderComponent } from './components/header/header.component';
     CalendarComponent,
     TimeFrameSelectComponent,
     AddEventTooltipComponent,
-    HeaderComponent
+    HeaderComponent,
+    StatsViewComponent
   ],
   imports: [
     BrowserModule,
