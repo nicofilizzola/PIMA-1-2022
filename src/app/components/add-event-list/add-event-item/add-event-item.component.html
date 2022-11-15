@@ -312,7 +312,7 @@
           <u>Cacher les options avancées</u>
         </button>
         <button
-          (click)="formEmpty(addEvent) ?  onDeleteItem() : onOpenDeleteModal (contentDelete)"
+          (click)="formEmpty(addEvent) ?  onDeleteItem() : onOpenDeleteModal(contentDelete)"
           type="button"
           class="btn btn-danger"
           *ngIf="isDeletable"
