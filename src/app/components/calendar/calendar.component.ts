@@ -3,7 +3,6 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
-  AfterViewInit,
   OnInit,
 } from '@angular/core';
 import { Calendar } from '@fullcalendar/core';
@@ -23,7 +22,10 @@ import { Subscription } from 'rxjs';
 export class CalendarComponent implements OnInit, OnDestroy {
   fetchedEvents: EventList;
   dataFetchedSubscription: Subscription;
-  events = [];
+  /**
+   * This property is used as a temporary storage for events to prevent a bug related to **fullCalendar**'s configuration
+   */
+  tempEvents = [];
 
   @ViewChild('myCalendar') myCalendar: ElementRef;
 
@@ -42,10 +44,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
     dayMaxEvents: true,
     events: [],
   };
+
   constructor(private _gcalStorageService: GcalStorageService) {}
 
   ngOnInit(): void {
-    this.setupCalendar();
+    this._setup();
   }
 
   /**
@@ -115,34 +118,47 @@ export class CalendarComponent implements OnInit, OnDestroy {
     return recurringDays;
   }
 
-  setupCalendar() {
+  _setup() {
     this.dataFetchedSubscription =
       this._gcalStorageService.dataFetched$.subscribe(() => {
         this.fetchedEvents = this._gcalStorageService.getEventList();
-        this.events=[];
-        Object.entries(this.fetchedEvents).forEach(
-          (eventListEntry: EventListEntry) => {
-            eventListEntry[1].forEach((event: Event) => {
-              if (event.recurrence) {
-                return this._appendRecurringEvent(event);
-              }
-              return this._appendRegularEvent(event);
-            });
-          }
-        );
 
-        this.calendarOptions.events = this.events;
-        let calendar = new Calendar(
-          this.myCalendar.nativeElement,
-          this.calendarOptions
-        );
-        calendar.render();
+        this._clearCalendarData();
+        this._populateCalendarData();
+        this._handleCalendarRendering();
       });
-      
+
+  }
+
+  private _populateCalendarData() {
+    Object.entries(this.fetchedEvents).forEach(
+      (eventListEntry: EventListEntry) => {
+        eventListEntry[1].forEach((event: Event) => {
+          if (event.recurrence) {
+            return this._appendRecurringEvent(event);
+          }
+          return this._appendRegularEvent(event);
+        });
+      }
+    );
+  }
+
+  private _clearCalendarData() {
+    this.tempEvents = [];
+    this.calendarOptions.events = [];
+  }
+
+  private _handleCalendarRendering() {
+    this.calendarOptions.events = this.tempEvents;
+    let calendar = new Calendar(
+      this.myCalendar.nativeElement,
+      this.calendarOptions
+    );
+    calendar.render();
   }
 
   private _appendRecurringEvent(event: Event) {
-    this.events.push({
+    this.tempEvents.push({
       title: event.summary,
       daysOfWeek: this.getRecurr(event.recurrence[0]),
       startTime: this.getTimeString(event.start.dateTime),
@@ -153,7 +169,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   private _appendRegularEvent(event: Event) {
-    this.events.push({
+    this.tempEvents.push({
       title: event.summary,
       start: event.start.dateTime,
       end: event.end.dateTime,
