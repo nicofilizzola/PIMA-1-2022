@@ -71,8 +71,10 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   // Base options
   title: string;
   hourDuration = 1;
+  minuteDuration = 1;
   priority = 'Choisir priorité...';
   calendar = 'Choisir calendrier...';
+  errorMessageOn = false;
 
   // Advanced options
   advancedOptionsActive = false;
@@ -113,6 +115,13 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     this._subscription.unsubscribe();
   }
 
+  onCheckValidTime() {
+    if (this.minuteDuration > 60 || this.hourDuration > 24 || this.minuteDuration % 1 != 0 || this.hourDuration % 1 != 0) {
+      this.errorMessageOn = true;
+    } else {
+      this.errorMessageOn = false;
+    }
+  }
   onDeleteItem(event: MouseEvent) {
     event?.stopPropagation(); // Avoids triggering parent event
 
