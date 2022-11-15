@@ -4,15 +4,19 @@
     'container-md bg-light py-1 my-2': true
   }"
 >
-  <div class="row" *ngIf="collapsed" (click)="onExpand()">
-    <h2 class="col-md-10">{{ title }}</h2>
-    <button
-      class="btn btn-danger col-md-2"
-      (click)="onDeleteItem($event)"
-      *ngIf="isDeletable"
-    >
-      Supprimer évènement
-    </button>
+  <div
+    class="item row position-relative"
+    *ngIf="collapsed"
+    (click)="onExpand()"
+  >
+    <h2 class="col-11">{{ title }}</h2>
+    <div class="col-1 delete-button">
+      <i
+        class="delete-icon fa-regular fa-trash-can fa-xl"
+        (click)="onDeleteItem($event)"
+        *ngIf="isDeletable"
+      ></i>
+    </div>
   </div>
 
 
@@ -311,20 +315,22 @@
         >
           <u>Cacher les options avancées</u>
         </button>
-        <button
-          (click)="formEmpty() ?  onDeleteItem() : onOpenDeleteModal(contentDelete)"
-
-          type="button"
-          class="btn btn-danger"
-          *ngIf="isDeletable"
-        >
-          Supprimer cette tâche &times;
-        </button>
       </div>
     </div>
-    <button type="button" class="btn save" (click)="onCollapse()">
-      Sauvegarder
-    </button>
+    <div class="row">
+      <button type="button" class="btn save col-md-2">
+        <span class="save-text col-md-2" (click)="onCollapse()"
+          >Sauvegarder</span
+        >
+      </button>
+      <div class="delete-button col-md-1">
+        <i
+          class="delete-icon fa-regular fa-trash-can fa-xl"
+          (click)="formEmpty() ?  onDeleteItem() : onOpenDeleteModal(contentDelete)"
+          *ngIf="isDeletable"
+        ></i>
+      </div>
+    </div>
   </form>
 </div>
 
