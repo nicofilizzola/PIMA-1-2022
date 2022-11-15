@@ -116,7 +116,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   }
 
   onCheckValidTime() {
-    if (this.minuteDuration > 59 || this.hourDuration > 23 || this.minuteDuration % 1 != 0 || this.hourDuration % 1 != 0) {
+    if (this.minuteDuration > 59 || this.hourDuration > 23 || this.minuteDuration < 0 || this.hourDuration < 0 || this.minuteDuration % 1 != 0 || this.hourDuration % 1 != 0) {
       this.errorMessageOn = true;
     } else {
       this.errorMessageOn = false;
