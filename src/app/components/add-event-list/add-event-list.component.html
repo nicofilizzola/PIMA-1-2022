@@ -64,8 +64,10 @@
   <app-add-event-item
     *ngFor="let item of items"
     [itemId]="item"
+    [calendarList]="calendarList"
     [isDeletable]="isItemsLengthGreaterThan1()"
     (deleteItem)="onDeleteItem($event)"
+    (getSummary)="getCalendarSummary($event)"
     [expandedItem$]="expandedItem$"
   ></app-add-event-item>
   <div class="container-md">
