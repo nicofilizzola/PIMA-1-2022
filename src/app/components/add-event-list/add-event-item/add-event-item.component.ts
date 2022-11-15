@@ -16,9 +16,10 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NgForm} from '@angular/forms';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
+import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
+import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
 
 
 
@@ -66,10 +67,15 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   @Input() itemId;
   @Input() isDeletable;
 
+
+  // Load the calendarList one single time for all the addEventItem components
+  @Input() calendarList;
+  
   /**
    * @brief Communicate to parent if current item deleted
    */
   @Output() deleteItem = new EventEmitter<number>();
+
 
   collapsed = false;
 
@@ -78,6 +84,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   hourDuration = 1;
   priority = 'Choisir priorité...';
   calendar = 'Sélectionner calendrier...';
+
 
   // Advanced options
   advancedOptionsActive = false;
@@ -97,15 +104,17 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   // Animation
   advancedOptionsAnimationState = 'off';
 
+
   constructor(
-    private _viewportService: ViewportService, 
-    private _modalService: NgbModal,
-    private _cd: ChangeDetectorRef
-  ) {}
+    private _viewportService: ViewportService,
+    private _cd: ChangeDetectorRef,
+    private _gcalStorageService: GcalStorageService
+  ) {
+    this.calendar = "0";
+  }
 
   ngOnInit() {
     this.expandedItem$.next(this.itemId);
-
     this._subscription = this.expandedItem$.subscribe((expandedId) => {
       if (expandedId != this.itemId) {
         this.onCollapse();
@@ -115,10 +124,15 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     });
   }
 
+  onGetSummary(calendarId){
+    return this._gcalStorageService.getCalendarSummary(calendarId);
+  }
+
+  i
+
   ngOnDestroy() {
     this._subscription.unsubscribe();
   }
-
 
 
   onDeleteItem(event: MouseEvent) {
@@ -143,6 +157,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     return this.instanceTotal < 2 || this.fixedEvent;
   }
 
+
   onOpenDeleteModal(targetModal){
     this._modalService.open(targetModal, {
       backdrop: 'static',
@@ -150,7 +165,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     });
   }
 
-  formEmpty(form : NgForm){    
+  formEmpty(){    
 
     // Check if an input from the form has been changed
     if(this.title !== undefined 
@@ -174,6 +189,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
       }
     return true;
   }
+
 
   /**
    * @TODO

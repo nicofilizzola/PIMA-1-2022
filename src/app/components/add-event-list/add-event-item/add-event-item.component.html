@@ -15,7 +15,8 @@
     </button>
   </div>
 
-  <form #addEvent="ngForm" *ngIf="!collapsed">
+
+  <form *ngIf="!collapsed">
     <div [id]="'add-event-item' + itemId" class="row m-4 bg-light">
       <div class="col-md-3 mt-3">
         <label [for]="'aei-' + itemId + '-title'" class="form-label"
@@ -69,11 +70,8 @@
           [(ngModel)]="calendar"
           [ngModelOptions]="{ standalone: true }"
         >
-          <option selected>Choisir calendrier...</option>
-          <option value="">Personal</option>
-          <option value="">Sport</option>
-          <option value="">Work</option>
-          <option value="s">Holidays</option>
+        <option value="0" > Sélectionner un calendrier  </option>
+        <option *ngFor="let calendarTest of calendarList"  [selected]="calendarTest.summary === 'testforapi09@gmail.com'" [value]="calendarTest.id">{{ onGetSummary(calendarTest.id) }}</option> 
         </select>
       </div>
     </div>
@@ -268,6 +266,7 @@
             (change)="consecutiveInstances = !consecutiveInstances"
             [disabled]="isConsecutiveInstancesInputDisabled()"
             name="consecutive-instances" ngModel
+
           />
           <label
             class="form-check-label"
@@ -283,6 +282,7 @@
             [checked]="fixedEvent"
             (change)="onToggleFixedEvent()"
             name="fixed-event " ngModel
+
           />
           <label
             class="form-check-label"
@@ -312,7 +312,8 @@
           <u>Cacher les options avancées</u>
         </button>
         <button
-          (click)="formEmpty(addEvent) ?  onDeleteItem() : onOpenDeleteModal(contentDelete)"
+          (click)="formEmpty() ?  onDeleteItem() : onOpenDeleteModal(contentDelete)"
+
           type="button"
           class="btn btn-danger"
           *ngIf="isDeletable"
