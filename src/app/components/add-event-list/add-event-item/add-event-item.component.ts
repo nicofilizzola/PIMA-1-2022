@@ -19,8 +19,6 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {NgForm} from '@angular/forms';
 
 
 
