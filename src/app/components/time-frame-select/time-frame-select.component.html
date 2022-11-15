@@ -5,9 +5,9 @@
       <div class="col-md-8 mt-2">
         <select (change)="onSelectCustomCheck($event.target.value)" class="form-select">
             <option selected value="notCustomPeriod">Choisir période...</option>
-            <option value="notCustomPeriod">Jour</option>
-            <option value="notCustomPeriod">Semaine</option>
-            <option value="notCustomPeriod">Mois</option>
+            <option value="notCustomPeriod">Dernieres 24h</option>
+            <option value="notCustomPeriod">7 derniers jours</option>
+            <option value="notCustomPeriod">30 derniers jours</option>
             <option value="customPeriod">Période personalisée</option>
         </select>
       </div>
