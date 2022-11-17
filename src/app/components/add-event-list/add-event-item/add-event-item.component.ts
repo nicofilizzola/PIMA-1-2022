@@ -80,7 +80,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   hourDuration = 1;
   minuteDuration = 1;
   priority = 'Choisir priorité...';
-  calendar = 'Choisir calendrier...';
+  calendar = "0";
   errorMessageOn = false;
 
   // Advanced options
@@ -107,9 +107,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     private _cd: ChangeDetectorRef,
     private _gcalStorageService: GcalStorageService,
     private _modalService: NgbModal
-  ) {
-    this.calendar = "0";
-  }
+  ) { }
 
   ngOnInit() {
     this.expandedItem$.next(this.itemId);
@@ -173,11 +171,12 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
     // Check if an input from the form has been changed
     if(this.title !== undefined
-      || this.hourDuration != 1
-      || this.priority != "Choisir priorité..."
-      || this.calendar !== "Sélectionner calendrier..."
+      || this.hourDuration !== 1
+      || this.minuteDuration !== 1
+      || this.priority !== "Choisir priorité..."
+      || this.calendar !== "0"
       || this.location !== undefined
-      || this.instanceTotal != 1
+      || this.instanceTotal !== 1
       || this.minDailyInstances !== undefined
       || this.maxDailyInstances !== undefined
       || this.borneInf !== undefined
@@ -186,8 +185,8 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
       || this.date !== undefined
       || this.time !== undefined
       || this.description !== undefined
-      || this.fixedEvent == true
-      || this.consecutiveInstances == true)
+      || this.fixedEvent === true
+      || this.consecutiveInstances === true)
       {
         return false;
       }
