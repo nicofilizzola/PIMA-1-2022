@@ -3,7 +3,7 @@ import { ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { GcalStorageService } from '../../shared/services/gcal/gcal-storage/gcal-storage.service';
 import { Subscription } from 'rxjs';
-import { EventList, EventListEntry } from '../../models/event.model';
+import { GcalEventList, GcalEventListEntry } from '../../models/event.model';
 import { PercentageService } from 'src/app/shared/services/percentage/percentage.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { PercentageService } from 'src/app/shared/services/percentage/percentage
 export class PieChartComponent implements OnInit, OnDestroy {
   private _dataFetchSubscription: Subscription;
 
-  fetchedEvents: EventList;
+  fetchedGcalEvents: GcalEventList;
   pieChartDatasets = [{ data: [] }];
   pieChartLabels = [];
   pieChartOptions: ChartOptions<'pie'> = {
@@ -47,7 +47,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
   private _setup() {
     this._dataFetchSubscription =
       this._gcalStorageService.dataFetched$.subscribe(() => {
-        this.fetchedEvents = this._gcalStorageService.getAllEventList();
+        this.fetchedGcalEvents = this._gcalStorageService.getAllGcalEventList();
 
         this._cleanDatasets();
         this._populateDatasets();
@@ -65,14 +65,14 @@ export class PieChartComponent implements OnInit, OnDestroy {
    * @see this.setup
    */
   private _populateDatasets() {
-    Object.entries(this.fetchedEvents).forEach(
-      (eventListEntry: EventListEntry) => {
+    Object.entries(this.fetchedGcalEvents).forEach(
+      (eventListEntry: GcalEventListEntry) => {
 
 
         this.pieChartDatasets[0].data.push(
           eventListEntry[1].length
         );
-        this.pieChartLabels.push(this._gcalStorageService.getCalendarSummary(eventListEntry[0]));
+        this.pieChartLabels.push(this._gcalStorageService.getGcalCalendarSummary(eventListEntry[0]));
       }
     );
   }

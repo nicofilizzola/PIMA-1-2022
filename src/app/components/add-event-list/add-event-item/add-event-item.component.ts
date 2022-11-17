@@ -56,7 +56,7 @@ import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gc
     ]),
   ],
 })
-export class AddEventItemComponent implements OnInit, OnDestroy {
+export class AddGcalEventItemComponent implements OnInit, OnDestroy {
   private _subscription: Subscription;
 
   @Input() expandedItem$: Subject<number>;
@@ -64,7 +64,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   @Input() isDeletable;
 
 
-  // Load the calendarList one single time for all the addEventItem components
+  // Load the calendarList one single time for all the addGcalEventItem components
   @Input() calendarList;
 
   /**
@@ -95,7 +95,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   date: string;
   time: string;
   description: string;
-  fixedEvent = false;
+  fixedGcalEvent = false;
   consecutiveInstances = false;
 
   // Animation
@@ -121,7 +121,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   }
 
   onGetSummary(calendarId){
-    return this._gcalStorageService.getCalendarSummary(calendarId);
+    return this._gcalStorageService.getGcalCalendarSummary(calendarId);
   }
 
   i
@@ -143,8 +143,8 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     this.deleteItem.emit(this.itemId);
   }
 
-  onToggleFixedEvent() {
-    this.fixedEvent = !this.fixedEvent;
+  onToggleFixedGcalEvent() {
+    this.fixedGcalEvent = !this.fixedGcalEvent;
 
     if (this.consecutiveInstances) {
       this.consecutiveInstances = false;
@@ -156,7 +156,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   }
 
   isConsecutiveInstancesInputDisabled() {
-    return this.instanceTotal < 2 || this.fixedEvent;
+    return this.instanceTotal < 2 || this.fixedGcalEvent;
   }
 
 
@@ -185,7 +185,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
       || this.date !== undefined
       || this.time !== undefined
       || this.description !== undefined
-      || this.fixedEvent === true
+      || this.fixedGcalEvent === true
       || this.consecutiveInstances === true)
       {
         return false;

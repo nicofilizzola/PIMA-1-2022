@@ -1,6 +1,6 @@
 
 
-export var calendarListEvents = { c1events: {
+export var calendarListGcalEvents = { c1events: {
     "kind": "calendar#events",
     "etag": "\"p33891lnmkivvk0g\"",
     "summary": "testforapi09@gmail.com",
@@ -352,7 +352,7 @@ export var calendarListEvents = { c1events: {
        "dateTime": "2022-10-06T13:30:00+02:00",
        "timeZone": "Europe/Paris"
       },
-      "recurringEventId": "6pd9v10pk0rs7rvnadq50gl5l4",
+      "recurringGcalEventId": "6pd9v10pk0rs7rvnadq50gl5l4",
       "originalStartTime": {
        "dateTime": "2022-10-06T12:00:00+02:00",
        "timeZone": "Europe/Paris"
@@ -370,7 +370,7 @@ export var calendarListEvents = { c1events: {
     "kind": "calendar#events",
     "etag": "\"p33s8nkdaiuvvk0g\"",
     "summary": "Work",
-    "description": "Calendar concerning job at X company",
+    "description": "GcalCalendar concerning job at X company",
     "updated": "2022-10-01T13:55:08.139Z",
     "timeZone": "Europe/Paris",
     "accessRole": "owner",
@@ -647,7 +647,7 @@ export var calendarListEvents = { c1events: {
        "dateTime": "2022-10-03T15:15:00+02:00",
        "timeZone": "Europe/Paris"
       },
-      "recurringEventId": "7f4hh0bdoossdd8sbfic36bt3a",
+      "recurringGcalEventId": "7f4hh0bdoossdd8sbfic36bt3a",
       "originalStartTime": {
        "dateTime": "2022-10-03T13:30:00+02:00",
        "timeZone": "Europe/Paris"
@@ -999,7 +999,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:49.000Z",
       "updated": "2021-08-26T11:28:49.839Z",
       "summary": "Mother's Day",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1063,7 +1063,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:49.000Z",
       "updated": "2021-08-26T11:28:49.839Z",
       "summary": "Daylight Saving Time ends",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1095,7 +1095,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:49.000Z",
       "updated": "2021-08-26T11:28:49.839Z",
       "summary": "New Year's Eve",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1159,7 +1159,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:49.000Z",
       "updated": "2021-08-26T11:28:49.839Z",
       "summary": "Father's Day",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1255,7 +1255,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:51.000Z",
       "updated": "2021-08-26T11:28:51.945Z",
       "summary": "Father's Day",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1383,7 +1383,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:51.000Z",
       "updated": "2021-08-26T11:28:51.945Z",
       "summary": "Whit Sunday",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1479,7 +1479,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:53.000Z",
       "updated": "2021-08-26T11:28:53.436Z",
       "summary": "Whit Sunday",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1543,7 +1543,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:53.000Z",
       "updated": "2021-08-26T11:28:53.436Z",
       "summary": "Easter Sunday",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1639,7 +1639,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:54.000Z",
       "updated": "2021-08-26T11:28:54.960Z",
       "summary": "Daylight Saving Time starts",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1671,7 +1671,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:54.000Z",
       "updated": "2021-08-26T11:28:54.960Z",
       "summary": "Easter Sunday",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1767,7 +1767,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:54.000Z",
       "updated": "2021-08-26T11:28:54.960Z",
       "summary": "Christmas Eve",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1831,7 +1831,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:54.000Z",
       "updated": "2021-08-26T11:28:54.960Z",
       "summary": "Daylight Saving Time starts",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1863,7 +1863,7 @@ export var calendarListEvents = { c1events: {
       "created": "2021-08-26T11:28:54.000Z",
       "updated": "2021-08-26T11:28:54.960Z",
       "summary": "Mother's Day",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -1927,7 +1927,7 @@ export var calendarListEvents = { c1events: {
       "created": "2022-09-23T15:07:31.000Z",
       "updated": "2022-09-23T15:07:31.956Z",
       "summary": "Daylight Saving Time ends",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -2023,7 +2023,7 @@ export var calendarListEvents = { c1events: {
       "created": "2022-09-23T15:07:31.000Z",
       "updated": "2022-09-23T15:07:31.956Z",
       "summary": "Christmas Eve",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -2087,7 +2087,7 @@ export var calendarListEvents = { c1events: {
       "created": "2022-09-23T15:07:31.000Z",
       "updated": "2022-09-23T15:07:31.956Z",
       "summary": "New Year's Eve",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -2151,7 +2151,7 @@ export var calendarListEvents = { c1events: {
       "created": "2022-09-23T15:07:31.000Z",
       "updated": "2022-09-23T15:07:31.956Z",
       "summary": "Daylight Saving Time starts",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -2183,7 +2183,7 @@ export var calendarListEvents = { c1events: {
       "created": "2022-09-23T15:07:31.000Z",
       "updated": "2022-09-23T15:07:31.956Z",
       "summary": "Easter Sunday",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -2343,7 +2343,7 @@ export var calendarListEvents = { c1events: {
       "created": "2022-09-23T15:07:31.000Z",
       "updated": "2022-09-23T15:07:31.956Z",
       "summary": "Whit Sunday",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -2407,7 +2407,7 @@ export var calendarListEvents = { c1events: {
       "created": "2022-09-23T15:07:31.000Z",
       "updated": "2022-09-23T15:07:31.956Z",
       "summary": "Mother's Day",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -2439,7 +2439,7 @@ export var calendarListEvents = { c1events: {
       "created": "2022-09-23T15:07:31.000Z",
       "updated": "2022-09-23T15:07:31.956Z",
       "summary": "Father's Day",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -2535,7 +2535,7 @@ export var calendarListEvents = { c1events: {
       "created": "2022-09-23T15:07:31.000Z",
       "updated": "2022-09-23T15:07:31.956Z",
       "summary": "Daylight Saving Time ends",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -2631,7 +2631,7 @@ export var calendarListEvents = { c1events: {
       "created": "2022-09-23T15:07:31.000Z",
       "updated": "2022-09-23T15:07:31.956Z",
       "summary": "Christmas Eve",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",
@@ -2695,7 +2695,7 @@ export var calendarListEvents = { c1events: {
       "created": "2022-09-23T15:07:31.000Z",
       "updated": "2022-09-23T15:07:31.956Z",
       "summary": "New Year's Eve",
-      "description": "Observance\nTo hide observances, go to Google Calendar Settings \u003e Holidays in France",
+      "description": "Observance\nTo hide observances, go to Google GcalCalendar Settings \u003e Holidays in France",
       "creator": {
        "email": "en.french#holiday@group.v.calendar.google.com",
        "displayName": "Holidays in France",

@@ -67,7 +67,7 @@
     [calendarList]="calendarList"
     [isDeletable]="isItemsLengthGreaterThan1()"
     (deleteItem)="onDeleteItem($event)"
-    (getSummary)="getCalendarSummary($event)"
+    (getSummary)="getGcalCalendarSummary($event)"
     [expandedItem$]="expandedItem$"
   ></app-add-event-item>
   <div class="container-md">

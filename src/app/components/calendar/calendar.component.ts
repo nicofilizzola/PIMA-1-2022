@@ -10,7 +10,7 @@ import { CalendarOptions } from '@fullcalendar/web-component';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import rrulePlugin from '@fullcalendar/rrule';
-import { Event, EventList, EventListEntry } from 'src/app/models/event.model';
+import { GcalEvent, GcalEventList, GcalEventListEntry } from 'src/app/models/event.model';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { Subscription } from 'rxjs';
 
@@ -19,15 +19,15 @@ import { Subscription } from 'rxjs';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
-export class CalendarComponent implements OnInit, OnDestroy {
-  fetchedEvents: EventList;
+export class GcalCalendarComponent implements OnInit, OnDestroy {
+  fetchedGcalEvents: GcalEventList;
   dataFetchedSubscription: Subscription;
   /**
-   * This property is used as a temporary storage for events to prevent a bug related to **fullCalendar**'s configuration
+   * This property is used as a temporary storage for events to prevent a bug related to **fullGcalCalendar**'s configuration
    */
-  tempEvents = [];
+  tempGcalEvents = [];
 
-  @ViewChild('myCalendar') myCalendar: ElementRef;
+  @ViewChild('myGcalCalendar') myGcalCalendar: ElementRef;
 
   calendarOptions: CalendarOptions = {
     plugins: [timeGridPlugin, dayGridPlugin, rrulePlugin],
@@ -121,44 +121,44 @@ export class CalendarComponent implements OnInit, OnDestroy {
   _setup() {
     this.dataFetchedSubscription =
       this._gcalStorageService.dataFetched$.subscribe(() => {
-        this.fetchedEvents = this._gcalStorageService.getEventList();
+        this.fetchedGcalEvents = this._gcalStorageService.getGcalEventList();
 
-        this._clearCalendarData();
-        this._populateCalendarData();
-        this._handleCalendarRendering();
+        this._clearGcalCalendarData();
+        this._populateGcalCalendarData();
+        this._handleGcalCalendarRendering();
       });
 
   }
 
-  private _populateCalendarData() {
-    Object.entries(this.fetchedEvents).forEach(
-      (eventListEntry: EventListEntry) => {
-        eventListEntry[1].forEach((event: Event) => {
+  private _populateGcalCalendarData() {
+    Object.entries(this.fetchedGcalEvents).forEach(
+      (eventListEntry: GcalEventListEntry) => {
+        eventListEntry[1].forEach((event: GcalEvent) => {
           if (event.recurrence) {
-            return this._appendRecurringEvent(event);
+            return this._appendRecurringGcalEvent(event);
           }
-          return this._appendRegularEvent(event);
+          return this._appendRegularGcalEvent(event);
         });
       }
     );
   }
 
-  private _clearCalendarData() {
-    this.tempEvents = [];
+  private _clearGcalCalendarData() {
+    this.tempGcalEvents = [];
     this.calendarOptions.events = [];
   }
 
-  private _handleCalendarRendering() {
-    this.calendarOptions.events = this.tempEvents;
+  private _handleGcalCalendarRendering() {
+    this.calendarOptions.events = this.tempGcalEvents;
     let calendar = new Calendar(
-      this.myCalendar.nativeElement,
+      this.myGcalCalendar.nativeElement,
       this.calendarOptions
     );
     calendar.render();
   }
 
-  private _appendRecurringEvent(event: Event) {
-    this.tempEvents.push({
+  private _appendRecurringGcalEvent(event: GcalEvent) {
+    this.tempGcalEvents.push({
       title: event.summary,
       daysOfWeek: this.getRecurr(event.recurrence[0]),
       startTime: this.getTimeString(event.start.dateTime),
@@ -168,8 +168,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     });
   }
 
-  private _appendRegularEvent(event: Event) {
-    this.tempEvents.push({
+  private _appendRegularGcalEvent(event: GcalEvent) {
+    this.tempGcalEvents.push({
       title: event.summary,
       start: event.start.dateTime,
       end: event.end.dateTime,

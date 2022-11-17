@@ -1,11 +1,9 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
 import { BoundsCheckerService } from '../../shared/services/bounds-checker/bounds-checker.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
-import { CalendarList, CalendarListEntry } from 'src/app/models/calendar-list.model';
-import { Calendar } from 'src/app/models/calendar.model';
-import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
+import { GcalCalendarList, GcalCalendarListEntry } from 'src/app/models/calendar-list.model';
 import { GapiService } from 'src/app/shared/services/gapi/gapi.service';
 import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
 
@@ -15,7 +13,7 @@ import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
   templateUrl: './add-event-list.component.html',
   styleUrls: ['./add-event-list.component.scss'],
 })
-export class AddEventListComponent implements OnInit {
+export class AddGcalEventListComponent implements OnInit {
   expandedItem$ = new Subject<number>();
 
   items = [1];
@@ -23,7 +21,7 @@ export class AddEventListComponent implements OnInit {
   higher = '18:00';
   errorMessageOn = false;
 
-  calendarList : CalendarList;
+  calendarList : GcalCalendarList;
   dataFetchedSubscription : Subscription;
 
   constructor(
@@ -36,18 +34,18 @@ export class AddEventListComponent implements OnInit {
   ngOnInit(): void {
     this.dataFetchedSubscription =
     this._gcalStorageService.dataFetched$.subscribe(() => {
-      this.calendarList = this._gcalStorageService.getCalendarList();
+      this.calendarList = this._gcalStorageService.getGcalCalendarList();
 
-      // Changes the main calendar name to 'Events' and reverse the list
+      // Changes the main calendar name to 'GcalEvents' and reverse the list
       let email = this._gapiService.getAuthenticatedUserEmail();
       this.calendarList.reverse();
   });
   }
 
 
-  
-  getCalendarSummary(calendarId){
-    return this._gcalStorageService.getCalendarSummary(calendarId);
+
+  getGcalCalendarSummary(calendarId){
+    return this._gcalStorageService.getGcalCalendarSummary(calendarId);
   };
 
 

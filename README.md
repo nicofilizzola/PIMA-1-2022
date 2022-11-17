@@ -27,12 +27,12 @@ Celui-ci envoie un signal dès qu'il est determiné au niveau de `GcalRequesHand
 Voici un exemple indicatif d'utilisation dans un component :
 ```js
 ...
-displayedEvents;
+displayedGcalEvents;
 constructor(..., private _gcalStorageService: GcalStorageService, ...) { ... }
 ...
 this._gcalStorageService.dataFetched$.subscribe(() => {
   // On met ici nos getters
-  this.displayedEvents = this.getEvents()
+  this.displayedGcalEvents = this.getGcalEvents()
 })
 ...
 ```

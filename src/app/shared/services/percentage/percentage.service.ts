@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { first } from 'rxjs';
-import { Event, EventList, EventListEntry } from 'src/app/models/event.model';
+import { GcalEvent, GcalEventList, GcalEventListEntry } from 'src/app/models/event.model';
 import { GcalStorageService } from '../gcal/gcal-storage/gcal-storage.service';
 
 /**
@@ -10,8 +10,8 @@ import { GcalStorageService } from '../gcal/gcal-storage/gcal-storage.service';
   providedIn: 'root',
 })
 export class PercentageService {
-  private _fetchedEvents: EventList;
-  totalEventTime: number;
+  private _fetchedGcalEvents: GcalEventList;
+  totalGcalEventTime: number;
 
   constructor(private _gcalStorageService: GcalStorageService) {
     this.initialize();
@@ -22,11 +22,11 @@ export class PercentageService {
    */
   public initialize() {
     this._gcalStorageService.dataFetched$.pipe(first()).subscribe(() => {
-      this._fetchedEvents = this._gcalStorageService.getEventList();
+      this._fetchedGcalEvents = this._gcalStorageService.getGcalEventList();
 
-      this._setTotalEventTime(
-        Object.entries(this._fetchedEvents)
-          .map((eventListEntry: EventListEntry) => eventListEntry[1])
+      this._setTotalGcalEventTime(
+        Object.entries(this._fetchedGcalEvents)
+          .map((eventListEntry: GcalEventListEntry) => eventListEntry[1])
           .flat()
       );
     });
@@ -35,39 +35,39 @@ export class PercentageService {
   /**
    * @returns The calendar's events time percentage in the total event time. The result is rounded to two decimals
    */
-  public getCalendarPercentage(calendarId: string): number {
-    if (this.totalEventTime == null) {
+  public getGcalCalendarPercentage(calendarId: string): number {
+    if (this.totalGcalEventTime == null) {
       return 0;
     }
 
-    let calendarEventsTotalTime = 0;
-    let calendarEvents = this._fetchedEvents[calendarId];
+    let calendarGcalEventsTotalTime = 0;
+    let calendarGcalEvents = this._fetchedGcalEvents[calendarId];
 
-    for (let event of calendarEvents) {
-      calendarEventsTotalTime += this._getEventDuration(event);
+    for (let event of calendarGcalEvents) {
+      calendarGcalEventsTotalTime += this._getGcalEventDuration(event);
     }
 
     let percentage = this._getRoundedPercentage(
-      (calendarEventsTotalTime / this.totalEventTime) * 100,
+      (calendarGcalEventsTotalTime / this.totalGcalEventTime) * 100,
       100
     );
     return percentage;
   }
 
-  private _setTotalEventTime(events: Event[]) {
+  private _setTotalGcalEventTime(events: GcalEvent[]) {
     let totalTime = 0;
 
     for (let event of events) {
-      totalTime += this._getEventDuration(event);
+      totalTime += this._getGcalEventDuration(event);
     }
-    this.totalEventTime = totalTime;
+    this.totalGcalEventTime = totalTime;
   }
 
   /**
    * @returns The event's duration in seconds
-   * @see this._setTotalEventTime
+   * @see this._setTotalGcalEventTime
    */
-  private _getEventDuration(event: Event): number {
+  private _getGcalEventDuration(event: GcalEvent): number {
     const SECOND_IN_TIMESTAMP_FORMAT = 1000;
     let eventStartDate = new Date(event.start.dateTime);
     let eventEndDate = new Date(event.end.dateTime);
@@ -80,7 +80,7 @@ export class PercentageService {
   /**
    * @brief Rounds `longPercentage` to number of 0s in `roundingCoefficient` (ex: `roundingCoefficient = 100`, rounded to 2 decimals)
    * @param roundingCoefficient must be a power of 10
-   * @see this.getCalendarPercentage
+   * @see this.getGcalCalendarPercentage
    */
   private _getRoundedPercentage(
     longPercentage: number,

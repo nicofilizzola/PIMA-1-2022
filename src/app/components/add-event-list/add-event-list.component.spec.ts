@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddEventListComponent } from './add-event-list.component';
+import { AddGcalEventListComponent } from './add-event-list.component';
 
-describe('AddEventListComponent', () => {
-  let component: AddEventListComponent;
-  let fixture: ComponentFixture<AddEventListComponent>;
+describe('AddGcalEventListComponent', () => {
+  let component: AddGcalEventListComponent;
+  let fixture: ComponentFixture<AddGcalEventListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddEventListComponent ]
+      declarations: [ AddGcalEventListComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddEventListComponent);
+    fixture = TestBed.createComponent(AddGcalEventListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

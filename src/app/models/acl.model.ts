@@ -1,8 +1,8 @@
 /**
- * @note ACL stands for Access Control
+ * @note GcalAcl stands for Access Control
  */
-export interface Acl {
-  kind: 'calendar#aclRule';
+export interface GcalAcl {
+  kind: 'calendar#GcalAclRule';
   etag: string; // type etag
   id: string;
   scope: {
