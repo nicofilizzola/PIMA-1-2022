@@ -16,8 +16,8 @@ import { GcalInterceptor } from './interceptors/gcal.interceptor';
 import { GcalCalendarComponent } from './components/calendar/calendar.component';
 import { AddGcalEventTooltipComponent } from './components/add-event-list/add-event-item/add-event-tooltip/add-event-tooltip.component';
 import { HeaderComponent } from './components/header/header.component';
-import { StatsViewComponent } from './components/stats-view/stats-view/stats-view.component';
-import { LoadingScreenComponent } from './components/loading-screen/loading-screen/loading-screen.component';
+import { StatsViewComponent } from './components/stats-view/stats-view.component';
+import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 
 
 @NgModule({

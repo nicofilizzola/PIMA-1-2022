@@ -35,9 +35,10 @@ export class AppComponent implements OnInit, OnDestroy {
       // Timeout prevents sending request too soon (Avoid 401 bug)
       setTimeout(() => this._gcalRequestHandlerService.fetchData(), 100);
     }
+    const MIN_LOADING_SCREEN_TIME = 2000;
     this._subscriptions.push(
       this._gcalStorageService.dataFetched$.subscribe(() =>
-        setTimeout(() => (this.loading = false), 2000)
+        setTimeout(() => (this.loading = false), MIN_LOADING_SCREEN_TIME)
       )
     );
   }
