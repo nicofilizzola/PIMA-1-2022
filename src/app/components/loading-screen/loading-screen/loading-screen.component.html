@@ -1,5 +1,9 @@
-<div class="d-flex flex-column fullscreen-overlay justify-content-center align-items-center bg-light">
-    <div class="lds-ellipsis">
+<div
+  *ngIf="on"
+  class="d-flex flex-column fullscreen-overlay justify-content-center align-items-center bg-light"
+  [@loading]
+>
+  <div class="lds-ellipsis">
     <div></div>
     <div></div>
     <div></div>
