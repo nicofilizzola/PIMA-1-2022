@@ -32,7 +32,7 @@ constructor(..., private _gcalStorageService: GcalStorageService, ...) { ... }
 ...
 this._gcalStorageService.dataFetched$.subscribe(() => {
   // On met ici nos getters
-  this.displayedGcalEvents = this.getGcalEvents()
+  this.displayedGcalEvents = this.getEvents()
 })
 ...
 ```
