@@ -121,8 +121,6 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     return this._gcalStorageService.getCalendarSummary(calendarId);
   }
 
-  i;
-
   ngOnDestroy() {
     this._subscription.unsubscribe();
   }
@@ -208,7 +206,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   onCollapse() {
     if (this.title == null) {
-      this.title = 'Tâche sans nom';
+      this.title = `Tâche sans nom ${this.itemId}`;
     }
     this.collapsed = true;
   }
