@@ -13,7 +13,7 @@ import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
   templateUrl: './add-event-list.component.html',
   styleUrls: ['./add-event-list.component.scss'],
 })
-export class AddGcalEventListComponent implements OnInit {
+export class AddEventListComponent implements OnInit {
   expandedItem$ = new Subject<number>();
 
   items = [1];
@@ -34,7 +34,7 @@ export class AddGcalEventListComponent implements OnInit {
   ngOnInit(): void {
     this.dataFetchedSubscription =
     this._gcalStorageService.dataFetched$.subscribe(() => {
-      this.calendarList = this._gcalStorageService.getGcalCalendarList();
+      this.calendarList = this._gcalStorageService.getCalendarList();
 
       // Changes the main calendar name to 'GcalEvents' and reverse the list
       let email = this._gapiService.getAuthenticatedUserEmail();
@@ -44,8 +44,8 @@ export class AddGcalEventListComponent implements OnInit {
 
 
 
-  getGcalCalendarSummary(calendarId){
-    return this._gcalStorageService.getGcalCalendarSummary(calendarId);
+  getCalendarSummary(calendarId){
+    return this._gcalStorageService.getCalendarSummary(calendarId);
   };
 
 

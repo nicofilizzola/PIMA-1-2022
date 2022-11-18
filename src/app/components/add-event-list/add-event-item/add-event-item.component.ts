@@ -56,14 +56,14 @@ import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gc
     ]),
   ],
 })
-export class AddGcalEventItemComponent implements OnInit, OnDestroy {
+export class AddEventItemComponent implements OnInit, OnDestroy {
   private _subscription: Subscription;
 
   @Input() expandedItem$: Subject<number>;
   @Input() itemId;
   @Input() isDeletable;
 
-  // Load the calendarList one single time for all the addGcalEventItem components
+  // Load the calendarList one single time for all the addEventItem components
   @Input() calendarList;
 
   /**
@@ -93,7 +93,7 @@ export class AddGcalEventItemComponent implements OnInit, OnDestroy {
   date: string;
   time: string;
   description: string;
-  fixedGcalEvent = false;
+  fixedEvent = false;
   consecutiveInstances = false;
 
   // Animation
@@ -118,7 +118,7 @@ export class AddGcalEventItemComponent implements OnInit, OnDestroy {
   }
 
   onGetSummary(calendarId) {
-    return this._gcalStorageService.getGcalCalendarSummary(calendarId);
+    return this._gcalStorageService.getCalendarSummary(calendarId);
   }
 
   i;
@@ -147,8 +147,8 @@ export class AddGcalEventItemComponent implements OnInit, OnDestroy {
     this.deleteItem.emit(this.itemId);
   }
 
-  onToggleFixedGcalEvent() {
-    this.fixedGcalEvent = !this.fixedGcalEvent;
+  onTogglefixedEvent() {
+    this.fixedEvent = !this.fixedEvent;
 
     if (this.consecutiveInstances) {
       this.consecutiveInstances = false;
@@ -160,7 +160,7 @@ export class AddGcalEventItemComponent implements OnInit, OnDestroy {
   }
 
   isConsecutiveInstancesInputDisabled() {
-    return this.instanceTotal < 2 || this.fixedGcalEvent;
+    return this.instanceTotal < 2 || this.fixedEvent;
   }
 
   onOpenDeleteModal(targetModal) {
@@ -188,7 +188,7 @@ export class AddGcalEventItemComponent implements OnInit, OnDestroy {
       this.date !== undefined ||
       this.time !== undefined ||
       this.description !== undefined ||
-      this.fixedGcalEvent === true ||
+      this.fixedEvent === true ||
       this.consecutiveInstances === true
     ) {
       return false;

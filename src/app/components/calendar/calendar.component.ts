@@ -19,15 +19,15 @@ import { Subscription } from 'rxjs';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
-export class GcalCalendarComponent implements OnInit, OnDestroy {
-  fetchedGcalEvents: GcalEventList;
+export class CalendarComponent implements OnInit, OnDestroy {
+  fetchedEvents: GcalEventList;
   dataFetchedSubscription: Subscription;
   /**
    * This property is used as a temporary storage for events to prevent a bug related to **fullGcalCalendar**'s configuration
    */
-  tempGcalEvents = [];
+  tempEvents = [];
 
-  @ViewChild('myGcalCalendar') myGcalCalendar: ElementRef;
+  @ViewChild('myCalendar') myCalendar: ElementRef;
 
   calendarOptions: CalendarOptions = {
     plugins: [timeGridPlugin, dayGridPlugin, rrulePlugin],
@@ -121,44 +121,44 @@ export class GcalCalendarComponent implements OnInit, OnDestroy {
   _setup() {
     this.dataFetchedSubscription =
       this._gcalStorageService.dataFetched$.subscribe(() => {
-        this.fetchedGcalEvents = this._gcalStorageService.getGcalEventList();
+        this.fetchedEvents = this._gcalStorageService.getEventList();
 
-        this._clearGcalCalendarData();
+        this._clearCalendarData();
         this._populateGcalCalendarData();
-        this._handleGcalCalendarRendering();
+        this._handleCalendarRendering();
       });
 
   }
 
   private _populateGcalCalendarData() {
-    Object.entries(this.fetchedGcalEvents).forEach(
+    Object.entries(this.fetchedEvents).forEach(
       (eventListEntry: GcalEventListEntry) => {
         eventListEntry[1].forEach((event: GcalEvent) => {
           if (event.recurrence) {
-            return this._appendRecurringGcalEvent(event);
+            return this._appendRecurringEvent(event);
           }
-          return this._appendRegularGcalEvent(event);
+          return this._appendRegularEvent(event);
         });
       }
     );
   }
 
-  private _clearGcalCalendarData() {
-    this.tempGcalEvents = [];
+  private _clearCalendarData() {
+    this.tempEvents = [];
     this.calendarOptions.events = [];
   }
 
-  private _handleGcalCalendarRendering() {
-    this.calendarOptions.events = this.tempGcalEvents;
+  private _handleCalendarRendering() {
+    this.calendarOptions.events = this.tempEvents;
     let calendar = new Calendar(
-      this.myGcalCalendar.nativeElement,
+      this.myCalendar.nativeElement,
       this.calendarOptions
     );
     calendar.render();
   }
 
-  private _appendRecurringGcalEvent(event: GcalEvent) {
-    this.tempGcalEvents.push({
+  private _appendRecurringEvent(event: GcalEvent) {
+    this.tempEvents.push({
       title: event.summary,
       daysOfWeek: this.getRecurr(event.recurrence[0]),
       startTime: this.getTimeString(event.start.dateTime),
@@ -168,8 +168,8 @@ export class GcalCalendarComponent implements OnInit, OnDestroy {
     });
   }
 
-  private _appendRegularGcalEvent(event: GcalEvent) {
-    this.tempGcalEvents.push({
+  private _appendRegularEvent(event: GcalEvent) {
+    this.tempEvents.push({
       title: event.summary,
       start: event.start.dateTime,
       end: event.end.dateTime,

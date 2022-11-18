@@ -13,7 +13,7 @@ export class GcalRequestHandlerService {
   /**
    * @note used for managing the `dataFetched$` stream
    */
-  private _calendarsWithRecurringGcalEvents = [];
+  private _calendarsWithRecurringEvents = [];
 
   constructor(
     private _gcalHttpService: GcalHttpService,
@@ -21,22 +21,22 @@ export class GcalRequestHandlerService {
   ) {}
 
   fetchData() {
-    this._gcalHttpService.fetchGcalCalendarList();
-    this._handleGcalEventListFetch();
-    this._handleGcalEventInstancesFetch();
+    this._gcalHttpService.fetchCalendarList();
+    this._handleEventListFetch();
+    this._handleEventInstancesFetch();
     this._handleDataFetchedStream();
   }
 
   /**
    * @see this.fetchData
    */
-  private _handleGcalEventListFetch() {
+  private _handleEventListFetch() {
     this._gcalStorageService.calendarList$.subscribe(
       (calendarList: GcalCalendarList) => {
         if (calendarList === null) return; // skip init value
 
         calendarList.forEach((calendarListEntry: GcalCalendarListEntry) => {
-          this._gcalHttpService.fetchGcalCalendarGcalEvents(calendarListEntry.id);
+          this._gcalHttpService.fetchCalendarEvents(calendarListEntry.id);
         });
       }
     );
@@ -46,7 +46,7 @@ export class GcalRequestHandlerService {
    * @see this.fetchData
    * @todo Find a dynamic way to unsubscribe
    */
-  private _handleGcalEventInstancesFetch() {
+  private _handleEventInstancesFetch() {
     let subscription = this._gcalStorageService.eventList$.subscribe(
       (eventList: GcalEventList) => {
         if (eventList === null) return; // skip init value
@@ -56,11 +56,11 @@ export class GcalRequestHandlerService {
           let events = eventListEntry[1];
           events.forEach((event: GcalEvent) => {
             if ('recurrence' in event) {
-              if (!this._calendarsWithRecurringGcalEvents.includes(calendarId)) {
-                this._calendarsWithRecurringGcalEvents.push(calendarId);
+              if (!this._calendarsWithRecurringEvents.includes(calendarId)) {
+                this._calendarsWithRecurringEvents.push(calendarId);
               }
 
-              this._gcalHttpService.fetchRecurringGcalEventInstances(
+              this._gcalHttpService.fetchRecurringEventInstances(
                 calendarId,
                 event.id
               );
@@ -89,7 +89,7 @@ export class GcalRequestHandlerService {
 
           if (
             Object.entries(eventInstances).length <
-            this._calendarsWithRecurringGcalEvents.length
+            this._calendarsWithRecurringEvents.length
           ) {
             return;
           }

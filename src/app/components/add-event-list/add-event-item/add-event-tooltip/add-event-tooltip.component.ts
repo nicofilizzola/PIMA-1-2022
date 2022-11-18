@@ -5,7 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './add-event-tooltip.component.html',
   styleUrls: ['./add-event-tooltip.component.scss'],
 })
-export class AddGcalEventTooltipComponent implements OnInit {
+export class AddEventTooltipComponent implements OnInit {
   @Input() content;
   tooltip;
 

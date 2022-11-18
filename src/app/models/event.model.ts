@@ -34,7 +34,7 @@ export interface GcalEvent {
   };
   endTimeUnspecified: boolean;
   recurrence: [string];
-  recurringGcalEventId: string;
+  recurringEventId: string;
   originalStartTime: {
     date: string; // "yyyy-mm-dd" format
     dateTime: string; // RFC3339 timestamp

@@ -18,7 +18,7 @@ import { GcalStorageService } from '../gcal-storage/gcal-storage.service';
 const GOOGLE_CALENDAR_API = 'https://www.googleapis.com/calendar/v3';
 
 /**
- * @note Gcal stands for Google GcalCalendar
+ * @note Gcal stands for Google Calendar
  */
 @Injectable({
   providedIn: 'root',
@@ -30,25 +30,25 @@ export class GcalHttpService {
   ) {}
 
   /**
-   * @brief Runs the **GcalCalendarList.list** method
+   * @brief Runs the **CalendarList.list** method
    * @note Only passes on non all-day-inherent calendars
    */
-  fetchGcalCalendarList(): void {
+  fetchCalendarList(): void {
     this._http
       .get(`${GOOGLE_CALENDAR_API}/users/me/calendarList`)
       .subscribe((response: GcalCalendarListListResponse) => {
-        let timedGcalCalendarList: GcalCalendarList = this._removeAllDayCLEs(
+        let timedCalendarList: GcalCalendarList = this._removeAllDayCLEs(
           response.items
         );
-        return this._gcalStorageService.calendarList$.next(timedGcalCalendarList);
+        return this._gcalStorageService.calendarList$.next(timedCalendarList);
       });
   }
 
   /**
-   * @brief Runs the **GcalEvents.list** method
+   * @brief Runs the **Events.list** method
    * @note Only passes on timed events from one year ago to one year from today
    */
-  fetchGcalCalendarGcalEvents(calendarId: string) {
+  fetchCalendarEvents(calendarId: string) {
     let today = new Date();
     const oneYearAgo = new Date(
       today.setFullYear(new Date().getFullYear() - 1)
@@ -67,44 +67,44 @@ export class GcalHttpService {
       })
       .pipe(first())
       .subscribe((response: GcalEventListResponse) => {
-        let calendarGcalEvents = <GcalEventList>{
+        let calendarEvents = <GcalEventList>{
           ...this._gcalStorageService.eventList$.getValue(),
         };
 
         if (response.items.length === 0) {
-          calendarGcalEvents[calendarId] = [];
+          calendarEvents[calendarId] = [];
         } else {
-          let timedGcalEvents = this._removeInvalidGcalEvents(response.items);
-          calendarGcalEvents[calendarId] = timedGcalEvents;
+          let timedEvents = this._removeInvalidEvents(response.items);
+          calendarEvents[calendarId] = timedEvents;
         }
 
-        return this._gcalStorageService.eventList$.next(calendarGcalEvents);
+        return this._gcalStorageService.eventList$.next(calendarEvents);
       });
   }
 
   /**
-   * @brief Runs the **GcalEvents.instances method**
+   * @brief Runs the **Events.instances method**
    */
-  fetchRecurringGcalEventInstances(calendarId: string, recurringGcalEventId: string) {
+  fetchRecurringEventInstances(calendarId: string, recurringEventId: string) {
     this._http
       .get(
-        `${GOOGLE_CALENDAR_API}/calendars/${calendarId}/events/${recurringGcalEventId}/instances`
+        `${GOOGLE_CALENDAR_API}/calendars/${calendarId}/events/${recurringEventId}/instances`
       )
       .pipe(first())
       .subscribe((response: GcalEventInstancesResponse) => {
-        let currentGcalEventInstances =
+        let currentEventInstances =
           this._gcalStorageService.eventInstances$.getValue();
-        let newGcalEventInstances = {};
+        let newEventInstances = {};
 
-        if (currentGcalEventInstances != null) {
-          newGcalEventInstances = <GcalEventInstances>{ ...currentGcalEventInstances };
+        if (currentEventInstances != null) {
+          newEventInstances = <GcalEventInstances>{ ...currentEventInstances };
         }
 
-        newGcalEventInstances[calendarId] = {};
-        newGcalEventInstances[calendarId][recurringGcalEventId] = response.items;
+        newEventInstances[calendarId] = {};
+        newEventInstances[calendarId][recurringEventId] = response.items;
 
         return this._gcalStorageService.eventInstances$.next(
-          <GcalEventInstances>newGcalEventInstances
+          <GcalEventInstances>newEventInstances
         );
       });
   }
@@ -112,9 +112,9 @@ export class GcalHttpService {
 
 
   /**
-   * @note CLE stands for GcalCalendarListEntry
+   * @note CLE stands for CalendarListEntry
    * @note _all-day event_: only **date** properties, no **dateTime**
-   * @see _fetchGcalCalendarList
+   * @see _fetchCalendarList
    */
   private _removeAllDayCLEs(calendarList: GcalCalendarList): GcalCalendarList {
     let holidaylessCL = this._removeHolidayCLEs(calendarList);
@@ -135,18 +135,18 @@ export class GcalHttpService {
 
   /**
    * @note removes all-day and cancelled events
-   * @see _fetchGcalCalendarGcalEvents
+   * @see _fetchCalendarEvents
    */
-  private _removeInvalidGcalEvents(events: GcalEvent[]): GcalEvent[] {
-    return events.filter((event: GcalEvent) => !this._isInvalidGcalEvent(event));
+  private _removeInvalidEvents(events: GcalEvent[]): GcalEvent[] {
+    return events.filter((event: GcalEvent) => !this._isInvalidEvent(event));
   }
-  private _isInvalidGcalEvent(event: GcalEvent): boolean {
-    return this._isCancelledGcalEvent(event) || !this._isTimedGcalEvent(event);
+  private _isInvalidEvent(event: GcalEvent): boolean {
+    return this._isCancelledEvent(event) || !this._isTimedEvent(event);
   }
-  private _isCancelledGcalEvent(event: GcalEvent): boolean {
+  private _isCancelledEvent(event: GcalEvent): boolean {
     return event.status === 'cancelled';
   }
-  private _isTimedGcalEvent(event: GcalEvent): boolean {
+  private _isTimedEvent(event: GcalEvent): boolean {
     return 'dateTime' in event.start;
   }
 }
