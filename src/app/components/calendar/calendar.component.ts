@@ -124,13 +124,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
         this.fetchedEvents = this._gcalStorageService.getEventList();
 
         this._clearCalendarData();
-        this._populateGcalCalendarData();
+        this._populateCalendarData();
         this._handleCalendarRendering();
       });
 
   }
 
-  private _populateGcalCalendarData() {
+  private _populateCalendarData() {
     Object.entries(this.fetchedEvents).forEach(
       (eventListEntry: GcalEventListEntry) => {
         eventListEntry[1].forEach((event: GcalEvent) => {
