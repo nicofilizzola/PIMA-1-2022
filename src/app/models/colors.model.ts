@@ -1,4 +1,4 @@
-export interface Colors {
+export interface GcalColors {
   kind: 'calendar#colors';
   updated: string; // RFC3339 timestamp
   calendar: {

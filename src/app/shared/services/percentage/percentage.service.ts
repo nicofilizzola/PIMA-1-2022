@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { first } from 'rxjs';
-import { Event, EventList, EventListEntry } from 'src/app/models/event.model';
+import { GcalEvent, GcalEventList, GcalEventListEntry } from 'src/app/models/event.model';
 import { GcalStorageService } from '../gcal/gcal-storage/gcal-storage.service';
 
 /**
@@ -10,7 +10,7 @@ import { GcalStorageService } from '../gcal/gcal-storage/gcal-storage.service';
   providedIn: 'root',
 })
 export class PercentageService {
-  private _fetchedEvents: EventList;
+  private _fetchedEvents: GcalEventList;
   totalEventTime: number;
 
   constructor(private _gcalStorageService: GcalStorageService) {
@@ -26,7 +26,7 @@ export class PercentageService {
 
       this._setTotalEventTime(
         Object.entries(this._fetchedEvents)
-          .map((eventListEntry: EventListEntry) => eventListEntry[1])
+          .map((eventListEntry: GcalEventListEntry) => eventListEntry[1])
           .flat()
       );
     });
@@ -54,7 +54,7 @@ export class PercentageService {
     return percentage;
   }
 
-  private _setTotalEventTime(events: Event[]) {
+  private _setTotalEventTime(events: GcalEvent[]) {
     let totalTime = 0;
 
     for (let event of events) {
@@ -67,7 +67,7 @@ export class PercentageService {
    * @returns The event's duration in seconds
    * @see this._setTotalEventTime
    */
-  private _getEventDuration(event: Event): number {
+  private _getEventDuration(event: GcalEvent): number {
     const SECOND_IN_TIMESTAMP_FORMAT = 1000;
     let eventStartDate = new Date(event.start.dateTime);
     let eventEndDate = new Date(event.end.dateTime);

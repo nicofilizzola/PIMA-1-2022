@@ -14,7 +14,7 @@ import {
   OnDestroy,
   ChangeDetectorRef,
 } from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
@@ -63,7 +63,6 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   @Input() itemId;
   @Input() isDeletable;
 
-
   // Load the calendarList one single time for all the addEventItem components
   @Input() calendarList;
 
@@ -72,7 +71,6 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
    */
   @Output() deleteItem = new EventEmitter<number>();
 
-
   collapsed = false;
 
   // Base options
@@ -80,7 +78,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   hourDuration = 1;
   minuteDuration = 1;
   priority = 'Choisir priorité...';
-  calendar = "0";
+  calendar = '0';
   errorMessageOn = false;
 
   // Advanced options
@@ -101,13 +99,12 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   // Animation
   advancedOptionsAnimationState = 'off';
 
-
   constructor(
     private _viewportService: ViewportService,
     private _cd: ChangeDetectorRef,
     private _gcalStorageService: GcalStorageService,
     private _modalService: NgbModal
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.expandedItem$.next(this.itemId);
@@ -120,18 +117,25 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     });
   }
 
-  onGetSummary(calendarId){
+  onGetSummary(calendarId) {
     return this._gcalStorageService.getCalendarSummary(calendarId);
   }
 
-  i
+  i;
 
   ngOnDestroy() {
     this._subscription.unsubscribe();
   }
 
   onCheckValidTime() {
-    if (this.minuteDuration > 59 || this.hourDuration > 23 || this.minuteDuration < 0 || this.hourDuration < 0 || this.minuteDuration % 1 != 0 || this.hourDuration % 1 != 0) {
+    if (
+      this.minuteDuration > 59 ||
+      this.hourDuration > 23 ||
+      this.minuteDuration < 0 ||
+      this.hourDuration < 0 ||
+      this.minuteDuration % 1 != 0 ||
+      this.hourDuration % 1 != 0
+    ) {
       this.errorMessageOn = true;
     } else {
       this.errorMessageOn = false;
@@ -143,7 +147,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     this.deleteItem.emit(this.itemId);
   }
 
-  onToggleFixedEvent() {
+  onTogglefixedEvent() {
     this.fixedEvent = !this.fixedEvent;
 
     if (this.consecutiveInstances) {
@@ -159,40 +163,38 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     return this.instanceTotal < 2 || this.fixedEvent;
   }
 
-
-  onOpenDeleteModal(targetModal){
+  onOpenDeleteModal(targetModal) {
     this._modalService.open(targetModal, {
       backdrop: 'static',
-      size: 'lg'
+      size: 'lg',
     });
   }
 
-  formEmpty(){
-
+  formEmpty() {
     // Check if an input from the form has been changed
-    if(this.title !== undefined
-      || this.hourDuration !== 1
-      || this.minuteDuration !== 1
-      || this.priority !== "Choisir priorité..."
-      || this.calendar !== "0"
-      || this.location !== undefined
-      || this.instanceTotal !== 1
-      || this.minDailyInstances !== undefined
-      || this.maxDailyInstances !== undefined
-      || this.borneInf !== undefined
-      || this.borneSup !== undefined
-      || this.marge !== undefined
-      || this.date !== undefined
-      || this.time !== undefined
-      || this.description !== undefined
-      || this.fixedEvent === true
-      || this.consecutiveInstances === true)
-      {
-        return false;
-      }
+    if (
+      this.title !== undefined ||
+      this.hourDuration !== 1 ||
+      this.minuteDuration !== 1 ||
+      this.priority !== 'Choisir priorité...' ||
+      this.calendar !== '0' ||
+      this.location !== undefined ||
+      this.instanceTotal !== 1 ||
+      this.minDailyInstances !== undefined ||
+      this.maxDailyInstances !== undefined ||
+      this.borneInf !== undefined ||
+      this.borneSup !== undefined ||
+      this.marge !== undefined ||
+      this.date !== undefined ||
+      this.time !== undefined ||
+      this.description !== undefined ||
+      this.fixedEvent === true ||
+      this.consecutiveInstances === true
+    ) {
+      return false;
+    }
     return true;
   }
-
 
   /**
    * @TODO

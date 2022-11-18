@@ -10,7 +10,7 @@ import { CalendarOptions } from '@fullcalendar/web-component';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import rrulePlugin from '@fullcalendar/rrule';
-import { Event, EventList, EventListEntry } from 'src/app/models/event.model';
+import { GcalEvent, GcalEventList, GcalEventListEntry } from 'src/app/models/event.model';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { Subscription } from 'rxjs';
 
@@ -20,10 +20,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit, OnDestroy {
-  fetchedEvents: EventList;
+  fetchedEvents: GcalEventList;
   dataFetchedSubscription: Subscription;
   /**
-   * This property is used as a temporary storage for events to prevent a bug related to **fullCalendar**'s configuration
+   * This property is used as a temporary storage for events to prevent a bug related to **fullGcalCalendar**'s configuration
    */
   tempEvents = [];
 
@@ -132,8 +132,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   private _populateCalendarData() {
     Object.entries(this.fetchedEvents).forEach(
-      (eventListEntry: EventListEntry) => {
-        eventListEntry[1].forEach((event: Event) => {
+      (eventListEntry: GcalEventListEntry) => {
+        eventListEntry[1].forEach((event: GcalEvent) => {
           if (event.recurrence) {
             return this._appendRecurringEvent(event);
           }
@@ -157,7 +157,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     calendar.render();
   }
 
-  private _appendRecurringEvent(event: Event) {
+  private _appendRecurringEvent(event: GcalEvent) {
     this.tempEvents.push({
       title: event.summary,
       daysOfWeek: this.getRecurr(event.recurrence[0]),
@@ -168,7 +168,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     });
   }
 
-  private _appendRegularEvent(event: Event) {
+  private _appendRegularEvent(event: GcalEvent) {
     this.tempEvents.push({
       title: event.summary,
       start: event.start.dateTime,

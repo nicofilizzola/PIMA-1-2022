@@ -3,7 +3,7 @@ import { ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { GcalStorageService } from '../../shared/services/gcal/gcal-storage/gcal-storage.service';
 import { Subscription } from 'rxjs';
-import { EventList, EventListEntry } from '../../models/event.model';
+import { GcalEventList, GcalEventListEntry } from '../../models/event.model';
 import { PercentageService } from 'src/app/shared/services/percentage/percentage.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { PercentageService } from 'src/app/shared/services/percentage/percentage
 export class PieChartComponent implements OnInit, OnDestroy {
   private _dataFetchSubscription: Subscription;
 
-  fetchedEvents: EventList;
+  fetchedEvents: GcalEventList;
   pieChartDatasets = [{ data: [] }];
   pieChartLabels = [];
   pieChartOptions: ChartOptions<'pie'> = {
@@ -66,7 +66,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
    */
   private _populateDatasets() {
     Object.entries(this.fetchedEvents).forEach(
-      (eventListEntry: EventListEntry) => {
+      (eventListEntry: GcalEventListEntry) => {
 
 
         this.pieChartDatasets[0].data.push(

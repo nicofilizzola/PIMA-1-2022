@@ -1,6 +1,6 @@
-import { Event } from "../../event.model";
+import { GcalEvent } from "../../event.model";
 
-export interface EventListResponse {
+export interface GcalEventListResponse {
   kind: 'calendar#events';
   etag: string; // type etag
   summary: string;
@@ -16,5 +16,5 @@ export interface EventListResponse {
   ];
   nextPageToken: string;
   nextSyncToken: string;
-  items: Event[];
+  items: GcalEvent[];
 }

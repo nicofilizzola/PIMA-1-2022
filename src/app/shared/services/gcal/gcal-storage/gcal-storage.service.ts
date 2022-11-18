@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
 import {
-  CalendarList,
-  CalendarListEntry,
+  GcalCalendarList,
+  GcalCalendarListEntry,
 } from 'src/app/models/calendar-list.model';
 import {
-  EventList,
-  EventListEntry,
-  Event,
-  EventInstances,
+  GcalEventList,
+  GcalEventListEntry,
+  GcalEvent,
+  GcalEventInstances,
 } from 'src/app/models/event.model';
 import { GapiService } from '../../gapi/gapi.service';
 
@@ -22,9 +22,9 @@ export class GcalStorageService {
    * always verify that they differ from their initialization value.
    * This variables must be used ONLY from http
    */
-  calendarList$ = new BehaviorSubject<CalendarList>(null);
-  eventList$ = new BehaviorSubject<EventList>(null);
-  eventInstances$ = new BehaviorSubject<EventInstances>(null);
+  calendarList$ = new BehaviorSubject<GcalCalendarList>(null);
+  eventList$ = new BehaviorSubject<GcalEventList>(null);
+  eventInstances$ = new BehaviorSubject<GcalEventInstances>(null);
   /**
    * Used to signal to the whole application when the data fetch is completed
    * so the data access can be performed. Subscribe to this observable if you ever
@@ -34,7 +34,7 @@ export class GcalStorageService {
 
   constructor(private readonly _gapiService: GapiService) {}
 
-  getCalendarList(): CalendarList {
+  getCalendarList(): GcalCalendarList {
     return this.calendarList$.getValue();
   }
 
@@ -47,10 +47,10 @@ export class GcalStorageService {
     calendarId: string,
     timestampMin?: number,
     timestampMax?: number
-  ): Event[] {
+  ): GcalEvent[] {
     let eventListEntries = Object.entries(this.eventList$.getValue());
-    let calendarEventListEntry: EventListEntry[] = eventListEntries.filter(
-      (eventListEntry: EventListEntry) => eventListEntry[0] === calendarId
+    let calendarEventListEntry: GcalEventListEntry[] = eventListEntries.filter(
+      (eventListEntry: GcalEventListEntry) => eventListEntry[0] === calendarId
     );
 
     if (calendarEventListEntry.length === 0) {
@@ -71,10 +71,10 @@ export class GcalStorageService {
    * @note Both time parameters `timestampMin` and `timestampMax` can use constants ONE_DAY_AGO, ONE_WEEK_AGO, ONE_MONTH_AGO,
    * TODAY, ONE_DAY_FROM_TODAY, ONE_WEEK_FROM_TODAY, ONE_MONTH_FROM_TODAY
    */
-  getEventList(timestampMin?: number, timestampMax?: number): EventList {
+  getEventList(timestampMin?: number, timestampMax?: number): GcalEventList {
     let eventListEntries = Object.entries(this.eventList$.getValue());
     let rangedEventListEntries = eventListEntries.map(
-      (eventListEntry: EventListEntry) => {
+      (eventListEntry: GcalEventListEntry) => {
         return [
           eventListEntry[0],
           this._getRangedEventList(
@@ -85,7 +85,7 @@ export class GcalStorageService {
         ];
       }
     );
-    let rangedEventList: EventList = Object.fromEntries(rangedEventListEntries);
+    let rangedEventList: GcalEventList = Object.fromEntries(rangedEventListEntries);
     return rangedEventList;
   }
 
@@ -93,7 +93,7 @@ export class GcalStorageService {
     calendarId: string,
     timestampMin?: number,
     timestampMax?: number
-  ): Event[] {
+  ): GcalEvent[] {
     let eventInstances = this.eventInstances$.getValue();
     let returnEventInstances = [];
 
@@ -120,10 +120,10 @@ export class GcalStorageService {
    * @note Both time parameters `timestampMin` and `timestampMax` can use constants ONE_DAY_AGO, ONE_WEEK_AGO, ONE_MONTH_AGO,
    * TODAY, ONE_DAY_FROM_TODAY, ONE_WEEK_FROM_TODAY, ONE_MONTH_FROM_TODAY
    */
-  getEventInstances(timestampMin?: number, timestampMax?: number): EventList {
+  getEventInstances(timestampMin?: number, timestampMax?: number): GcalEventList {
     let eventListEntries = Object.entries(this.eventInstances$.getValue());
     let rangedEventListEntries = eventListEntries.map(
-      (eventListEntry: EventListEntry) => {
+      (eventListEntry: GcalEventListEntry) => {
         return [
           eventListEntry[0],
           this._getRangedEventList(
@@ -134,7 +134,7 @@ export class GcalStorageService {
         ];
       }
     );
-    let rangedEventList: EventList = Object.fromEntries(rangedEventListEntries);
+    let rangedEventList: GcalEventList = Object.fromEntries(rangedEventListEntries);
     return rangedEventList;
   }
 
@@ -157,10 +157,10 @@ export class GcalStorageService {
   /**
    * @returns The complete calendar eventList including recurring events
    */
-  getAllEventList(timestampMin?: number, timestampMax?: number): EventList {
+  getAllEventList(timestampMin?: number, timestampMax?: number): GcalEventList {
     let events = {};
 
-    this.getCalendarList().forEach((calendar: CalendarListEntry) => {
+    this.getCalendarList().forEach((calendar: GcalCalendarListEntry) => {
       events[calendar.id] = this.getAllCalendarEvents(
         calendar.id,
         timestampMin,
@@ -168,12 +168,12 @@ export class GcalStorageService {
       );
     });
 
-    return <EventList>events;
+    return <GcalEventList>events;
   }
 
   getCalendarSummary(calendarId): string {
     let calendar = this.getCalendarList().find(
-      (calendarListEntry: CalendarListEntry) =>
+      (calendarListEntry: GcalCalendarListEntry) =>
         calendarListEntry.id === calendarId
     );
 
@@ -184,20 +184,20 @@ export class GcalStorageService {
   }
 
   private _getRangedEventList(
-    calendarEvents: Event[],
+    calendarEvents: GcalEvent[],
     timestampMin?: number,
     timestampMax?: number
-  ): Event[] {
+  ): GcalEvent[] {
     let filteredEvents = [...calendarEvents];
 
     if (timestampMin) {
-      filteredEvents = calendarEvents.filter((event: Event) => {
+      filteredEvents = calendarEvents.filter((event: GcalEvent) => {
         const eventStartTimestamp = new Date(event.start.dateTime).getTime();
         return timestampMin < eventStartTimestamp;
       });
     }
     if (timestampMax) {
-      filteredEvents = calendarEvents.filter((event: Event) => {
+      filteredEvents = calendarEvents.filter((event: GcalEvent) => {
         const eventEndTimestamp = new Date(event.end.dateTime).getTime();
         return timestampMax > eventEndTimestamp;
       });

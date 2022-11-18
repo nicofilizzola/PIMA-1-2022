@@ -1,4 +1,4 @@
-export interface CalendarListEntry {
+export interface GcalCalendarListEntry {
   kind: 'calendar#calendarListEntry';
   etag: string; // type etag
   id: string;
@@ -34,4 +34,4 @@ export interface CalendarListEntry {
   };
 }
 
-export type CalendarList = CalendarListEntry[];
+export type GcalCalendarList = GcalCalendarListEntry[];
