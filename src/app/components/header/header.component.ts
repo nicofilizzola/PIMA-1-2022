@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   }
 
   /**
-   * onRefresh fetches data from Google GcalCalendar's API. This function is called whenever the user changes page
+   * onRefresh fetches data from Google Calendar's API. This function is called whenever the user changes page
    * or if they press the refresh button.
    */
   onRefresh() {

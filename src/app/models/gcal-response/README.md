@@ -1,6 +1,6 @@
-# Google GcalCalendar API Response Models
+# Google Calendar API Response Models
 
-This folder contains the response models for all Google GcalCalendar API requests
+This folder contains the response models for all Google Calendar API requests
 
 ## Naming convention
 

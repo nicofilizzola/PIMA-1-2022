@@ -28,12 +28,8 @@ import { Component, Input, OnInit } from '@angular/core';
     ]),
   ],
 })
-export class LoadingScreenComponent implements OnInit {
+export class LoadingScreenComponent {
   @Input() on: boolean;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }
 
 /**
