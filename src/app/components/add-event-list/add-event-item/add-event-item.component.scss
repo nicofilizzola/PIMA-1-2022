@@ -1,37 +1,32 @@
 $gray: #dadada;
-$darkgray: #888888;
 
 textarea {
-    resize: none;
+  resize: none;
 }
 
-.collapsed-title{
+.collapsed-title {
+  transition: 0.3s;
+  cursor: pointer;
 
-    transition: 0.3s;
-    cursor: pointer;
-
-    &:hover{
-        background-color: $gray !important;
-    }
+  &:hover {
+    background-color: $gray !important;
+  }
 }
 
-.delete-button{
-
-    transition: 0.3s;
+.delete-button-collapsed {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.delete-icon{
-    vertical-align: -0.5em;
-    cursor: pointer;
+.save {
+  cursor: default;
 }
 
-.save{
-    cursor: default;
+.save-text {
+  cursor: pointer;
+  text-align: center;
 }
-
-.save-text{
-    cursor: pointer;
-    text-align: center;
-}
-
-

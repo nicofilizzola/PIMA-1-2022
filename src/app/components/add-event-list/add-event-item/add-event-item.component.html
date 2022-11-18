@@ -9,8 +9,8 @@
     *ngIf="collapsed"
     (click)="onExpand()"
   >
-    <h2 class="col-11">{{ title }}</h2>
-    <div class="col-1 delete-button">
+    <h2 class="col-12">{{ title }}</h2>
+    <div class="delete-button-collapsed me-4">
       <i
         class="delete-icon fa-regular fa-trash-can fa-xl"
         (click)="onDeleteItem($event)"
@@ -72,8 +72,7 @@
       </div>
       <div class="col-md-12" *ngIf="errorMessageOn">
         <ngb-alert [dismissible]="false" [type]="'danger'" class="mt-2">
-          <strong>Attention :</strong> Saisie de periode impossible, verifiez
-          les dates de debut et fin.
+          <strong>Attention :</strong> La durée renseignée n'est pas valide.
         </ngb-alert>
       </div>
       <div class="col-md-3 mt-3">
