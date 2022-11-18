@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     this._subscriptions.push(
       this._gcalStorageService.dataFetched$.subscribe(() =>
-        setTimeout(() => (this.loading = false), 2000)
+        setTimeout(() => (this.loading = true), 2000)
       )
     );
   }
