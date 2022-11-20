@@ -5,7 +5,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { ChangeDetectionStrategy } from '@angular/compiler';
 import {
   Component,
   Input,
@@ -15,8 +14,11 @@ import {
   OnDestroy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
+import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
+
 @Component({
   selector: 'app-add-event-item',
   templateUrl: './add-event-item.component.html',
@@ -61,6 +63,9 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   @Input() itemId;
   @Input() isDeletable;
 
+  // Load the calendarList one single time for all the addEventItem components
+  @Input() calendarList;
+
   /**
    * @brief Communicate to parent if current item deleted
    */
@@ -73,7 +78,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   hourDuration = 1;
   minuteDuration = 1;
   priority = 'Choisir priorité...';
-  calendar = 'Choisir calendrier...';
+  calendar = '0';
   errorMessageOn = false;
 
   // Advanced options
@@ -96,12 +101,13 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   constructor(
     private _viewportService: ViewportService,
-    private _cd: ChangeDetectorRef
+    private _cd: ChangeDetectorRef,
+    private _gcalStorageService: GcalStorageService,
+    private _modalService: NgbModal
   ) {}
 
   ngOnInit() {
     this.expandedItem$.next(this.itemId);
-
     this._subscription = this.expandedItem$.subscribe((expandedId) => {
       if (expandedId != this.itemId) {
         this.onCollapse();
@@ -111,12 +117,25 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     });
   }
 
+  onGetSummary(calendarId) {
+    return this._gcalStorageService.getCalendarSummary(calendarId);
+  }
+
+  i;
+
   ngOnDestroy() {
     this._subscription.unsubscribe();
   }
 
   onCheckValidTime() {
-    if (this.minuteDuration > 59 || this.hourDuration > 23 || this.minuteDuration < 0 || this.hourDuration < 0 || this.minuteDuration % 1 != 0 || this.hourDuration % 1 != 0) {
+    if (
+      this.minuteDuration > 59 ||
+      this.hourDuration > 23 ||
+      this.minuteDuration < 0 ||
+      this.hourDuration < 0 ||
+      this.minuteDuration % 1 != 0 ||
+      this.hourDuration % 1 != 0
+    ) {
       this.errorMessageOn = true;
     } else {
       this.errorMessageOn = false;
@@ -128,7 +147,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     this.deleteItem.emit(this.itemId);
   }
 
-  onToggleFixedEvent() {
+  onTogglefixedEvent() {
     this.fixedEvent = !this.fixedEvent;
 
     if (this.consecutiveInstances) {
@@ -142,6 +161,39 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   isConsecutiveInstancesInputDisabled() {
     return this.instanceTotal < 2 || this.fixedEvent;
+  }
+
+  onOpenDeleteModal(targetModal) {
+    this._modalService.open(targetModal, {
+      backdrop: 'static',
+      size: 'lg',
+    });
+  }
+
+  formEmpty() {
+    // Check if an input from the form has been changed
+    if (
+      this.title !== undefined ||
+      this.hourDuration !== 1 ||
+      this.minuteDuration !== 1 ||
+      this.priority !== 'Choisir priorité...' ||
+      this.calendar !== '0' ||
+      this.location !== undefined ||
+      this.instanceTotal !== 1 ||
+      this.minDailyInstances !== undefined ||
+      this.maxDailyInstances !== undefined ||
+      this.borneInf !== undefined ||
+      this.borneSup !== undefined ||
+      this.marge !== undefined ||
+      this.date !== undefined ||
+      this.time !== undefined ||
+      this.description !== undefined ||
+      this.fixedEvent === true ||
+      this.consecutiveInstances === true
+    ) {
+      return false;
+    }
+    return true;
   }
 
   /**

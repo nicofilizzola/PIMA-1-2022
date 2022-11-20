@@ -1,4 +1,4 @@
-export interface Calendar {
+export interface GcalCalendar {
   kind: 'calendar#calendar';
   etag: string; // type etag
   id: string;

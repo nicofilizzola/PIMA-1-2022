@@ -1,9 +1,9 @@
-import { CalendarListEntry } from '../../calendar-list.model';
+import { GcalCalendarListEntry } from '../../calendar-list.model';
 
-export interface CalendarListListResponse {
+export interface GcalCalendarListListResponse {
   kind: 'calendar#calendarList';
   etag: string; // Type etag
   nextPageToken: string;
   nextSyncToken: string;
-  items: CalendarListEntry[];
+  items: GcalCalendarListEntry[];
 }

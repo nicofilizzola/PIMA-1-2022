@@ -1,4 +1,4 @@
-export interface Event {
+export interface GcalEvent {
   kind: 'calendar#event';
   etag: string; // type etag
   id: string;
@@ -147,23 +147,23 @@ export interface Event {
 /**
  * @brief Not provided by the API, this interface allows to easily categorize events by calendar
  */
-export interface EventList {
-  (calendarId): Event[];
+export interface GcalEventList {
+  (calendarId): GcalEvent[];
 }
 
 /**
  * @note Not provided by the API, this interface allows to easily categorize recurring event instances
  */
-export interface EventInstances {
+export interface GcalEventInstances {
   (calendarId): {
-    (eventId): Event[];
+    (eventId): GcalEvent[];
   };
 }
 
 /**
  * @note This type may be used if eventList accessed via Object.entries
  */
-export type EventListEntry = [
+export type GcalEventListEntry = [
   string, // calendarId
-  Event[]
+  GcalEvent[]
 ];
