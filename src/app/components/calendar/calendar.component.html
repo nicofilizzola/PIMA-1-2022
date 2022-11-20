@@ -1,1 +1,12 @@
+
+
 <div id='myCalendar' #myCalendar></div>
+
+<div id="caption" >
+    <dl *ngFor="let calendar of calendarColors" class="property-list">
+
+        <dt class="property-list__key"> {{calendar.name}}</dt>
+    
+        <dd class="property-list__value"><span class="dot" [style.background-color]=calendar.color></span></dd>
+    </dl>
+</div>
