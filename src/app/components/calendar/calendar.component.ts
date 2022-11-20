@@ -10,7 +10,11 @@ import { CalendarOptions } from '@fullcalendar/web-component';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import rrulePlugin from '@fullcalendar/rrule';
-import { GcalEvent, GcalEventList, GcalEventListEntry } from 'src/app/models/event.model';
+import {
+  GcalEvent,
+  GcalEventList,
+  GcalEventListEntry,
+} from 'src/app/models/event.model';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { Subscription } from 'rxjs';
 import { GcalCalendarList } from 'src/app/models/calendar-list.model';
@@ -22,9 +26,9 @@ import { GcalCalendarList } from 'src/app/models/calendar-list.model';
 })
 export class CalendarComponent implements OnInit, OnDestroy {
   fetchedEvents: GcalEventList;
-  fetchedCalendarList :GcalCalendarList;
+  fetchedCalendarList: GcalCalendarList;
   dataFetchedSubscription: Subscription;
-  calendarColors : {id: string,name:string, color: string}[] = [];
+  calendarColors: { id: string; name: string; color: string }[] = [];
   /**
    * This property is used as a temporary storage for events to prevent a bug related to **fullGcalCalendar**'s configuration
    */
@@ -46,7 +50,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     selectMirror: true,
     dayMaxEvents: true,
     events: [],
-    allDaySlot: false 
+    allDaySlot: false,
   };
 
   constructor(private _gcalStorageService: GcalStorageService) {}
@@ -132,22 +136,28 @@ export class CalendarComponent implements OnInit, OnDestroy {
         this._populateCalendarData();
         this._handleCalendarRendering();
       });
-
   }
 
   private _populateCalendarData() {
     Object.entries(this.fetchedEvents).forEach(
       (eventListEntry: GcalEventListEntry) => {
-
-        let calendarId: string = eventListEntry[0] ;
+        let calendarId: string = eventListEntry[0];
 
         eventListEntry[1].forEach((event: GcalEvent) => {
-          
           let backgroundColor = this._getBackgroundColor(calendarId);
-          
-          let calendarColor = {id: calendarId,name: this._gcalStorageService.getCalendarSummary(calendarId) , color:backgroundColor};
-          this.calendarColors.map(function(elt) { return elt.id; }).indexOf(calendarId  ) === -1 ? this.calendarColors.push(calendarColor) : null; 
 
+          let calendarColor = {
+            id: calendarId,
+            name: this._gcalStorageService.getCalendarSummary(calendarId),
+            color: backgroundColor,
+          };
+          this.calendarColors
+            .map(function (elt) {
+              return elt.id;
+            })
+            .indexOf(calendarId) === -1
+            ? this.calendarColors.push(calendarColor)
+            : null;
 
           if (event.recurrence) {
             return this._appendRecurringEvent(event, backgroundColor);
@@ -172,7 +182,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     calendar.render();
   }
 
-  private _appendRecurringEvent(event: GcalEvent, backgroundColor : string) {
+  private _appendRecurringEvent(event: GcalEvent, backgroundColor: string) {
     this.tempEvents.push({
       title: event.summary,
       daysOfWeek: this.getRecurr(event.recurrence[0]),
@@ -180,23 +190,24 @@ export class CalendarComponent implements OnInit, OnDestroy {
       endTime: this.getTimeString(event.end.dateTime),
       startRecur: event.start.dateTime,
       endRecur: this.getEndRecurr(event.recurrence[0]),
-      color : backgroundColor,
+      color: backgroundColor,
     });
   }
 
-  private _appendRegularEvent(event: GcalEvent, backgroundColor : string) {
+  private _appendRegularEvent(event: GcalEvent, backgroundColor: string) {
     this.tempEvents.push({
       title: event.summary,
       start: event.start.dateTime,
       end: event.end.dateTime,
-      color : backgroundColor,
+      color: backgroundColor,
     });
   }
 
-  private _getBackgroundColor (calendarId: string) {
-    return this.fetchedCalendarList.find(calendar => calendar.id == calendarId).backgroundColor;
+  private _getBackgroundColor(calendarId: string) {
+    return this.fetchedCalendarList.find(
+      (calendar) => calendar.id == calendarId
+    ).backgroundColor;
   }
-
 
   ngOnDestroy(): void {
     this.dataFetchedSubscription.unsubscribe();
