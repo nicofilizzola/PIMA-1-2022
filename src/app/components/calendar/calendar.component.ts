@@ -13,6 +13,7 @@ import rrulePlugin from '@fullcalendar/rrule';
 import { GcalEvent, GcalEventList, GcalEventListEntry } from 'src/app/models/event.model';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { Subscription } from 'rxjs';
+import { GcalCalendarList } from 'src/app/models/calendar-list.model';
 
 @Component({
   selector: 'app-calendar',
@@ -21,6 +22,7 @@ import { Subscription } from 'rxjs';
 })
 export class CalendarComponent implements OnInit, OnDestroy {
   fetchedEvents: GcalEventList;
+  fetchedCalendarList :GcalCalendarList;
   dataFetchedSubscription: Subscription;
   /**
    * This property is used as a temporary storage for events to prevent a bug related to **fullGcalCalendar**'s configuration
@@ -122,6 +124,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.dataFetchedSubscription =
       this._gcalStorageService.dataFetched$.subscribe(() => {
         this.fetchedEvents = this._gcalStorageService.getEventList();
+        this.fetchedCalendarList = this._gcalStorageService.getCalendarList();
 
         this._clearCalendarData();
         this._populateCalendarData();
@@ -134,10 +137,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
     Object.entries(this.fetchedEvents).forEach(
       (eventListEntry: GcalEventListEntry) => {
         eventListEntry[1].forEach((event: GcalEvent) => {
+          
+          let backgroundColor : string = this.fetchedCalendarList.find(calendar => 
+            calendar.id == eventListEntry[0]).backgroundColor;
+
           if (event.recurrence) {
-            return this._appendRecurringEvent(event);
+            return this._appendRecurringEvent(event, backgroundColor);
           }
-          return this._appendRegularEvent(event);
+          return this._appendRegularEvent(event, backgroundColor);
         });
       }
     );
@@ -157,7 +164,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     calendar.render();
   }
 
-  private _appendRecurringEvent(event: GcalEvent) {
+  private _appendRecurringEvent(event: GcalEvent, backgroundColor : string) {
     this.tempEvents.push({
       title: event.summary,
       daysOfWeek: this.getRecurr(event.recurrence[0]),
@@ -165,14 +172,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
       endTime: this.getTimeString(event.end.dateTime),
       startRecur: event.start.dateTime,
       endRecur: this.getEndRecurr(event.recurrence[0]),
+      color : backgroundColor,
     });
   }
 
-  private _appendRegularEvent(event: GcalEvent) {
+  private _appendRegularEvent(event: GcalEvent, backgroundColor : string) {
     this.tempEvents.push({
       title: event.summary,
       start: event.start.dateTime,
       end: event.end.dateTime,
+      color : backgroundColor,
     });
   }
 
