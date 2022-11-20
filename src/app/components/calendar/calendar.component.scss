@@ -1,0 +1,35 @@
+.property-list {
+    /* Content is center horizontally */
+    align-items: center;
+    display: flex;
+
+    /* Spacing */
+    margin: 0;
+}
+.property-list__key {
+    /* Take the available width */
+    flex: 1;
+    margin-left: 0.5rem ;
+}
+.property-list__value {
+    margin-right: 0.5rem;
+}
+
+#caption {
+    width: 15%;
+    position: sticky;
+    bottom: 45%;
+    z-index: 2;
+    background-color: white;
+
+}
+#myCalendar {
+    z-index: 1;
+}
+
+.dot {
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    display: inline-block;
+  }
