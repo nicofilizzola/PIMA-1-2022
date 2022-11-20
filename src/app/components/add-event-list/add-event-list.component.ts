@@ -78,7 +78,7 @@ export class AddEventListComponent implements OnInit {
     this.items = [lastItem + 1];
   }
 
-  onOpenClearModal(targetModal) {
+  onOpenModal(targetModal) {
     this._modalService.open(targetModal, {
       backdrop: 'static',
       size: 'lg',
