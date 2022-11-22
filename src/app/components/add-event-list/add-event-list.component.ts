@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { GcalCalendarList, GcalCalendarListEntry } from 'src/app/models/calendar-list.model';
 import { GapiService } from 'src/app/shared/services/gapi/gapi.service';
+import { Time } from '@angular/common';
 import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
 
 
@@ -40,9 +41,8 @@ export class AddEventListComponent implements OnInit {
       let email = this._gapiService.getAuthenticatedUserEmail();
       this.calendarList.reverse();
   });
+
   }
-
-
 
   getCalendarSummary(calendarId){
     return this._gcalStorageService.getCalendarSummary(calendarId);

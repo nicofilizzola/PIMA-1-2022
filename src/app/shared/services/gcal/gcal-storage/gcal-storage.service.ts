@@ -12,6 +12,7 @@ import {
   GcalEventInstances,
 } from 'src/app/models/event.model';
 import { GapiService } from '../../gapi/gapi.service';
+import { AvailableTimeSlot } from 'src/app/models/available-time-slot.model';
 
 @Injectable({
   providedIn: 'root',
@@ -72,6 +73,7 @@ export class GcalStorageService {
    * TODAY, ONE_DAY_FROM_TODAY, ONE_WEEK_FROM_TODAY, ONE_MONTH_FROM_TODAY
    */
   getEventList(timestampMin?: number, timestampMax?: number): GcalEventList {
+    console.log(this.eventList$.getValue());
     let eventListEntries = Object.entries(this.eventList$.getValue());
     let rangedEventListEntries = eventListEntries.map(
       (eventListEntry: GcalEventListEntry) => {
@@ -85,7 +87,9 @@ export class GcalStorageService {
         ];
       }
     );
-    let rangedEventList: GcalEventList = Object.fromEntries(rangedEventListEntries);
+    let rangedEventList: GcalEventList = Object.fromEntries(
+      rangedEventListEntries
+    );
     return rangedEventList;
   }
 
@@ -120,7 +124,10 @@ export class GcalStorageService {
    * @note Both time parameters `timestampMin` and `timestampMax` can use constants ONE_DAY_AGO, ONE_WEEK_AGO, ONE_MONTH_AGO,
    * TODAY, ONE_DAY_FROM_TODAY, ONE_WEEK_FROM_TODAY, ONE_MONTH_FROM_TODAY
    */
-  getEventInstances(timestampMin?: number, timestampMax?: number): GcalEventList {
+  getEventInstances(
+    timestampMin?: number,
+    timestampMax?: number
+  ): GcalEventList {
     let eventListEntries = Object.entries(this.eventInstances$.getValue());
     let rangedEventListEntries = eventListEntries.map(
       (eventListEntry: GcalEventListEntry) => {
@@ -134,7 +141,9 @@ export class GcalStorageService {
         ];
       }
     );
-    let rangedEventList: GcalEventList = Object.fromEntries(rangedEventListEntries);
+    let rangedEventList: GcalEventList = Object.fromEntries(
+      rangedEventListEntries
+    );
     return rangedEventList;
   }
 
@@ -204,5 +213,12 @@ export class GcalStorageService {
     }
 
     return filteredEvents;
+  }
+
+  /**
+   * @returns : A list of all the events, not depending of the calendar.
+   */
+  getAllEvent(){
+    let events : GcalEvent[];
   }
 }
