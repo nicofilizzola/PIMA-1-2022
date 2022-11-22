@@ -67,8 +67,6 @@ export class PieChartComponent implements OnInit, OnDestroy {
   private _populateDatasets() {
     Object.entries(this.fetchedEvents).forEach(
       (eventListEntry: GcalEventListEntry) => {
-
-
         this.pieChartDatasets[0].data.push(
           eventListEntry[1].length
         );
