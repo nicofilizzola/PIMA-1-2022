@@ -208,7 +208,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   onCollapse() {
     if (this.title == null) {
-      this.title = 'Tâche sans nom';
+      this.title = 'Évènement sans nom';
     }
     this.collapsed = true;
   }
