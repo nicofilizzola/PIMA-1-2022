@@ -101,9 +101,6 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   fixedEvent = false;
   consecutiveInstances = false;
 
-  // Animation
-  advancedOptionsAnimationState = 'off';
-
   constructor(
     private _viewportService: ViewportService,
     private _cd: ChangeDetectorRef,
@@ -214,6 +211,8 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
       this.title = `Tâche sans nom ${this.itemId}`;
     }
     this.collapsed = true;
+
+    this.advancedOptionsActive = false;
   }
 
   onExpand() {
