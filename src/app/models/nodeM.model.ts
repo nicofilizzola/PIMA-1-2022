@@ -24,10 +24,10 @@ export class Period {
   }
 }
 
-export class NodeM {
+export class PeriodTree {
   period: Period;
-  lNode: NodeM;
-  rNode: NodeM;
+  lNode: PeriodTree;
+  rNode: PeriodTree;
 
   constructor(period: Period) {
     this.period = period;
@@ -62,10 +62,10 @@ export class NodeM {
         return;
       }
 
-      this.lNode = new NodeM(
+      this.lNode = new PeriodTree(
         new Period(new Date(this.period.getStart()), new Date(start))
       );
-      this.rNode = new NodeM(
+      this.rNode = new PeriodTree(
         new Period(new Date(end), new Date(this.period.getEnd()))
       );
 
@@ -77,7 +77,11 @@ export class NodeM {
       end > this.lNode.period.getStart()
     ) {
       this.lNode.removePeriodDate(new Date(start), new Date(end));
-    } else {
+    }
+    if (
+      start < this.rNode.period.getEnd() &&
+      end > this.rNode.period.getStart()
+    ) {
       this.rNode.removePeriodDate(new Date(start), new Date(end));
     }
   }

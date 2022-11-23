@@ -1,14 +1,12 @@
 import { Time } from '@angular/common';
-import { EmptyExpr } from '@angular/compiler';
-import { EmptyError } from 'rxjs';
-import { GcalEvent, GcalEventList } from './event.model';
-import { NodeM, Period } from './nodeM.model';
+import { GcalEvent } from './event.model';
+import { PeriodTree, Period } from './nodeM.model';
 const dayInMillis = 24 * 60 * 60 * 1000;
 
 
 export class AvailableTimeSlot {
 
-  availableSlotsTree : NodeM;
+  availableSlotsTree : PeriodTree;
 
   /**
    *
@@ -24,7 +22,7 @@ export class AvailableTimeSlot {
     infTime: Time,
     supTime: Time
   ) {
-    this.availableSlotsTree = new NodeM(period);
+    this.availableSlotsTree = new PeriodTree(period);
     this.removeAllNights(period,infTime,supTime);
     this.removeAllEvents(eventList);
   }
@@ -56,17 +54,10 @@ export class AvailableTimeSlot {
     let nightDurationInMillis = dayInMillis - supTimeMillis + infTimeMillis;
 
     let actualTimeOfDay = period.getStart().getTime() % dayInMillis;
-    if (actualTimeOfDay < infTimeMillis) {
-      nightStart.setTime(
-        period.getStart().getTime() + supTimeMillis - actualTimeOfDay - dayInMillis
-      );
-    } else if (actualTimeOfDay < supTimeMillis) {
-      nightStart.setTime(period.getStart().getTime() + supTimeMillis - actualTimeOfDay);
-    } else {
-      nightStart.setTime(
-        period.getStart().getTime() + supTimeMillis - actualTimeOfDay - dayInMillis
-      );
-    }
+
+    nightStart.setTime(
+      period.getStart().getTime() + supTimeMillis - actualTimeOfDay - dayInMillis
+    );
 
     while (nightStart < period.getEnd()) {
       nightEnd.setTime(nightStart.getTime() + nightDurationInMillis);
