@@ -77,9 +77,11 @@ export class AddEventListComponent implements OnInit {
     const lastItem = this.items[this.items.length - 1];
     this.items = [lastItem + 1];
   }
-  
-  /*This function's argument must refer to the # name of the modal in question found 
-  in the HTML file */
+
+  /**
+   *
+   * @param targetModal must match the modal's reference id on the template
+   */
   onOpenModal(targetModal) {
     this._modalService.open(targetModal, {
       backdrop: 'static',
