@@ -1,99 +1,91 @@
 export class Period {
-    start: Date;
-    end: Date;
-  
-    constructor(start: Date, end: Date) {
-      this.start = start;
-      this.end = end;
-    }
-  
-    getStart(): Date {
-      return this.start;
-    }
-  
-    getEnd(): Date {
-      return this.end;
-    }
-  
-    setStart(newStart: Date) {
-      this.start = newStart;
-    }
-  
-    setEnd(newEnd: Date) {
-      this.end = newEnd;
-    }
-  }
-  
-  export class NodeM {
-    period: Period;
-    lNode: NodeM;
-    rNode: NodeM;
-  
-    constructor(period: Period) {
-      this.period = period;
-    }
-  
-    removePeriod(period : Period){
-        this.removePeriodDate(period[0],period[1]);
-    }
+  start: Date;
+  end: Date;
 
-    removePeriodDate(start: Date, end: Date) {
-      if (this.lNode == undefined) {
-        //End Node Case
-  
-        if (start < this.period.getStart()) {
-          //Not Inside
-          if (end < this.period.getEnd()) {
-            return;
-          }
-  
-          //Overlap on the begining
-          else {
-            this.period.setStart(end);
-            return;
-          }
-        }
-  
-        if (start > this.period.getEnd()) {
+  constructor(start: Date, end: Date) {
+    this.start = start;
+    this.end = end;
+  }
+
+  getStart(): Date {
+    return this.start;
+  }
+
+  getEnd(): Date {
+    return this.end;
+  }
+
+  setStart(newStart: Date) {
+    this.start = new Date(newStart);
+  }
+
+  setEnd(newEnd: Date) {
+    this.end = new Date(newEnd);
+  }
+}
+
+export class NodeM {
+  period: Period;
+  lNode: NodeM;
+  rNode: NodeM;
+
+  constructor(period: Period) {
+    this.period = period;
+    this.lNode = null;
+    this.rNode = null;
+  }
+
+  removePeriod(period: Period) {
+    this.removePeriodDate(
+      new Date(period.getStart()),
+      new Date(period.getEnd())
+    );
+  }
+
+  removePeriodDate(start: Date, end: Date) {
+    if (this.lNode == null) {
+      if (start < this.period.getStart()) {
+        if (end < this.period.getEnd()) {
           return;
         }
-  
-        //Overlap on the end
-        if (end > this.period.getEnd()) {
-          this.period.setEnd(start);
-          return;
-        }
-  
-        //Lase Case, inseting in the middle, we have to make it an end node.
-        //Now this node is no longer an end node
-  
-        this.lNode = new NodeM(new Period(this.period.getStart(), start));
-        this.rNode = new NodeM(new Period(end, this.period.getEnd()));
-  
+
+        this.period.setStart(new Date(end));
         return;
       }
-  
-      //Not End Node Case
-      if (
-        !(start > this.lNode.period.getEnd()) &&
-        !(end < this.lNode.period.getStart())
-      ) {
-        this.lNode.removePeriodDate(start, end);
+
+      if (start > this.period.getEnd()) {
+        return;
       }
-  
-      if (
-        !(start > this.rNode.period.getEnd()) &&
-        !(end < this.rNode.period.getStart())
-      ) {
-        this.rNode.removePeriodDate(start, end);
+
+      if (end > this.period.getEnd()) {
+        this.period.setEnd(new Date(start));
+        return;
       }
+
+      this.lNode = new NodeM(
+        new Period(new Date(this.period.getStart()), new Date(start))
+      );
+      this.rNode = new NodeM(
+        new Period(new Date(end), new Date(this.period.getEnd()))
+      );
+
+      return;
     }
-  
-    getListPeriod(): Period[] {
-      if (this.lNode == undefined) {
-        return [this.period];
-      }
-      return [...this.lNode.getListPeriod(), ...this.rNode.getListPeriod()];
+
+    if (
+      start < this.lNode.period.getEnd() &&
+      end > this.lNode.period.getStart()
+    ) {
+      this.lNode.removePeriodDate(new Date(start), new Date(end));
+    } else {
+      this.rNode.removePeriodDate(new Date(start), new Date(end));
     }
   }
-  
+
+  getListPeriod(): Period[] {
+    if (this.lNode == undefined) {
+      return [this.period];
+    }
+    return [...this.lNode.getListPeriod(), ...this.rNode.getListPeriod()];
+  }
+}

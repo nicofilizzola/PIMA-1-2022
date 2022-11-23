@@ -34,16 +34,14 @@ export class AvailableTimeSlot {
   }
 
   removeEvent(event : GcalEvent){
-    let start = new Date (event.start.date);
-    let end = new Date (event.end.date);
+    let start = new Date (event.start.dateTime);
+    let end = new Date (event.end.dateTime);
     this.availableSlotsTree.removePeriodDate(start,end);
   }
 
   removeAllEvents(eventList:GcalEvent[]){
     for (let event of eventList){
-      let start = event.start.date;
-      let end = event.end.date;
-      this.availableSlotsTree.removePeriodDate(new Date(start),new Date (end));
+      this.removeEvent(event);
     }
   }
 
@@ -51,35 +49,29 @@ export class AvailableTimeSlot {
     let nightStart = new Date();
     let nightEnd = new Date();
 
-    //Usefull Stuff
     let infTimeMillis =
       infTime.hours * 60 * 60 * 1000 + infTime.minutes * 60 * 1000;
     let supTimeMillis =
       supTime.hours * 60 * 60 * 1000 + supTime.minutes * 60 * 1000;
     let nightDurationInMillis = dayInMillis - supTimeMillis + infTimeMillis;
 
-    //Initialising nightStart to the Date of the first night start in the period.
-    let actualTimeOfDay = period[0].getTime() % dayInMillis; //Give the time in millisecond of the day ex : if period start at 14h30, it will give 14 * 60 * 60 * 1000 + 30 * 60 * 1000
+    let actualTimeOfDay = period.getStart().getTime() % dayInMillis;
     if (actualTimeOfDay < infTimeMillis) {
       nightStart.setTime(
         period.getStart().getTime() + supTimeMillis - actualTimeOfDay - dayInMillis
-      ); //Starts a day before
+      );
     } else if (actualTimeOfDay < supTimeMillis) {
-      nightStart.setTime(period[0].getTime() + supTimeMillis - actualTimeOfDay);
+      nightStart.setTime(period.getStart().getTime() + supTimeMillis - actualTimeOfDay);
     } else {
       nightStart.setTime(
         period.getStart().getTime() + supTimeMillis - actualTimeOfDay - dayInMillis
-      ); //Starts a day before
+      );
     }
 
-    //Loop on all the possible nights.
-    while (nightStart.getTime() < period.getEnd().getTime()) {
-      //Setting the night end
+    while (nightStart < period.getEnd()) {
       nightEnd.setTime(nightStart.getTime() + nightDurationInMillis);
-      //Update free periods
       this.availableSlotsTree.removePeriodDate(nightStart, nightEnd);
-      //Preparing the next loop
-      nightStart.setTime(nightStart.getTime() + dayInMillis); // Next Day
+      nightStart.setTime(nightStart.getTime() + dayInMillis);
     }
   }
 }
