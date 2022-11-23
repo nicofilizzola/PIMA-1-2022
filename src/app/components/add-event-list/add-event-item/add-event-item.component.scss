@@ -1,25 +1,24 @@
-$gray: #dadada;
+@import "../../../shared/scss/variables";
 
 textarea {
   resize: none;
 }
 
-.collapsed-title {
-  transition: 0.3s;
-  cursor: pointer;
-
-  &:hover {
-    background-color: $gray !important;
+.delete-btn- {
+  &expanded {
+    &:hover {
+      color: $bootstrap-muted-darker !important;
+    }
   }
-}
 
-.delete-button-collapsed {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  &collapsed {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 
 .save {
