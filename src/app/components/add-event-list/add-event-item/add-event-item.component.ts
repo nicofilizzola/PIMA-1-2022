@@ -19,6 +19,11 @@ import { Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 
+const COLLAPSED_ANIMATION_STATE = {
+  COLLAPSED: 'collapsed',
+  EXPANDED: 'expanded',
+};
+
 @Component({
   selector: 'app-add-event-item',
   templateUrl: './add-event-item.component.html',

@@ -1,7 +1,7 @@
 <div
   [ngClass]="{
     'collapsed-title': collapsed,
-    'container-md bg-light p-4 my-2 rounded': true
+    'container-md bg-light p-4 my-2 rounded aei-container': true
   }"
 >
   <div class="row" *ngIf="collapsed">
@@ -18,7 +18,7 @@
 
     <div class="col-12">
       <div class="row">
-        <button type="button" class="btn" (click)="onExpand()">
+        <button type="button" class="btn rounded-circle btn-circle mx-auto d-flex" (click)="onExpand()">
           <i class="fa-solid fa-chevron-down"></i>
         </button>
       </div>
@@ -372,7 +372,7 @@
       </div>
     </div>
     <div class="row">
-      <button type="button" class="btn" (click)="onCollapse()">
+      <button type="button" class="btn rounded-circle btn-circle mx-auto" (click)="onCollapse()">
         <i class="fa-solid fa-chevron-up"></i>
       </button>
     </div>

@@ -1,5 +1,6 @@
 $bootstrap-primary: #0d6efd;
 $bootstrap-muted: #6c757d;
+$bootstrap-light: #f8f9fa;
+$bootstrap-light-darker: darken($bootstrap-light, 20%);
 $bootstrap-muted-darker: darken($bootstrap-muted, 20%);
 $shadow-color: rgba(0, 0, 0, 0.3);
-

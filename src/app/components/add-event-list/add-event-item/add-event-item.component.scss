@@ -21,11 +21,16 @@ textarea {
   }
 }
 
-.save {
-  cursor: default;
+.aei-container {
+  transition: 0.3s;
+  height: 100%;
 }
 
-.save-text {
-  cursor: pointer;
-  text-align: center;
+.btn-circle {
+  transition: 0.3s;
+  width: 30px;
+  height: 30px;
+  &:hover {
+    background-color: $bootstrap-light-darker !important;
+  }
 }
