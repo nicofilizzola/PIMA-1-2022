@@ -3,11 +3,13 @@ import { Subject, Subscription } from 'rxjs';
 import { BoundsCheckerService } from '../../shared/services/bounds-checker/bounds-checker.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
-import { GcalCalendarList, GcalCalendarListEntry } from 'src/app/models/calendar-list.model';
+import {
+  GcalCalendarList,
+  GcalCalendarListEntry,
+} from 'src/app/models/calendar-list.model';
 import { GapiService } from 'src/app/shared/services/gapi/gapi.service';
 import { Time } from '@angular/common';
 import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
-
 
 @Component({
   selector: 'app-add-event-list',
@@ -22,32 +24,30 @@ export class AddEventListComponent implements OnInit {
   higher = '18:00';
   errorMessageOn = false;
 
-  calendarList : GcalCalendarList;
-  dataFetchedSubscription : Subscription;
+  calendarList: GcalCalendarList;
+  dataFetchedSubscription: Subscription;
 
   constructor(
     private _boundsCheckerService: BoundsCheckerService,
     private _modalService: NgbModal,
     private _gcalStorageService: GcalStorageService,
-    private _gapiService : GapiService
+    private _gapiService: GapiService
   ) {}
 
   ngOnInit(): void {
     this.dataFetchedSubscription =
-    this._gcalStorageService.dataFetched$.subscribe(() => {
-      this.calendarList = this._gcalStorageService.getCalendarList();
+      this._gcalStorageService.dataFetched$.subscribe(() => {
+        this.calendarList = this._gcalStorageService.getCalendarList();
 
-      // Changes the main calendar name to 'GcalEvents' and reverse the list
-      let email = this._gapiService.getAuthenticatedUserEmail();
-      this.calendarList.reverse();
-  });
-
+        // Changes the main calendar name to 'GcalEvents' and reverse the list
+        let email = this._gapiService.getAuthenticatedUserEmail();
+        this.calendarList.reverse();
+      });
   }
 
-  getCalendarSummary(calendarId){
+  getCalendarSummary(calendarId) {
     return this._gcalStorageService.getCalendarSummary(calendarId);
-  };
-
+  }
 
   onAddItem() {
     let greatestItemId = Math.max(...this.items);

@@ -80,11 +80,12 @@
       </button>
     </div>
     <div class="row">
-      <button 
-        type="button" 
+      <button
+        type="button"
         class="btn btn-primary mt-2 col-md-6"
         (click)="onOpenModal(Validate)"
-      >Valider
+      >
+        Valider
       </button>
     </div>
   </div>
@@ -113,11 +114,7 @@
     </p>
   </div>
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="modal.dismiss()"
-    >
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
       Annuler
     </button>
     <button
@@ -152,18 +149,10 @@
     </p>
   </div>
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="modal.dismiss()"
-    >
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
       Annuler
     </button>
-    <button
-      type="button"
-      class="btn btn-success"
-      (click)="modal.close()"
-    >
+    <button type="button" class="btn btn-success" (click)="modal.close()">
       <!-- TODO: (click)="onAddEventListToCalendar() pour le vouton ajouter taches
         et creer la fonction sur le fichier.ts -->
       Ajouter taches
