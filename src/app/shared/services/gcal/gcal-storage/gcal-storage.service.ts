@@ -215,28 +215,4 @@ export class GcalStorageService {
 
     return filteredEvents;
   }
-
-  /**
-   * @returns : A list of all the events, not depending of the calendar.
-   */
-  getAllEventTest() {
-    let events = []
-    for (var calendar of this.getCalendarList()){
-      let calendarId = calendar.id;
-      events = [...events,...this.getCalendarEventList(calendarId)]
-    }
-    let slots = new AvailableTimeSlot(
-      events,
-      new Period(
-        new Date('November 13, 2022 03:00:00'),
-        new Date('November 19, 2022 20:00:00')
-      ),
-      { hours: 3, minutes: 0 },
-      { hours: 20, minutes: 0 }
-    );
-    console.log("events");
-    console.log(events);
-    console.log("availableTimeSlots");
-    console.log(slots.getListTimeSlots());
-  }
 }

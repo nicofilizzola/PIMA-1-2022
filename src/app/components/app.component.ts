@@ -39,7 +39,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this._subscriptions.push(
       this._gcalStorageService.dataFetched$.subscribe(() => {
         setTimeout(() => (this.loading = false), MIN_LOADING_SCREEN_TIME);
-        this._gcalStorageService.getAllEventTest();
       })
     );
   }
