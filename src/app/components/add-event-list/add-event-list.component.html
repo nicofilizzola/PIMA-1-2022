@@ -11,7 +11,7 @@
         <option value="">D'ici 30 jours</option>
       </select>
       <button
-        (click)="onOpenModal(contentClear)"
+        (click)="onOpenModal(Clear)"
         type="button"
         class="btn btn-danger mt-2"
         *ngIf="isItemsLengthGreaterThan1()"
@@ -83,15 +83,15 @@
       <button 
         type="button" 
         class="btn btn-primary mt-2 col-md-6"
-        (click)="onOpenModal(taskValidation)"
+        (click)="onOpenModal(Validate)"
       >Valider
       </button>
     </div>
   </div>
 </div>
 
-<!-- #contentClear allows to display the modal correctly -->
-<ng-template #contentClear let-modal>
+<!-- #Clear allows to display the modal correctly -->
+<ng-template #Clear let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-title">
       Suppression de tous les évènements
@@ -131,7 +131,7 @@
   </div>
 </ng-template>
 
-<ng-template #taskValidation let-modal>
+<ng-template #Validate let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-title">
       Ajout des évènements au calendrier
