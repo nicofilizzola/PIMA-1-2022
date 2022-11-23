@@ -11,7 +11,7 @@
         <option value="">D'ici 30 jours</option>
       </select>
       <button
-        (click)="onOpenClearModal(contentClear)"
+        (click)="onOpenModal(Clear)"
         type="button"
         class="btn btn-danger mt-2"
         *ngIf="isItemsLengthGreaterThan1()"
@@ -80,15 +80,18 @@
       </button>
     </div>
     <div class="row">
-      <button type="button" class="btn btn-primary mt-2 col-md-6">
-        Valider
+      <button 
+        type="button" 
+        class="btn btn-primary mt-2 col-md-6"
+        (click)="onOpenModal(Validate)"
+      >Valider
       </button>
     </div>
   </div>
 </div>
 
-<!-- #contentClear allows to display the modal correctly -->
-<ng-template #contentClear let-modal>
+<!-- #Clear allows to display the modal correctly -->
+<ng-template #Clear let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-title">
       Suppression de tous les évènements
@@ -124,6 +127,46 @@
       (click)="modal.close()"
     >
       Supprimer
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #Validate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">
+      Ajout des évènements au calendrier
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-describedby="modal-title"
+      (click)="modal.dismiss()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <p>
+      <strong>Etes-vous sur de vouloir ajouter les évènements ?</strong>
+    </p>
+    <p>
+      Tous les évènements ajoutés dans la liste seront ajoutés au calendrier.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="modal.dismiss()"
+    >
+      Annuler
+    </button>
+    <button
+      type="button"
+      class="btn btn-success"
+      (click)="modal.close()"
+    >
+      <!-- TODO: (click)="onAddEventListToCalendar() pour le vouton ajouter taches
+        et creer la fonction sur le fichier.ts -->
+      Ajouter taches
     </button>
   </div>
 </ng-template>
