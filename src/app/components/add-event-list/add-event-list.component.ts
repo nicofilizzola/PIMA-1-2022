@@ -78,7 +78,11 @@ export class AddEventListComponent implements OnInit {
     this.items = [lastItem + 1];
   }
 
-  onOpenClearModal(targetModal) {
+  /**
+   *
+   * @param targetModal must match the modal's reference id on the template
+   */
+  onOpenModal(targetModal) {
     this._modalService.open(targetModal, {
       backdrop: 'static',
       size: 'lg',

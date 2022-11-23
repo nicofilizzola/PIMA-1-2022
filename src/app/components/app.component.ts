@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loading = true;
     if (this._gapiService.getAuthenticatedUserEmail()) {
       // Timeout prevents sending request too soon (Avoid 401 bug)
-      setTimeout(() => this._gcalRequestHandlerService.fetchData(), 100);
+      setTimeout(() => this._gcalRequestHandlerService.fetchData(), 1000);
     }
     const MIN_LOADING_SCREEN_TIME = 2000;
     this._subscriptions.push(
