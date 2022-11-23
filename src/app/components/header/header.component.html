@@ -20,6 +20,7 @@
               class="nav-link"
               [routerLink]="'events'"
               (click)="onRefresh(); isMenuCollapsed = true"
+              [routerLinkActive]="'text-primary'"
             >
               Ajout d'événements
             </a>
@@ -29,6 +30,7 @@
               class="nav-link"
               [routerLink]="'stats'"
               (click)="onRefresh(); isMenuCollapsed = true"
+              [routerLinkActive]="'text-primary'"
             >
               Statistiques
             </a>
