@@ -12,8 +12,8 @@ import {
   GcalEventInstances,
 } from 'src/app/models/event.model';
 import { GapiService } from '../../gapi/gapi.service';
-import { AvailableTimeSlot } from 'src/app/models/available-time-slot.model';
-import { Period } from 'src/app/models/nodeM.model';
+import { AvailableTimeSlot } from 'src/app/models/period-tree/available-time-slot.model';
+import { Period } from 'src/app/models/period-tree/period-tree.model';
 
 @Injectable({
   providedIn: 'root',

@@ -1,6 +1,6 @@
 import { Time } from '@angular/common';
-import { GcalEvent } from './event.model';
-import { PeriodTree, Period } from './nodeM.model';
+import { GcalEvent } from '../event.model';
+import { PeriodTree, Period } from './period-tree.model';
 const dayInMillis = 24 * 60 * 60 * 1000;
 
 
@@ -37,13 +37,13 @@ export class AvailableTimeSlot {
     this.availableSlotsTree.removePeriodDate(start,end);
   }
 
-  removeAllEvents(eventList:GcalEvent[]){
+  private removeAllEvents(eventList:GcalEvent[]){
     for (let event of eventList){
       this.removeEvent(event);
     }
   }
 
-  removeAllNights(period: Period, infTime: Time, supTime: Time) {
+  private removeAllNights(period: Period, infTime: Time, supTime: Time) {
     let nightStart = new Date();
     let nightEnd = new Date();
 
