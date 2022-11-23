@@ -2,12 +2,13 @@ import { Time } from '@angular/common';
 import { EmptyExpr } from '@angular/compiler';
 import { EmptyError } from 'rxjs';
 import { GcalEvent, GcalEventList } from './event.model';
+import { NodeM, Period } from './nodeM.model';
 const dayInMillis = 24 * 60 * 60 * 1000;
-type Node = null | {lNode : Node, period : [Date,Date], rNode : Node}
+
 
 export class AvailableTimeSlot {
 
-  timeSlotsTree : Node = null; 
+  availableSlotsTree : NodeM;
 
   /**
    *
@@ -19,73 +20,34 @@ export class AvailableTimeSlot {
 
   constructor(
     eventList: GcalEvent[],
-    period: [Date, Date],
+    period: Period,
     infTime: Time,
     supTime: Time
   ) {
-    this.timeSlotsTree = {
-      lNode : null,
-      period : [new Date(period[0]),new Date(period[1])],
-      rNode : null
-    }
-  }
-
-  newNode(left : Node ,period : [Date,Date], right : Node) : Node {
-    return {
-      lNode : left,
-      period : period, 
-      rNode : right
-    }
-  }
-
-  //AVL functions
-
-  /**
-   * 
-   * @param tree 
-   * @raise Empty : if the tree is not deep enough
-   * @return a tree with the applied rotation
-   * 
-   * To understaing the name of the variables https://www.geeksforgeeks.org/insertion-in-an-avl-tree/
-   */
-  rightRotation(tree : Node){
-
-    if(tree.lNode == null){throw new Error("lNode empty")}
-
-    let y = tree.period;
-    let x = tree.lNode.period;
-    let T1 = tree.lNode.lNode;
-    let T2 = tree.lNode.rNode;
-    let T3 = tree.rNode;
-    
-    return this.newNode(
-      T1,
-      x,
-      this.newNode(T2,y,T3)
-    )
-  }
-
-  leftRotation(tree : Node){
-    if(tree.rNode == null){throw new Error("rNode empty")}
-
-    let x = tree.period;
-    let y = tree.rNode.period; 
-    let T1 = tree.lNode;
-    let T2 = tree.rNode.lNode;
-    let T3 = tree.rNode.rNode;
-
-    return  this.newNode(
-      this.newNode(T1,x,T3),
-      y,
-      T3
-    )
+    this.availableSlotsTree = new NodeM(period);
+    this.removeAllNights(period,infTime,supTime);
+    this.removeAllEvents(eventList);
   }
 
   getListTimeSlots() {
-
+    return this.availableSlotsTree.getListPeriod();
   }
 
-  removeAllNights(period: [Date, Date], infTime: Time, supTime: Time) {
+  removeEvent(event : GcalEvent){
+    let start = new Date (event.start.date);
+    let end = new Date (event.end.date);
+    this.availableSlotsTree.removePeriodDate(start,end);
+  }
+
+  removeAllEvents(eventList:GcalEvent[]){
+    for (let event of eventList){
+      let start = event.start.date;
+      let end = event.end.date;
+      this.availableSlotsTree.removePeriodDate(new Date(start),new Date (end));
+    }
+  }
+
+  removeAllNights(period: Period, infTime: Time, supTime: Time) {
     let nightStart = new Date();
     let nightEnd = new Date();
 
@@ -100,22 +62,22 @@ export class AvailableTimeSlot {
     let actualTimeOfDay = period[0].getTime() % dayInMillis; //Give the time in millisecond of the day ex : if period start at 14h30, it will give 14 * 60 * 60 * 1000 + 30 * 60 * 1000
     if (actualTimeOfDay < infTimeMillis) {
       nightStart.setTime(
-        period[0].getTime() + supTimeMillis - actualTimeOfDay - dayInMillis
+        period.getStart().getTime() + supTimeMillis - actualTimeOfDay - dayInMillis
       ); //Starts a day before
     } else if (actualTimeOfDay < supTimeMillis) {
       nightStart.setTime(period[0].getTime() + supTimeMillis - actualTimeOfDay);
     } else {
       nightStart.setTime(
-        period[0].getTime() + supTimeMillis - actualTimeOfDay - dayInMillis
+        period.getStart().getTime() + supTimeMillis - actualTimeOfDay - dayInMillis
       ); //Starts a day before
     }
 
     //Loop on all the possible nights.
-    while (nightStart.getTime() < period[1].getTime()) {
+    while (nightStart.getTime() < period.getEnd().getTime()) {
       //Setting the night end
       nightEnd.setTime(nightStart.getTime() + nightDurationInMillis);
       //Update free periods
-      this.updateTimeSlotTime(nightStart, nightEnd);
+      this.availableSlotsTree.removePeriodDate(nightStart, nightEnd);
       //Preparing the next loop
       nightStart.setTime(nightStart.getTime() + dayInMillis); // Next Day
     }
