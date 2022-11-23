@@ -8,11 +8,11 @@
     <h2 class="col-12 position-relative">
       {{ title }}
       <button
-        class="btn delete-btn-collapsed me-4"
+        class="btn delete-btn-collapsed me-4 rounded-circle btn-circle"
         (click)="onDeleteItem($event)"
         *ngIf="isDeletable"
       >
-        <i class="delete-icon fa-regular fa-trash-can fa-xl text-muted"></i>
+        <i class="delete-icon fa-regular fa-trash-can"></i>
       </button>
     </h2>
 
