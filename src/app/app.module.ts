@@ -18,6 +18,7 @@ import { AddEventTooltipComponent } from './components/add-event-list/add-event-
 import { HeaderComponent } from './components/header/header.component';
 import { StatsViewComponent } from './components/stats-view/stats-view.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { LoadingScreenComponent } from './components/loading-screen/loading-scre
     AddEventTooltipComponent,
     HeaderComponent,
     StatsViewComponent,
-    LoadingScreenComponent
+    LoadingScreenComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

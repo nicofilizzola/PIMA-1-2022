@@ -19,6 +19,11 @@ import { Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 
+const COLLAPSED_ANIMATION_STATE = {
+  COLLAPSED: 'collapsed',
+  EXPANDED: 'expanded',
+};
+
 @Component({
   selector: 'app-add-event-item',
   templateUrl: './add-event-item.component.html',
@@ -95,9 +100,6 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   description: string;
   fixedEvent = false;
   consecutiveInstances = false;
-
-  // Animation
-  advancedOptionsAnimationState = 'off';
 
   constructor(
     private _viewportService: ViewportService,
@@ -209,6 +211,8 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
       this.title = `Tâche sans nom ${this.itemId}`;
     }
     this.collapsed = true;
+
+    this.advancedOptionsActive = false;
   }
 
   onExpand() {
