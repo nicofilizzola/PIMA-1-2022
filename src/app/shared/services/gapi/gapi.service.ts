@@ -13,6 +13,8 @@ const oAuthConfig: AuthConfig = {
     'openid profile email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events',
 };
 
+export const AUTH_USER_EMAIL_INIT = "INIT";
+
 /**
  * @note Gapi stands for Google API
  */
@@ -20,7 +22,7 @@ const oAuthConfig: AuthConfig = {
   providedIn: 'root',
 })
 export class GapiService {
-  authenticatedUserEmail$ = new BehaviorSubject<string>("INIT");
+  authenticatedUserEmail$ = new BehaviorSubject<string>(AUTH_USER_EMAIL_INIT);
 
   constructor(private _oAuthService: OAuthService) {
     this._oAuthService.configure(oAuthConfig);

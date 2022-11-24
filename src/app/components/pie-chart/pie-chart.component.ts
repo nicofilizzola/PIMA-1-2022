@@ -5,6 +5,7 @@ import { GcalStorageService } from '../../shared/services/gcal/gcal-storage/gcal
 import { Subscription } from 'rxjs';
 import { GcalEventList, GcalEventListEntry } from '../../models/event.model';
 import { PercentageService } from 'src/app/shared/services/percentage/percentage.service';
+import { GcalCalendarList } from 'src/app/models/calendar-list.model';
 
 @Component({
   selector: 'app-pie-chart',
@@ -13,9 +14,10 @@ import { PercentageService } from 'src/app/shared/services/percentage/percentage
 })
 export class PieChartComponent implements OnInit, OnDestroy {
   private _dataFetchSubscription: Subscription;
+  private fetchedCalendarList: GcalCalendarList;
 
   fetchedEvents: GcalEventList;
-  pieChartDatasets = [{ data: [] }];
+  pieChartDatasets = [{ data: [], backgroundColor: [] }];
   pieChartLabels = [];
   pieChartOptions: ChartOptions<'pie'> = {
     responsive: true,
@@ -48,6 +50,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
     this._dataFetchSubscription =
       this._gcalStorageService.dataFetched$.subscribe(() => {
         this.fetchedEvents = this._gcalStorageService.getAllEventList();
+        this.fetchedCalendarList = this._gcalStorageService.getCalendarList();
 
         this._cleanDatasets();
         this._populateDatasets();
@@ -58,7 +61,8 @@ export class PieChartComponent implements OnInit, OnDestroy {
 
   private _cleanDatasets() {
     this.pieChartDatasets[0].data = [];
-    this.pieChartLabels = []
+    this.pieChartDatasets[0].backgroundColor = [];
+    this.pieChartLabels = [];
   }
 
   /**
@@ -67,14 +71,21 @@ export class PieChartComponent implements OnInit, OnDestroy {
   private _populateDatasets() {
     Object.entries(this.fetchedEvents).forEach(
       (eventListEntry: GcalEventListEntry) => {
-
-
-        this.pieChartDatasets[0].data.push(
-          eventListEntry[1].length
+        this.pieChartDatasets[0].data.push(eventListEntry[1].length);
+        this.pieChartLabels.push(
+          this._gcalStorageService.getCalendarSummary(eventListEntry[0])
         );
-        this.pieChartLabels.push(this._gcalStorageService.getCalendarSummary(eventListEntry[0]));
+        this.pieChartDatasets[0].backgroundColor.push(
+          this._getBackgroundColor(eventListEntry[0])
+        );
       }
     );
+  }
+
+  private _getBackgroundColor(calendarId: string) {
+    return this.fetchedCalendarList.find(
+      (calendar) => calendar.id == calendarId
+    ).backgroundColor;
   }
 
   ngOnDestroy(): void {

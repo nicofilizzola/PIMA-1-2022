@@ -10,14 +10,6 @@
         <option value="">D'ici une semaine</option>
         <option value="">D'ici 30 jours</option>
       </select>
-      <button
-        (click)="onOpenModal(Clear)"
-        type="button"
-        class="btn btn-danger mt-2"
-        *ngIf="isItemsLengthGreaterThan1()"
-      >
-        Supprimer tous les évènements
-      </button>
     </div>
     <div class="col-md-4">
       <div class="row">
@@ -72,19 +64,27 @@
   ></app-add-event-item>
   <div class="container-md">
     <div class="row">
-      <button
-        (click)="onAddItem()"
-        class="btn btn-outline-primary mt-2 col-md-6"
-      >
+      <button (click)="onAddItem()" class="btn btn-outline-primary mt-2">
         Ajouter tache
       </button>
     </div>
     <div class="row">
-      <button 
-        type="button" 
-        class="btn btn-primary mt-2 col-md-6"
+      <button
+        (click)="onOpenClearModal(contentClear)"
+        type="button"
+        class="btn btn-danger mt-2"
+        *ngIf="isItemsLengthGreaterThan1()"
+      >
+        Effacer toutes les tâches
+      </button>
+    </div>
+    <div class="row">
+      <button
+        type="button"
+        class="btn btn-primary mt-2"
         (click)="onOpenModal(Validate)"
-      >Valider
+      >
+        Valider
       </button>
     </div>
   </div>
@@ -113,11 +113,7 @@
     </p>
   </div>
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="modal.dismiss()"
-    >
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
       Annuler
     </button>
     <button
@@ -152,21 +148,13 @@
     </p>
   </div>
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="modal.dismiss()"
-    >
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
       Annuler
     </button>
-    <button
-      type="button"
-      class="btn btn-success"
-      (click)="modal.close()"
-    >
+    <button type="button" class="btn btn-success" (click)="modal.close()">
       <!-- TODO: (click)="onAddEventListToCalendar() pour le vouton ajouter taches
         et creer la fonction sur le fichier.ts -->
-      Ajouter taches
+      Ajouter tâches
     </button>
   </div>
 </ng-template>

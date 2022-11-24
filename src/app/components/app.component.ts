@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { GapiService } from '../shared/services/gapi/gapi.service';
+import { AUTH_USER_EMAIL_INIT, GapiService } from '../shared/services/gapi/gapi.service';
 import { GcalRequestHandlerService } from '../shared/services/gcal/gcal-request-handler/gcal-request-handler.service';
 import { GcalStorageService } from '../shared/services/gcal/gcal-storage/gcal-storage.service';
 
@@ -20,26 +20,26 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.loading = true;
+
     this._subscriptions.push(
       this._gapiService.authenticatedUserEmail$.subscribe(
         (authenticatedUserEmail: string) => {
           if (authenticatedUserEmail === null) {
-            window.location.reload();
+            return window.location.reload();
+          }
+          if (authenticatedUserEmail !== AUTH_USER_EMAIL_INIT) {
+            this._gcalRequestHandlerService.fetchData()
           }
         }
       )
     );
 
-    this.loading = true;
-    if (this._gapiService.getAuthenticatedUserEmail()) {
-      // Timeout prevents sending request too soon (Avoid 401 bug)
-      setTimeout(() => this._gcalRequestHandlerService.fetchData(), 1000);
-    }
     const MIN_LOADING_SCREEN_TIME = 2000;
     this._subscriptions.push(
-      this._gcalStorageService.dataFetched$.subscribe(() =>
-        setTimeout(() => (this.loading = false), MIN_LOADING_SCREEN_TIME)
-      )
+      this._gcalStorageService.dataFetched$.subscribe(() => {
+        setTimeout(() => (this.loading = false), MIN_LOADING_SCREEN_TIME);
+      })
     );
   }
 

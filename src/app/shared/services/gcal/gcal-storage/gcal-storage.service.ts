@@ -12,6 +12,8 @@ import {
   GcalEventInstances,
 } from 'src/app/models/event.model';
 import { GapiService } from '../../gapi/gapi.service';
+import { AvailableTimeSlot } from 'src/app/models/period-tree/available-time-slot.model';
+import { Period } from 'src/app/models/period-tree/period-tree.model';
 
 @Injectable({
   providedIn: 'root',
@@ -85,7 +87,9 @@ export class GcalStorageService {
         ];
       }
     );
-    let rangedEventList: GcalEventList = Object.fromEntries(rangedEventListEntries);
+    let rangedEventList: GcalEventList = Object.fromEntries(
+      rangedEventListEntries
+    );
     return rangedEventList;
   }
 
@@ -120,7 +124,10 @@ export class GcalStorageService {
    * @note Both time parameters `timestampMin` and `timestampMax` can use constants ONE_DAY_AGO, ONE_WEEK_AGO, ONE_MONTH_AGO,
    * TODAY, ONE_DAY_FROM_TODAY, ONE_WEEK_FROM_TODAY, ONE_MONTH_FROM_TODAY
    */
-  getEventInstances(timestampMin?: number, timestampMax?: number): GcalEventList {
+  getEventInstances(
+    timestampMin?: number,
+    timestampMax?: number
+  ): GcalEventList {
     let eventListEntries = Object.entries(this.eventInstances$.getValue());
     let rangedEventListEntries = eventListEntries.map(
       (eventListEntry: GcalEventListEntry) => {
@@ -134,7 +141,9 @@ export class GcalStorageService {
         ];
       }
     );
-    let rangedEventList: GcalEventList = Object.fromEntries(rangedEventListEntries);
+    let rangedEventList: GcalEventList = Object.fromEntries(
+      rangedEventListEntries
+    );
     return rangedEventList;
   }
 

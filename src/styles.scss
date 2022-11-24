@@ -1,5 +1,5 @@
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import "../node_modules/bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 
 html {
@@ -9,4 +9,3 @@ html {
 .trans {
   transition: 0.3s ease-out;
 }
-

@@ -1,37 +1,36 @@
-$gray: #dadada;
-$darkgray: #888888;
+@import "../../../shared/scss/variables";
 
 textarea {
-    resize: none;
+  resize: none;
 }
 
-.collapsed-title{
-
-    transition: 0.3s;
-    cursor: pointer;
-
-    &:hover{
-        background-color: $gray !important;
+.delete-btn- {
+  &expanded {
+    &:hover {
+      color: $bootstrap-muted-darker !important;
     }
+  }
+
+  &collapsed {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 
-.delete-button{
-
-    transition: 0.3s;
+.aei-container {
+  transition: 0.3s;
+  height: 100%;
 }
 
-.delete-icon{
-    vertical-align: -0.5em;
-    cursor: pointer;
+.btn-circle {
+  transition: 0.3s;
+  width: 40px;
+  height: 40px;
+  &:hover {
+    background-color: $bootstrap-light-darker !important;
+  }
 }
-
-.save{
-    cursor: default;
-}
-
-.save-text{
-    cursor: pointer;
-    text-align: center;
-}
-
-

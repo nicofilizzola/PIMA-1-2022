@@ -1,1 +1,8 @@
-<div id='myCalendar' #myCalendar></div>
+<div class="caption-div">
+  <span *ngFor="let calendar of calendarColors" class="caption-span">
+    <span class="rectangle" [style.background-color]="calendar.color"></span>
+    {{ calendar.name }}
+  </span>
+</div>
+
+<div id="myCalendar" #myCalendar></div>
