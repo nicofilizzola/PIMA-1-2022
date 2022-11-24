@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { first, Subscription } from 'rxjs';
-import { GcalCalendarList, GcalCalendarListEntry } from 'src/app/models/calendar-list.model';
-import { GcalEvent, GcalEventInstances, GcalEventList, GcalEventListEntry } from 'src/app/models/event.model';
+import { GcalCalendarList, GcalCalendarListEntry } from 'src/app/models/gcal/calendar-list.model';
+import { GcalEvent, GcalEventInstances, GcalEventList, GcalEventListEntry } from 'src/app/models/gcal/event.model';
 import { GcalHttpService } from '../gcal-http/gcal-http.service';
 import { GcalStorageService } from '../gcal-storage/gcal-storage.service';
 

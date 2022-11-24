@@ -3,9 +3,9 @@ import { ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { GcalStorageService } from '../../shared/services/gcal/gcal-storage/gcal-storage.service';
 import { Subscription } from 'rxjs';
-import { GcalEventList, GcalEventListEntry } from '../../models/event.model';
+import { GcalEventList, GcalEventListEntry } from '../../models/gcal/event.model';
 import { PercentageService } from 'src/app/shared/services/percentage/percentage.service';
-import { GcalCalendarList } from 'src/app/models/calendar-list.model';
+import { GcalCalendarList } from 'src/app/models/gcal/calendar-list.model';
 
 @Component({
   selector: 'app-pie-chart',

@@ -1,4 +1,4 @@
-import { GcalEvent } from "../../event.model";
+import { GcalEvent } from "../../gcal/event.model";
 
 export interface GcalEventInstancesResponse {
   kind: 'calendar#events';
