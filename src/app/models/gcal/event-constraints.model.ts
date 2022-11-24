@@ -61,9 +61,21 @@ class EventConstraints {
       this.consecutiveInstances = consecutiveInstances;
   }
 
-  get durationMs(): number {
+  getDurationMs(): number {
     let hourDurationMs = this.hourDuration * 3600000;
     let minDurationMs = this.minuteDuration * 60000;
     return hourDurationMs + minDurationMs;
+  }
+
+  toEvent(startTime: Date) {
+    let endTime = new Date(startTime.getTime() + this.getDurationMs())
+    return {
+      start: {
+        dateTime: startTime.toISOString()
+      },
+      end: {
+        dateTime: endTime.toISOString()
+      }
+    }
   }
 }
