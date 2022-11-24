@@ -15,9 +15,10 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
+import { EventConstraints } from 'src/app/models/event-constraints.model';
 
 const COLLAPSED_ANIMATION_STATE = {
   COLLAPSED: 'collapsed',
@@ -63,10 +64,13 @@ const COLLAPSED_ANIMATION_STATE = {
 })
 export class AddEventItemComponent implements OnInit, OnDestroy {
   private _subscription: Subscription;
+  private _requestItemSubscription: Subscription;
 
   @Input() expandedItem$: Subject<number>;
   @Input() itemId;
   @Input() isDeletable;
+  @Input() requestItem;
+  @Input() responseItem: BehaviorSubject<EventConstraints[]>; //Observable which will collect the EventConstraints
 
   // Load the calendarList one single time for all the addEventItem components
   @Input() calendarList;
@@ -117,6 +121,9 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
         this._cd.detectChanges(); // Prevents error after template-used property is changed (this.collapsed)
       }
     });
+    this._requestItemSubscription = this.requestItem.subscribe(() => {
+      this.responseItem.next([...this.responseItem.getValue(),this.generateEventConstraints()]);
+    })
   }
 
   onGetSummary(calendarId) {
@@ -125,6 +132,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._subscription.unsubscribe();
+    this._requestItemSubscription.unsubscribe();
   }
 
   onCheckValidTime() {
@@ -228,5 +236,9 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
       return 'on-sm';
     }
     return 'on';
+  }
+
+  generateEventConstraints(){
+    return new EventConstraints(this);
   }
 }

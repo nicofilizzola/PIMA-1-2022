@@ -61,10 +61,10 @@ export interface GcalEvent {
   attendeesOmitted?: boolean;
   extendedProperties?: {
     private?: {
-      (key)?: string;
+      (key): string;
     };
     shared?: {
-      (key)?: string;
+      (key): string;
     };
   };
   hangoutLink?: string;
@@ -110,7 +110,7 @@ export interface GcalEvent {
     height?: number; // type integer
     display?: string;
     preferences?: {
-      (key)?: string;
+      (key): string;
     };
   };
   anyoneCanAddSelf?: boolean;

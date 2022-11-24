@@ -33,7 +33,7 @@ export class CalendarGeneratorService {
     infBound: Time,
     supBound: Time
   ) {
-    let existingEvents = this.unbindList(period);
+    let existingEvents = this.unbindExistingEventList(period);
     let availableTimeSlots = new AvailableTimeSlot(
       existingEvents,
       period,
@@ -41,15 +41,15 @@ export class CalendarGeneratorService {
       supBound
     );
 
-    let placedEventConstraints = getPlacedEvents();
-    for (var event of placedEventConstraintss){
-      this.addPlacedEventConstraints(event,availableTimeSlots);
-    }
+    let placedEventConstraints = this.getPlacedEvents();
+    // for (var event of placedEventConstraints){
+    //   this.addPlacedEventConstraints(event,availableTimeSlots);
+    // }
 
-    let unPlacedEventConstraints = getUnPlacedEvents();
+    // let unPlacedEventConstraints = getUnPlacedEvents();
   }
 
-  unbindList(period) {
+  unbindExistingEventList(period) {
     let list = [];
     let bindedEvents = this._gcalStorageService.getAllEventList(
       period.getStart().getTime(),
@@ -60,6 +60,10 @@ export class CalendarGeneratorService {
       list = [...list, ...bindedEvents[calendarId]];
     }
     return list;
+  }
+
+  getPlacedEvents(){
+
   }
 
   addPlacedEventConstraints(
