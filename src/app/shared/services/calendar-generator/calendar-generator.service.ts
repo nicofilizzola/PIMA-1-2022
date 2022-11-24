@@ -41,7 +41,7 @@ export class CalendarGeneratorService {
       supBound
     );
 
-    let placedEventConstraintss = getPlacedEvents();
+    let placedEventConstraints = getPlacedEvents();
     for (var event of placedEventConstraintss){
       this.addPlacedEventConstraints(event,availableTimeSlots);
     }
@@ -81,8 +81,7 @@ export class CalendarGeneratorService {
         period.getEnd().getTime() - period.getStart().getTime()
       ) {
         let start = new Date(period.getStart());
-        let end = new Date(period.getStart().getTime() + eventDuration);
-        let event = constraintEvent.toEvent(start, end);
+        let event = constraintEvent.toEvent(start);
         let calendarId = constraintEvent.calendarId;
         availableTimeSlots.removeEvent(event);
         this._httpService.insertEvent(event, calendarId);

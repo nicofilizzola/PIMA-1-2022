@@ -1,3 +1,4 @@
+import { AddEventItemComponent } from '../components/add-event-list/add-event-item/add-event-item.component';
 import { GcalEvent } from './gcal/event.model';
 
 /**
@@ -24,43 +25,25 @@ export class EventConstraints {
   fixedEvent = false;
   consecutiveInstances = false;
 
-  constructor(
-    title: string,
-    hourDuration: number,
-    minuteDuration: number,
-    priority: string,
-    calendarId: string,
-    location?: string,
-    instanceTotal?: number,
-    minDailyInstances?: number,
-    maxDailyInstances?: number,
-    lowerBound?: string,
-    upperBound?: string,
-    margin?: number,
-    date?: string,
-    time?: string,
-    description?: string,
-    fixedEvent?: boolean,
-    consecutiveInstances?: boolean
-  ) {
-    this.title = title;
-    this.hourDuration = hourDuration;
-    this.minuteDuration = minuteDuration;
-    this.priority = priority;
-    this.calendarId = calendarId;
-    if (location != null) this.location = location;
-    if (instanceTotal != null) this.instanceTotal = instanceTotal;
-    if (minDailyInstances != null) this.minDailyInstances = minDailyInstances;
-    if (maxDailyInstances != null) this.maxDailyInstances = maxDailyInstances;
-    if (lowerBound != null) this.lowerBound = lowerBound;
-    if (upperBound != null) this.upperBound = upperBound;
-    if (margin != null) this.margin = margin;
-    if (date != null) this.date = date;
-    if (time != null) this.time = time;
-    if (description != null) this.description = description;
-    if (fixedEvent != null) this.fixedEvent = fixedEvent;
-    if (consecutiveInstances != null)
-      this.consecutiveInstances = consecutiveInstances;
+  constructor(aeiComponent: AddEventItemComponent) {
+    this.title = aeiComponent.title;
+    this.hourDuration = aeiComponent.hourDuration;
+    this.minuteDuration = aeiComponent.minuteDuration;
+    this.priority = aeiComponent.priority;
+    this.calendarId = aeiComponent.calendar;
+    if (aeiComponent.location != null) this.location = aeiComponent.location;
+    if (aeiComponent.instanceTotal != null) this.instanceTotal = aeiComponent.instanceTotal;
+    if (aeiComponent.minDailyInstances != null) this.minDailyInstances = aeiComponent.minDailyInstances;
+    if (aeiComponent.maxDailyInstances != null) this.maxDailyInstances = aeiComponent.maxDailyInstances;
+    if (aeiComponent.lowerBound != null) this.lowerBound = aeiComponent.lowerBound;
+    if (aeiComponent.upperBound != null) this.upperBound = aeiComponent.upperBound;
+    if (aeiComponent.margin != null) this.margin = aeiComponent.margin;
+    if (aeiComponent.date != null) this.date = aeiComponent.date;
+    if (aeiComponent.time != null) this.time = aeiComponent.time;
+    if (aeiComponent.description != null) this.description = aeiComponent.description;
+    if (aeiComponent.fixedEvent != null) this.fixedEvent = aeiComponent.fixedEvent;
+    if (aeiComponent.consecutiveInstances != null)
+      this.consecutiveInstances = aeiComponent.consecutiveInstances;
   }
 
   getDurationMs(): number {
