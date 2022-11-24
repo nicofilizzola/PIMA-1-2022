@@ -4,12 +4,12 @@ import { first } from 'rxjs';
 import {
   GcalCalendarList,
   GcalCalendarListEntry,
-} from 'src/app/models/calendar-list.model';
+} from 'src/app/models/gcal/calendar-list.model';
 import {
   GcalEvent,
   GcalEventInstances,
   GcalEventList,
-} from 'src/app/models/event.model';
+} from 'src/app/models/gcal/event.model';
 import { GcalCalendarListListResponse } from 'src/app/models/gcal-response/calendar-list/calendar-list.list.model';
 import { GcalEventListResponse } from 'src/app/models/gcal-response/event/event.list.model';
 import { GcalEventInstancesResponse } from 'src/app/models/gcal-response/event/event.list.model copy';

@@ -14,10 +14,10 @@ import {
   GcalEvent,
   GcalEventList,
   GcalEventListEntry,
-} from 'src/app/models/event.model';
+} from 'src/app/models/gcal/event.model';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { Subscription } from 'rxjs';
-import { GcalCalendarList } from 'src/app/models/calendar-list.model';
+import { GcalCalendarList } from 'src/app/models/gcal/calendar-list.model';
 
 @Component({
   selector: 'app-calendar',
@@ -203,7 +203,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       name: this._gcalStorageService.getCalendarSummary(calendarId),
       color: backgroundColor,
     };
-    
+
     this.calendarColors
       .map(function (elt) {
         return elt.id;

@@ -4,16 +4,14 @@ import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
 import {
   GcalCalendarList,
   GcalCalendarListEntry,
-} from 'src/app/models/calendar-list.model';
+} from 'src/app/models/gcal/calendar-list.model';
 import {
   GcalEventList,
   GcalEventListEntry,
   GcalEvent,
   GcalEventInstances,
-} from 'src/app/models/event.model';
+} from 'src/app/models/gcal/event.model';
 import { GapiService } from '../../gapi/gapi.service';
-import { AvailableTimeSlot } from 'src/app/models/period-tree/available-time-slot.model';
-import { Period } from 'src/app/models/period-tree/period-tree.model';
 
 @Injectable({
   providedIn: 'root',
