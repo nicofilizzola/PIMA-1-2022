@@ -216,7 +216,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-lower'"
           [disabled]="fixedEvent"
-          [(ngModel)]="borneInf"
+          [(ngModel)]="lowerBound"
           [ngModelOptions]="{ standalone: true }"
         />
       </div>
@@ -235,7 +235,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
           [disabled]="fixedEvent"
-          [(ngModel)]="borneSup"
+          [(ngModel)]="upperBound"
           [ngModelOptions]="{ standalone: true }"
         />
       </div>
@@ -255,7 +255,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
           [disabled]="fixedEvent"
-          [(ngModel)]="marge"
+          [(ngModel)]="margin"
           [ngModelOptions]="{ standalone: true }"
         />
       </div>

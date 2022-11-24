@@ -92,9 +92,9 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   instanceTotal = 1;
   minDailyInstances: number;
   maxDailyInstances: number;
-  borneInf: string;
-  borneSup: string;
-  marge: number;
+  lowerBound: string;
+  upperBound: string;
+  margin: number;
   date: string;
   time: string;
   description: string;
@@ -182,9 +182,9 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
       this.instanceTotal !== 1 ||
       this.minDailyInstances !== undefined ||
       this.maxDailyInstances !== undefined ||
-      this.borneInf !== undefined ||
-      this.borneSup !== undefined ||
-      this.marge !== undefined ||
+      this.lowerBound !== undefined ||
+      this.upperBound !== undefined ||
+      this.margin !== undefined ||
       this.date !== undefined ||
       this.time !== undefined ||
       this.description !== undefined ||
