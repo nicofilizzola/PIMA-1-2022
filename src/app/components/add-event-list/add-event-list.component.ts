@@ -9,7 +9,6 @@ import { EventConstraints } from 'src/app/models/event-constraints.model';
 import { CalendarGeneratorService } from 'src/app/shared/services/calendar-generator/calendar-generator.service';
 import { Period } from 'src/app/models/period-tree/period-tree.model';
 import { Time } from '@angular/common';
-import { ONE_DAY_FROM_TODAY, ONE_MONTH_FROM_TODAY, ONE_WEEK_FROM_TODAY } from 'src/app/constants';
 
 @Component({
   selector: 'app-add-event-list',
@@ -64,15 +63,15 @@ export class AddEventListComponent implements OnInit {
   }
 
   getSelectedPeriod(){
-    if(this.periodSelection == "day"){return new Period(new Date(), new Date(ONE_DAY_FROM_TODAY))}
-    if(this.periodSelection == "week"){return new Period(new Date(), new Date(ONE_WEEK_FROM_TODAY))}
-    if(this.periodSelection == "month"){return new Period(new Date(), new Date(ONE_MONTH_FROM_TODAY))}
+    if(this.periodSelection == "day"){return new Period(new Date(), new Date(new Date().getTime() + (24 * 60 * 60 * 1000)))}
+    if(this.periodSelection == "week"){return new Period(new Date(), new Date(new Date().getTime() + (7*24 * 60 * 60 * 1000)))}
+    if(this.periodSelection == "month"){return new Period(new Date(), new Date(new Date().getTime() + (4*7*24 * 60 * 60 * 1000)))}
   }
 
   //From '00:00' format
   getTimeFromString(value : string) : Time{
     let hours : number = (value.charCodeAt(0) - 48)*10 + value.charCodeAt(1) - 48;
-    let minutes : number = (value.charCodeAt(2) - 48)*10 + value.charCodeAt(3) - 48;
+    let minutes : number = (value.charCodeAt(3) - 48)*10 + value.charCodeAt(4) - 48;
     return {hours : hours, minutes : minutes};
   }
 

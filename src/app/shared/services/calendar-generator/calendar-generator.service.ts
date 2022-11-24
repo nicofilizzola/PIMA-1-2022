@@ -50,7 +50,6 @@ export class CalendarGeneratorService {
     for (var event of unPlacedEventConstraints){
       this.addUnPlacedEventConstraints(event,availableTimeSlots);
     }
-
   }
 
   unbindExistingEventList(period) {
@@ -103,6 +102,7 @@ export class CalendarGeneratorService {
     let availableTimeSlotsList = availableTimeSlots.getListTimeSlots();
     let eventDuration = constraintEvent.getDurationMs();
     for (let period of availableTimeSlotsList) {
+      console.log(availableTimeSlotsList);
       if (
         eventDuration <
         period.getEnd().getTime() - period.getStart().getTime()

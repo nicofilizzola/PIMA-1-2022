@@ -95,7 +95,7 @@ export class EventConstraints {
     if (this.title != null) {
       eventCreated.summary = this.title;
     }
-
+    console.log(eventCreated);
     return eventCreated;
   }
 }
