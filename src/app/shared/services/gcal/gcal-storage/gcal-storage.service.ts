@@ -74,7 +74,6 @@ export class GcalStorageService {
    * TODAY, ONE_DAY_FROM_TODAY, ONE_WEEK_FROM_TODAY, ONE_MONTH_FROM_TODAY
    */
   getEventList(timestampMin?: number, timestampMax?: number): GcalEventList {
-    console.log(this.eventList$.getValue());
     let eventListEntries = Object.entries(this.eventList$.getValue());
     let rangedEventListEntries = eventListEntries.map(
       (eventListEntry: GcalEventListEntry) => {

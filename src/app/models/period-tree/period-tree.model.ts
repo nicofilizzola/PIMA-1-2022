@@ -1,6 +1,6 @@
 export class Period {
-  start: Date;
-  end: Date;
+  private start: Date;
+  private end: Date;
 
   constructor(start: Date, end: Date) {
     this.start = start;
@@ -48,18 +48,15 @@ export class PeriodTree {
         if (end < this.period.getEnd()) {
           return;
         }
-
-        this.period.setStart(new Date(end));
-        return;
+        return this.period.setStart(new Date(end));
       }
-
+      
       if (start > this.period.getEnd()) {
         return;
       }
 
       if (end > this.period.getEnd()) {
-        this.period.setEnd(new Date(start));
-        return;
+        return this.period.setEnd(new Date(start));
       }
 
       this.lNode = new PeriodTree(

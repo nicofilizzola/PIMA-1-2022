@@ -14,7 +14,6 @@ import { GcalCalendarListListResponse } from 'src/app/models/gcal-response/calen
 import { GcalEventListResponse } from 'src/app/models/gcal-response/event/event.list.model';
 import { GcalEventInstancesResponse } from 'src/app/models/gcal-response/event/event.list.model copy';
 import { GcalStorageService } from '../gcal-storage/gcal-storage.service';
-import { AvailableTimeSlot } from 'src/app/models/period-tree/available-time-slot.model';
 
 const GOOGLE_CALENDAR_API = 'https://www.googleapis.com/calendar/v3';
 
@@ -110,8 +109,6 @@ export class GcalHttpService {
       });
   }
 
-
-
   /**
    * @note CLE stands for CalendarListEntry
    * @note _all-day event_: only **date** properties, no **dateTime**
@@ -127,7 +124,9 @@ export class GcalHttpService {
         !calendarListEntry.id.includes('#holiday')
     );
   }
-  private _removeBirthdayCLEs(calendarList: GcalCalendarList): GcalCalendarList {
+  private _removeBirthdayCLEs(
+    calendarList: GcalCalendarList
+  ): GcalCalendarList {
     return calendarList.filter(
       (calendarListEntry: GcalCalendarListEntry) =>
         !calendarListEntry.id.includes('#contacts')
@@ -149,9 +148,5 @@ export class GcalHttpService {
   }
   private _isTimedEvent(event: GcalEvent): boolean {
     return 'dateTime' in event.start;
-  }
-
-  testForSlots(){
-
   }
 }
