@@ -144,21 +144,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         let calendarId: string = eventListEntry[0];
 
         eventListEntry[1].forEach((event: GcalEvent) => {
-          let backgroundColor = this._getBackgroundColor(calendarId);
-
-          let calendarColor = {
-            id: calendarId,
-            name: this._gcalStorageService.getCalendarSummary(calendarId),
-            color: backgroundColor,
-          };
-          this.calendarColors
-            .map(function (elt) {
-              return elt.id;
-            })
-            .indexOf(calendarId) === -1
-            ? this.calendarColors.push(calendarColor)
-            : null;
-
+          let backgroundColor = this._handleCalendarColor(calendarId);
           if (event.recurrence) {
             return this._appendRecurringEvent(event, backgroundColor);
           }
@@ -207,6 +193,26 @@ export class CalendarComponent implements OnInit, OnDestroy {
     return this.fetchedCalendarList.find(
       (calendar) => calendar.id == calendarId
     ).backgroundColor;
+  }
+
+  private _handleCalendarColor(calendarId: string) {
+    let backgroundColor = this._getBackgroundColor(calendarId);
+
+    let calendarColor = {
+      id: calendarId,
+      name: this._gcalStorageService.getCalendarSummary(calendarId),
+      color: backgroundColor,
+    };
+    
+    this.calendarColors
+      .map(function (elt) {
+        return elt.id;
+      })
+      .indexOf(calendarId) === -1
+      ? this.calendarColors.push(calendarColor)
+      : null;
+
+    return backgroundColor;
   }
 
   ngOnDestroy(): void {
