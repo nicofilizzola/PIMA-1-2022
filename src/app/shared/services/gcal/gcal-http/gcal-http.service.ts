@@ -149,4 +149,12 @@ export class GcalHttpService {
   private _isTimedEvent(event: GcalEvent): boolean {
     return 'dateTime' in event.start;
   }
+
+  insertEvent(event: Event,calendarId: String){
+    this._http.post(
+      `${GOOGLE_CALENDAR_API}/calendars/${calendarId}/events`,
+      event
+    )
+  }
+
 }
