@@ -155,7 +155,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     this.deleteItem.emit(this.itemId);
   }
 
-  onTogglefixedEvent() {
+  onToggleFixedEvent() {
     this.fixedEvent = !this.fixedEvent;
 
     if (this.consecutiveInstances) {
