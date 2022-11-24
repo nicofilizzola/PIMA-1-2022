@@ -109,8 +109,6 @@ export class GcalHttpService {
       });
   }
 
-
-
   /**
    * @note CLE stands for CalendarListEntry
    * @note _all-day event_: only **date** properties, no **dateTime**
@@ -126,7 +124,9 @@ export class GcalHttpService {
         !calendarListEntry.id.includes('#holiday')
     );
   }
-  private _removeBirthdayCLEs(calendarList: GcalCalendarList): GcalCalendarList {
+  private _removeBirthdayCLEs(
+    calendarList: GcalCalendarList
+  ): GcalCalendarList {
     return calendarList.filter(
       (calendarListEntry: GcalCalendarListEntry) =>
         !calendarListEntry.id.includes('#contacts')
