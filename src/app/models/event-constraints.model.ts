@@ -1,3 +1,5 @@
+import { GcalEvent } from './gcal/event.model';
+
 /**
  * @brief Class containing the event constraints submitted by the user on the eadd-event-item
  */
@@ -67,15 +69,16 @@ class EventConstraints {
     return hourDurationMs + minDurationMs;
   }
 
-  toEvent(startTime: Date) {
-    let endTime = new Date(startTime.getTime() + this.getDurationMs())
-    return {
+  toEvent(startTime: Date): GcalEvent {
+    let endTime = new Date(startTime.getTime() + this.getDurationMs());
+    let event: GcalEvent = {
       start: {
-        dateTime: startTime.toISOString()
+        dateTime: startTime.toISOString(),
       },
       end: {
-        dateTime: endTime.toISOString()
-      }
-    }
+        dateTime: endTime.toISOString(),
+      },
+    };
+    return event;
   }
 }
