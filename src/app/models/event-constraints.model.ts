@@ -3,7 +3,7 @@ import { GcalEvent } from './gcal/event.model';
 /**
  * @brief Class containing the event constraints submitted by the user on the eadd-event-item
  */
-class EventConstraints {
+export class EventConstraints {
   title: string;
   hourDuration: number;
   minuteDuration: number;
