@@ -41,12 +41,16 @@ export class CalendarGeneratorService {
       supBound
     );
 
-    let placedEventConstraints = this.getPlacedEvents();
-    // for (var event of placedEventConstraints){
-    //   this.addPlacedEventConstraints(event,availableTimeSlots);
-    // }
+    let placedEventConstraints = this.getPlacedEvents(constraintEvents);
+    for (var event of placedEventConstraints){
+      this.addPlacedEventConstraints(event,availableTimeSlots);
+    }
 
-    // let unPlacedEventConstraints = getUnPlacedEvents();
+    let unPlacedEventConstraints = this.getUnPlacedEvents(constraintEvents);
+    for (var event of unPlacedEventConstraints){
+      this.addUnPlacedEventConstraints(event,availableTimeSlots);
+    }
+
   }
 
   unbindExistingEventList(period) {
@@ -62,15 +66,34 @@ export class CalendarGeneratorService {
     return list;
   }
 
-  getPlacedEvents(){
+  getPlacedEvents(constraintEvents : EventConstraints[]){
+    let ret = [];
+    for (var constraintEvent of constraintEvents){
+      if (constraintEvent.fixedEvent){
+        ret.push(constraintEvent);
+      }
+    }
+    return ret; 
+  }
 
+  getUnPlacedEvents(constraintEvents : EventConstraints[]){
+    let ret = [];
+    for (var constraintEvent of constraintEvents){
+      if (!constraintEvent.fixedEvent){
+        ret.push(constraintEvent);
+      }
+    }
+    return ret; 
   }
 
   addPlacedEventConstraints(
     constraintEvent: EventConstraints,
     availableTimeSlots: AvailableTimeSlot
   ) {
-
+    let event = constraintEvent.toEvent(new Date());
+    let calendarId = constraintEvent.calendarId
+    this._httpService.insertEvent(event,calendarId);
+    availableTimeSlots.removeEvent(event);
   }
 
   addUnPlacedEventConstraints(

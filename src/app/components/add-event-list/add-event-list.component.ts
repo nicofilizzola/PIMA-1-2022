@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Observable, Subject, Subscription, BehaviorSubject } from 'rxjs';
 import { BoundsCheckerService } from '../../shared/services/bounds-checker/bounds-checker.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,7 +18,7 @@ import { ONE_DAY_FROM_TODAY, ONE_MONTH_FROM_TODAY, ONE_WEEK_FROM_TODAY } from 's
 })
 export class AddEventListComponent implements OnInit {
   expandedItem$ = new Subject<number>();
-  requestItem = new Observable(); 
+  requestItem = new EventEmitter(); 
   responseItem = new BehaviorSubject<EventConstraints[]>([]);
 
   responseSubscription : Subscription;
@@ -55,7 +55,6 @@ export class AddEventListComponent implements OnInit {
           let infBound = this.getTimeFromString(this.lower);
           let supBound = this.getTimeFromString(this.higher);
           this._calendarGeneratorService.generate(this.responseItem.getValue(),period,infBound,supBound);
-          //TODO : CLOSE LA MODALE
         }
       })
   }
@@ -121,7 +120,9 @@ export class AddEventListComponent implements OnInit {
     if(!this.isSelectionCorrect()){
       return;
     }
-
+    this.responseItem.next([]);
+    this.requestItem.emit();
+    this._modalService.dismissAll();
   }
 
   isSelectionCorrect(){
