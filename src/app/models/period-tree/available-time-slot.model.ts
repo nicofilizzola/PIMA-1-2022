@@ -55,7 +55,7 @@ export class AvailableTimeSlot {
     let timeOfTheDay = period.getStart().getTime() % dayInMillis;
 
     offBoundStart.setTime(
-      period.getStart().getTime() + supBoundMillis - timeOfTheDay - 4*dayInMillis
+      period.getStart().getTime() + supBoundMillis - timeOfTheDay - dayInMillis
     );
 
     while (offBoundStart < period.getEnd()) {

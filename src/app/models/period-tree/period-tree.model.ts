@@ -43,16 +43,14 @@ export class PeriodTree {
   }
 
   removePeriodDate(start: Date, end: Date) {
-    console.log("removing",start,end);
-    if (this.lNode == null) {
-      if(start < this.period.getStart() && end > this.period.getEnd()){
-        this.period.setEnd(this.period.getStart());
-      }
+    if (this.lNode == null) { 
+      console.log(start,this.period.getStart())
       if (start < this.period.getStart()) {
-        if (end < this.period.getEnd()) {
+        if (end < this.period.getStart()) {
           return;
         }
-        return (this.period.setStart(new Date(end)));
+        this.period.setStart(new Date(end))
+        return;
       }
       
       if (start > this.period.getEnd()) {
@@ -60,7 +58,8 @@ export class PeriodTree {
       }
 
       if (end > this.period.getEnd()) {
-        return (this.period.setEnd(new Date(start)));
+        this.period.setEnd(new Date(start))
+        return;
       }
 
       this.lNode = new PeriodTree(
