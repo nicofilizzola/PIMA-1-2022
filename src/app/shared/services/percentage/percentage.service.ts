@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { first } from 'rxjs';
-import { GcalEvent, GcalEventList, GcalEventListEntry } from 'src/app/models/event.model';
+import { GcalEvent, GcalEventList, GcalEventListEntry } from 'src/app/models/gcal/event.model';
 import { GcalStorageService } from '../gcal/gcal-storage/gcal-storage.service';
 
 /**

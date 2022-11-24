@@ -3,7 +3,7 @@ import { Subject, Subscription } from 'rxjs';
 import { BoundsCheckerService } from '../../shared/services/bounds-checker/bounds-checker.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
-import { GcalCalendarList } from 'src/app/models/calendar-list.model';
+import { GcalCalendarList } from 'src/app/models/gcal/calendar-list.model';
 import { GapiService } from 'src/app/shared/services/gapi/gapi.service';
 
 @Component({

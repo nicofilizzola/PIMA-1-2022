@@ -1,5 +1,5 @@
 import { Time } from '@angular/common';
-import { GcalEvent } from '../event.model';
+import { GcalEvent } from '../gcal/event.model';
 import { PeriodTree, Period } from './period-tree.model';
 const dayInMillis = 24 * 60 * 60 * 1000;
 
