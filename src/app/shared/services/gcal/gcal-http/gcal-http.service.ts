@@ -113,8 +113,6 @@ export class GcalHttpService {
    * @brief Runs the **Events.insert method**
    */
   insertEvent(event: GcalEvent, calendarId: String){
-    console.log("posting");
-    console.log(event);
     this._http.post(
       `${GOOGLE_CALENDAR_API}/calendars/${calendarId}/events`,
       event

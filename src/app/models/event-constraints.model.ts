@@ -58,10 +58,7 @@ export class EventConstraints {
     let dateString = this.date; 
     let s = this.time; 
     let finalDate = new Date(dateString);
-    console.log(finalDate);
-    console.log(s);
     finalDate.setHours((s.charCodeAt(0)-48)*10+(s.charCodeAt(1)-48),(s.charCodeAt(3)-48)*10+(s.charCodeAt(4)-48),0);
-    console.log(finalDate);
     return finalDate;
   }
 
@@ -103,7 +100,6 @@ export class EventConstraints {
     if (this.title != null) {
       eventCreated.summary = this.title;
     }
-    console.log(eventCreated);
     return eventCreated;
   }
 }

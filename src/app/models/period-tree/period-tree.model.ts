@@ -44,7 +44,6 @@ export class PeriodTree {
 
   removePeriodDate(start: Date, end: Date) {
     if (this.lNode == null) { 
-      console.log(start,this.period.getStart())
       if (start < this.period.getStart()) {
         if (end < this.period.getStart()) {
           return;
