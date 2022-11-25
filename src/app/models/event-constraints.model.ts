@@ -1,3 +1,4 @@
+import { Time } from '@angular/common';
 import { AddEventItemComponent } from '../components/add-event-list/add-event-item/add-event-item.component';
 import { GcalEvent } from './gcal/event.model';
 
@@ -54,7 +55,14 @@ export class EventConstraints {
   }
 
   getStartDate(): Date {
-    return new Date (this.date + "," + this.time + ":00")
+    let dateString = this.date; 
+    let s = this.time; 
+    let finalDate = new Date(dateString);
+    console.log(finalDate);
+    console.log(s);
+    finalDate.setHours((s.charCodeAt(0)-48)*10+(s.charCodeAt(1)-48),(s.charCodeAt(3)-48)*10+(s.charCodeAt(4)-48),0);
+    console.log(finalDate);
+    return finalDate;
   }
 
   getDurationMs(): number {
