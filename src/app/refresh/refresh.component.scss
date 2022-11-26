@@ -1,0 +1,30 @@
+#buttonRefresh {
+    float: right;
+    background-color: white;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition : all 0.4s;
+    clip-path: polygon(100% 0%, 100% 65%, 100% 100%, 82% 100%, 82% 0, 100% 0);
+
+}
+
+#refresh{
+    color : black;
+}
+
+#refreshText{
+    color : black;
+    float: left;
+    margin-right: 1em;
+    margin-bottom : 0;
+    // clip-path: polygon(100% 0%, 100% 55%, 100% 100%, 100% 100%, 100% 40%, 100% 0);
+}
+
+#buttonRefresh:hover {
+    display: block;
+    clip-path: polygon(100% 0%, 100% 65%, 100% 100%, 0 100%, 0 0, 100% 0);
+}
+
+#container{
+    padding-top : 0.5em;
+}
+

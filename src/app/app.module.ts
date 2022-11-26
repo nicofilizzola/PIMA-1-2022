@@ -19,6 +19,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { StatsViewComponent } from './components/stats-view/stats-view.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { RefreshComponent } from './refresh/refresh.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { FooterComponent } from './components/footer/footer.component';
     HeaderComponent,
     StatsViewComponent,
     LoadingScreenComponent,
-    FooterComponent
+    FooterComponent,
+    RefreshComponent
   ],
   imports: [
     BrowserModule,
