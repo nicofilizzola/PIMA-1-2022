@@ -22,10 +22,7 @@ export class AvailableTimeSlot {
   ) {
     this.availableSlotsTree = new PeriodTree(period);
     this.removeAllOffBounds(period, infBound, supBound);
-    console.log(this.getListTimeSlots());
-    console.log(eventList);
     this.removeAllEvents(eventList);
-    console.log(this.getListTimeSlots());
   }
 
   getListTimeSlots() {
@@ -40,7 +37,6 @@ export class AvailableTimeSlot {
 
   private removeAllEvents(eventList: GcalEvent[]) {
     for (let event of eventList) {
-      console.log(event);
       this.removeEvent(event);
     }
   }

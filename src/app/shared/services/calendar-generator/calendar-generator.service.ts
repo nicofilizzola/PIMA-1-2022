@@ -15,18 +15,6 @@ export class CalendarGeneratorService {
     private _httpService: GcalHttpService
   ) {}
 
-  //Recuperer la liste des events.
-  //Recuperer une liste de constraint event,
-  //Créer l'available time slot.
-  //La parcourir
-  //Pour chaque elt, on regarde sa durée, on cherche le premier slot dans le availableTimeSlots
-  //Dès qu'on la, on crée un event, à partir de tout ça
-  //On l'envoie dans le cal
-  //On met a jour les time slots
-  //Puis on reboucle
-
-  //On met a jour le storage.
-
   generate(
     constraintEvents: EventConstraints[],
     period: Period,
@@ -42,13 +30,13 @@ export class CalendarGeneratorService {
     );
 
     let placedEventConstraints = this.getPlacedEvents(constraintEvents);
-    for (var event of placedEventConstraints){
-      this.addPlacedEventConstraints(event,availableTimeSlots);
+    for (var event of placedEventConstraints) {
+      this.addPlacedEventConstraints(event, availableTimeSlots);
     }
 
     let unPlacedEventConstraints = this.getUnPlacedEvents(constraintEvents);
-    for (var event of unPlacedEventConstraints){
-      this.addUnPlacedEventConstraints(event,availableTimeSlots);
+    for (var event of unPlacedEventConstraints) {
+      this.addUnPlacedEventConstraints(event, availableTimeSlots);
     }
   }
 
@@ -65,24 +53,24 @@ export class CalendarGeneratorService {
     return list;
   }
 
-  getPlacedEvents(constraintEvents : EventConstraints[]){
+  getPlacedEvents(constraintEvents: EventConstraints[]) {
     let ret = [];
-    for (var constraintEvent of constraintEvents){
-      if (constraintEvent.fixedEvent){
+    for (var constraintEvent of constraintEvents) {
+      if (constraintEvent.fixedEvent) {
         ret.push(constraintEvent);
       }
     }
-    return ret; 
+    return ret;
   }
 
-  getUnPlacedEvents(constraintEvents : EventConstraints[]){
+  getUnPlacedEvents(constraintEvents: EventConstraints[]) {
     let ret = [];
-    for (var constraintEvent of constraintEvents){
-      if (!constraintEvent.fixedEvent){
+    for (var constraintEvent of constraintEvents) {
+      if (!constraintEvent.fixedEvent) {
         ret.push(constraintEvent);
       }
     }
-    return ret; 
+    return ret;
   }
 
   addPlacedEventConstraints(
@@ -90,8 +78,8 @@ export class CalendarGeneratorService {
     availableTimeSlots: AvailableTimeSlot
   ) {
     let event = constraintEvent.toEvent(new Date());
-    let calendarId = constraintEvent.calendarId
-    this._httpService.insertEvent(event,calendarId);
+    let calendarId = constraintEvent.calendarId;
+    this._httpService.insertEvent(event, calendarId);
     availableTimeSlots.removeEvent(event);
   }
 
