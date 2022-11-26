@@ -85,7 +85,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   // Base options
   title: string;
   hourDuration = 1;
-  minuteDuration = 1;
+  minuteDuration = 0;
   priority = 'Choisir priorité...';
   calendar = '0';
   errorMessageOn = false;

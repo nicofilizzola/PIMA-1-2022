@@ -22,7 +22,9 @@ export class AvailableTimeSlot {
   ) {
     this.availableSlotsTree = new PeriodTree(period);
     this.removeAllOffBounds(period, infBound, supBound);
+    console.log(this.getListTimeSlots());
     this.removeAllEvents(eventList);
+    console.log(this.getListTimeSlots());
   }
 
   getListTimeSlots() {
