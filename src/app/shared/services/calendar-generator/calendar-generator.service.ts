@@ -22,7 +22,7 @@ export class CalendarGeneratorService {
     supBound: Time
   ) {
     let existingEvents = this.unbindExistingEventList(period);
-    let availableTimeSlots = new AvailableTimeSlot(
+      let availableTimeSlots = new AvailableTimeSlot(
       existingEvents,
       period,
       infBound,
@@ -40,7 +40,7 @@ export class CalendarGeneratorService {
     }
   }
 
-  unbindExistingEventList(period) {
+  unbindExistingEventList(period : Period) {
     let list = [];
     let bindedEvents = this._gcalStorageService.getAllEventList(
       period.getStart().getTime(),
