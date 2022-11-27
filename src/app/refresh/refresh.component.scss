@@ -1,14 +1,20 @@
-#buttonRefresh {
+#refreshButton {
     float: right;
     background-color: white;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition : all 0.4s;
     clip-path: polygon(100% 0%, 100% 65%, 100% 100%, 82% 100%, 82% 0, 100% 0);
-
+    border-radius: 0.2em;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    font-size : 1rem;
 }
 
 #refresh{
     color : black;
+}
+
+#container{
+    clear: both;
+    overflow: hidden;
 }
 
 #refreshText{
@@ -16,10 +22,9 @@
     float: left;
     margin-right: 1em;
     margin-bottom : 0;
-    // clip-path: polygon(100% 0%, 100% 55%, 100% 100%, 100% 100%, 100% 40%, 100% 0);
 }
 
-#buttonRefresh:hover {
+#refreshButton:hover {
     display: block;
     clip-path: polygon(100% 0%, 100% 65%, 100% 100%, 0 100%, 0 0, 100% 0);
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GcalRequestHandlerService } from 'src/app/shared/services/gcal/gcal-request-handler/gcal-request-handler.service';
+import { GapiService } from '../shared/services/gapi/gapi.service';
 
 @Component({
   selector: 'app-refresh',
@@ -7,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RefreshComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private readonly _gapiService: GapiService,
+    private readonly _gcalRequestHandlerService: GcalRequestHandlerService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -17,6 +22,9 @@ export class RefreshComponent implements OnInit {
     refreshButton.className =  "fa-solid fa-sync fa-spin";
     let texte = document.getElementById('refreshText');
     texte.innerHTML = "Chargement des donneés en cours ...";
+    if (this._gapiService.getAuthenticatedUserEmail()) {
+      this._gcalRequestHandlerService.fetchData();
+    }
     setTimeout(() => refreshButton.className = "fa fa-refresh", 2000);
     setTimeout(() =>texte.innerText = "Recharger les données", 2000);
   }
