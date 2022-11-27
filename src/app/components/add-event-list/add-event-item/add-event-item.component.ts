@@ -67,9 +67,9 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   private _requestItemSubscription: Subscription;
 
   @Input() expandedItem$: Subject<number>;
-  @Input() itemId;
-  @Input() isDeletable;
-  @Input() requestItem;
+  @Input() itemId: number;
+  @Input() isDeletable: Subject<boolean>;
+  @Input() requestItem: Subject<string>;
   @Input() responseItem: BehaviorSubject<EventConstraints[]>; //Observable which will collect the EventConstraints
 
   // Load the calendarList one single time for all the addEventItem components
