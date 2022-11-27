@@ -63,6 +63,9 @@ const COLLAPSED_ANIMATION_STATE = {
   ],
 })
 export class AddEventItemComponent implements OnInit, OnDestroy {
+  /**
+   * @todo Manage subscriptions with array
+   */
   private _expendedItemSubscription: Subscription;
   private _requestItemSubscription: Subscription;
 
@@ -70,6 +73,9 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   @Input() itemId: number;
   @Input() isDeletable: Subject<boolean>;
   @Input() requestItem: Subject<string>;
+  /**
+   * @todo Manage stream with EventConstraints Subject (no list)
+   */
   @Input() responseItem: BehaviorSubject<EventConstraints[]>; //Observable which will collect the EventConstraints
 
   // Load the calendarList one single time for all the addEventItem components
