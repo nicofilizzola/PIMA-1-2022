@@ -63,7 +63,7 @@ const COLLAPSED_ANIMATION_STATE = {
   ],
 })
 export class AddEventItemComponent implements OnInit, OnDestroy {
-  private _subscription: Subscription;
+  private _expendedItemSubscription: Subscription;
   private _requestItemSubscription: Subscription;
 
   @Input() expandedItem$: Subject<number>;
@@ -114,7 +114,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.expandedItem$.next(this.itemId);
-    this._subscription = this.expandedItem$.subscribe((expandedId) => {
+    this._expendedItemSubscription = this.expandedItem$.subscribe((expandedId) => {
       if (expandedId != this.itemId) {
         this.onCollapse();
 
@@ -131,7 +131,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._subscription.unsubscribe();
+    this._expendedItemSubscription.unsubscribe();
     this._requestItemSubscription.unsubscribe();
   }
 

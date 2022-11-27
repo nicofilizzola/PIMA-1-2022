@@ -1,7 +1,7 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable, Subject, Subscription, BehaviorSubject } from 'rxjs';
 import { BoundsCheckerService } from '../../shared/services/bounds-checker/bounds-checker.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { GcalCalendarList } from 'src/app/models/gcal/calendar-list.model';
 import { GapiService } from 'src/app/shared/services/gapi/gapi.service';
@@ -17,10 +17,10 @@ import { Time } from '@angular/common';
 })
 export class AddEventListComponent implements OnInit {
   expandedItem$ = new Subject<number>();
-  requestItem = new EventEmitter(); 
-  responseItem = new BehaviorSubject<EventConstraints[]>([]);
+  requestItem$ = new Subject();
+  responseItem$ = new BehaviorSubject<EventConstraints[]>([]);
 
-  responseSubscription : Subscription;
+  responseSubscription: Subscription;
 
   items = [1];
   lower = '09:00';
@@ -29,7 +29,7 @@ export class AddEventListComponent implements OnInit {
 
   calendarList: GcalCalendarList;
   dataFetchedSubscription: Subscription;
-  periodSelection : string;
+  periodSelection: string;
 
   constructor(
     private _boundsCheckerService: BoundsCheckerService,
@@ -48,31 +48,53 @@ export class AddEventListComponent implements OnInit {
         let email = this._gapiService.getAuthenticatedUserEmail();
         this.calendarList.reverse();
       });
-      this.responseSubscription = this.responseItem.subscribe(() => {
-        if (this.responseItem.getValue().length == this.items.length){
-          let period = this.getSelectedPeriod();
-          let infBound = this.getTimeFromString(this.lower);
-          let supBound = this.getTimeFromString(this.higher);
-          this._calendarGeneratorService.generate(this.responseItem.getValue(),period,infBound,supBound);
-        }
-      })
+    this.responseSubscription = this.responseItem$.subscribe((response) => {
+      if (response.length == this.items.length) {
+        let period = this.getSelectedPeriod();
+        let infBound = this.getTimeFromString(this.lower);
+        let supBound = this.getTimeFromString(this.higher);
+        this._calendarGeneratorService.generate(
+          response,
+          period,
+          infBound,
+          supBound
+        );
+      }
+    });
   }
 
-  getCalendarSummary(calendarId) {
+  getCalendarSummary(calendarId): string {
     return this._gcalStorageService.getCalendarSummary(calendarId);
   }
 
-  getSelectedPeriod(){
-    if(this.periodSelection == "day"){return new Period(new Date(), new Date(new Date().getTime() + (24 * 60 * 60 * 1000)))}
-    if(this.periodSelection == "week"){return new Period(new Date(), new Date(new Date().getTime() + (7*24 * 60 * 60 * 1000)))}
-    if(this.periodSelection == "month"){return new Period(new Date(), new Date(new Date().getTime() + (4*7*24 * 60 * 60 * 1000)))}
+  getSelectedPeriod(): Period {
+    if (this.periodSelection == 'day') {
+      return new Period(
+        new Date(),
+        new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
+      );
+    }
+    if (this.periodSelection == 'week') {
+      return new Period(
+        new Date(),
+        new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
+      );
+    }
+    if (this.periodSelection == 'month') {
+      return new Period(
+        new Date(),
+        new Date(new Date().getTime() + 4 * 7 * 24 * 60 * 60 * 1000)
+      );
+    }
   }
 
   //From '00:00' format
-  getTimeFromString(value : string) : Time{
-    let hours : number = (value.charCodeAt(0) - 48)*10 + value.charCodeAt(1) - 48;
-    let minutes : number = (value.charCodeAt(3) - 48)*10 + value.charCodeAt(4) - 48;
-    return {hours : hours, minutes : minutes};
+  getTimeFromString(value: string): Time {
+    let hours: number =
+      (value.charCodeAt(0) - 48) * 10 + value.charCodeAt(1) - 48;
+    let minutes: number =
+      (value.charCodeAt(3) - 48) * 10 + value.charCodeAt(4) - 48;
+    return { hours: hours, minutes: minutes };
   }
 
   onAddItem() {
@@ -115,16 +137,16 @@ export class AddEventListComponent implements OnInit {
     });
   }
 
-  onValidateModal(){
-    if(!this.isSelectionCorrect()){
+  onValidateModal() {
+    if (!this.isSelectionCorrect()) {
       return;
     }
-    this.responseItem.next([]);
-    this.requestItem.emit();
+    this.responseItem$.next([]);
+    this.requestItem$.next('');
     this._modalService.dismissAll();
   }
 
-  isSelectionCorrect(){
+  isSelectionCorrect() {
     return true;
   }
 
