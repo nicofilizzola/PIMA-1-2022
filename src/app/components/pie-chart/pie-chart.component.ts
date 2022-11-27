@@ -51,7 +51,6 @@ export class PieChartComponent implements OnInit, OnDestroy {
 
         this._cleanDatasets();
         this._populateDatasets();
-
         this.chart.update();
       });
   }
@@ -72,7 +71,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
         this.pieChartDatasets[0].data.push(
           eventListEntry[1].length
         );
-        this.pieChartLabels.push(this._gcalStorageService.getCalendarSummary(eventListEntry[0]));
+        this.pieChartLabels.push(this._gcalStorageService.getCalendarSummary(eventListEntry[0]) + " (heures)");
       }
     );
   }
