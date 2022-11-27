@@ -21,7 +21,7 @@ export class RefreshComponent implements OnInit {
     let refreshButton = document.getElementById('refresh');
     refreshButton.className =  "fa-solid fa-sync fa-spin";
     let texte = document.getElementById('refreshText');
-    texte.innerHTML = "Chargement des donneés en cours ...";
+    texte.innerHTML = "Chargement des donneés en cours";
     if (this._gapiService.getAuthenticatedUserEmail()) {
       this._gcalRequestHandlerService.fetchData();
     }
