@@ -19,7 +19,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { StatsViewComponent } from './components/stats-view/stats-view.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { RefreshComponent } from './refresh/refresh.component';
+import { RefreshButtonComponent } from './components/refresh-button/refresh-button.component';
 
 
 @NgModule({
@@ -35,7 +35,7 @@ import { RefreshComponent } from './refresh/refresh.component';
     StatsViewComponent,
     LoadingScreenComponent,
     FooterComponent,
-    RefreshComponent
+    RefreshButtonComponent
   ],
   imports: [
     BrowserModule,
