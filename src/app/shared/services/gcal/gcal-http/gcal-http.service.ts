@@ -4,12 +4,12 @@ import { first } from 'rxjs';
 import {
   GcalCalendarList,
   GcalCalendarListEntry,
-} from 'src/app/models/calendar-list.model';
+} from 'src/app/models/gcal/calendar-list.model';
 import {
   GcalEvent,
   GcalEventInstances,
   GcalEventList,
-} from 'src/app/models/event.model';
+} from 'src/app/models/gcal/event.model';
 import { GcalCalendarListListResponse } from 'src/app/models/gcal-response/calendar-list/calendar-list.list.model';
 import { GcalEventListResponse } from 'src/app/models/gcal-response/event/event.list.model';
 import { GcalEventInstancesResponse } from 'src/app/models/gcal-response/event/event.list.model copy';
@@ -109,7 +109,15 @@ export class GcalHttpService {
       });
   }
 
-
+  /**
+   * @brief Runs the **Events.insert method**
+   */
+  insertEvent(event: GcalEvent, calendarId: String){
+    this._http.post(
+      `${GOOGLE_CALENDAR_API}/calendars/${calendarId}/events`,
+      event
+    ).subscribe();
+  }
 
   /**
    * @note CLE stands for CalendarListEntry
@@ -126,7 +134,9 @@ export class GcalHttpService {
         !calendarListEntry.id.includes('#holiday')
     );
   }
-  private _removeBirthdayCLEs(calendarList: GcalCalendarList): GcalCalendarList {
+  private _removeBirthdayCLEs(
+    calendarList: GcalCalendarList
+  ): GcalCalendarList {
     return calendarList.filter(
       (calendarListEntry: GcalCalendarListEntry) =>
         !calendarListEntry.id.includes('#contacts')

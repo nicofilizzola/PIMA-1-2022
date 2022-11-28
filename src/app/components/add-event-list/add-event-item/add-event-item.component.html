@@ -1,21 +1,31 @@
 <div
   [ngClass]="{
     'collapsed-title': collapsed,
-    'container-md bg-light py-1 my-2': true
+    'container-md bg-light p-4 my-2 rounded aei-container': true
   }"
 >
-  <div
-    class="item row position-relative"
-    *ngIf="collapsed"
-    (click)="onExpand()"
-  >
-    <h2 class="col-11">{{ title }}</h2>
-    <div class="col-1 delete-button">
-      <i
-        class="delete-icon fa-regular fa-trash-can fa-xl"
+  <div class="row" *ngIf="collapsed">
+    <h2 class="col-12 position-relative">
+      {{ title }}
+      <button
+        class="btn delete-btn-collapsed me-4 rounded-circle btn-circle"
         (click)="onDeleteItem($event)"
         *ngIf="isDeletable"
-      ></i>
+      >
+        <i class="delete-icon fa-regular fa-trash-can"></i>
+      </button>
+    </h2>
+
+    <div class="col-12">
+      <div class="row">
+        <button
+          type="button"
+          class="btn rounded-circle btn-circle mx-auto"
+          (click)="onExpand()"
+        >
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -72,8 +82,7 @@
       </div>
       <div class="col-md-12" *ngIf="errorMessageOn">
         <ngb-alert [dismissible]="false" [type]="'danger'" class="mt-2">
-          <strong>Attention :</strong> Saisie de periode impossible, verifiez
-          les dates de debut et fin.
+          <strong>Attention :</strong> La durée renseignée n'est pas valide.
         </ngb-alert>
       </div>
       <div class="col-md-3 mt-3">
@@ -207,7 +216,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-lower'"
           [disabled]="fixedEvent"
-          [(ngModel)]="borneInf"
+          [(ngModel)]="lowerBound"
           [ngModelOptions]="{ standalone: true }"
         />
       </div>
@@ -226,7 +235,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
           [disabled]="fixedEvent"
-          [(ngModel)]="borneSup"
+          [(ngModel)]="upperBound"
           [ngModelOptions]="{ standalone: true }"
         />
       </div>
@@ -246,7 +255,7 @@
           class="form-control"
           [id]="'aei-' + itemId + '-higher'"
           [disabled]="fixedEvent"
-          [(ngModel)]="marge"
+          [(ngModel)]="margin"
           [ngModelOptions]="{ standalone: true }"
         />
       </div>
@@ -333,14 +342,15 @@
     </div>
 
     <div class="row m-4">
-      <div class="col-md-12">
+      <div class="col-12">
         <button
           type="button"
           class="btn link-primary"
           *ngIf="!advancedOptionsActive"
           (click)="setAdvancedOptionsActive(true)"
         >
-          &plus; <u>Options avancées</u>
+          <i class="fa-solid fa-chevron-down me-2"></i>
+          <u>Options avancées</u>
         </button>
         <button
           type="button"
@@ -348,25 +358,31 @@
           *ngIf="advancedOptionsActive"
           (click)="setAdvancedOptionsActive(false)"
         >
+          <i class="fa-solid fa-chevron-up me-2"></i>
           <u>Cacher les options avancées</u>
         </button>
       </div>
-    </div>
-    <div class="row">
-      <button type="button" class="btn save col-md-2">
-        <span class="save-text col-md-2" (click)="onCollapse()"
-          >Sauvegarder</span
-        >
-      </button>
-      <div class="delete-button col-md-1">
-        <i
-          class="delete-icon fa-regular fa-trash-can fa-xl"
+      <div class="col-12 d-flex">
+        <button
+          class="btn text-muted delete-btn-expanded"
           (click)="
             formEmpty() ? onDeleteItem() : onOpenDeleteModal(contentDelete)
           "
           *ngIf="isDeletable"
-        ></i>
+        >
+          <i class="delete-icon fa-regular fa-trash-can me-2"></i>
+          <u>Supprimer cette tâche</u>
+        </button>
       </div>
+    </div>
+    <div class="row">
+      <button
+        type="button"
+        class="btn rounded-circle btn-circle mx-auto"
+        (click)="onCollapse()"
+      >
+        <i class="fa-solid fa-chevron-up"></i>
+      </button>
     </div>
   </form>
 </div>

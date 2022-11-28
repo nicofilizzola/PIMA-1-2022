@@ -4,20 +4,12 @@
 
     <div class="col-md-8 mt-2">
       <label for="ael-period" class="form-label">Période</label>
-      <select id="ael-period" class="form-select">
+      <select [(ngModel)]="periodSelection" id="ael-period" class="form-select">
         <option selected>Choisir la période...</option>
-        <option value="">D'ici 24h</option>
-        <option value="">D'ici une semaine</option>
-        <option value="">D'ici 30 jours</option>
+        <option value="day">D'ici 24h</option>
+        <option value="week">D'ici une semaine</option>
+        <option value="month">D'ici 30 jours</option>
       </select>
-      <button
-        (click)="onOpenClearModal(contentClear)"
-        type="button"
-        class="btn btn-danger mt-2"
-        *ngIf="isItemsLengthGreaterThan1()"
-      >
-        Supprimer tous les évènements
-      </button>
     </div>
     <div class="col-md-4">
       <div class="row">
@@ -69,26 +61,39 @@
     (deleteItem)="onDeleteItem($event)"
     (getSummary)="getCalendarSummary($event)"
     [expandedItem$]="expandedItem$"
+    [requestItem]="requestItem$"
+    [responseItem]="responseItem$"
   ></app-add-event-item>
   <div class="container-md">
     <div class="row">
-      <button
-        (click)="onAddItem()"
-        class="btn btn-outline-primary mt-2 col-md-6"
-      >
-        Ajouter tache
+      <button (click)="onAddItem()" class="btn btn-outline-primary mt-2">
+        Nouvelle tache
       </button>
     </div>
     <div class="row">
-      <button type="button" class="btn btn-primary mt-2 col-md-6">
+      <button
+        (click)="onOpenClearModal(contentClear)"
+        type="button"
+        class="btn btn-danger mt-2"
+        *ngIf="isItemsLengthGreaterThan1()"
+      >
+        Effacer toutes les tâches
+      </button>
+    </div>
+    <div class="row">
+      <button
+        type="button"
+        class="btn btn-primary mt-2"
+        (click)="onOpenModal(Validate)"
+      >
         Valider
       </button>
     </div>
   </div>
 </div>
 
-<!-- #contentClear allows to display the modal correctly -->
-<ng-template #contentClear let-modal>
+<!-- #Clear allows to display the modal correctly -->
+<ng-template #Clear let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-title">
       Suppression de tous les évènements
@@ -110,11 +115,7 @@
     </p>
   </div>
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="modal.dismiss()"
-    >
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
       Annuler
     </button>
     <button
@@ -124,6 +125,36 @@
       (click)="modal.close()"
     >
       Supprimer
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #Validate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">
+      Ajout des évènements au calendrier
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-describedby="modal-title"
+      (click)="modal.dismiss()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <p>
+      <strong>Etes-vous sur de vouloir ajouter les évènements ?</strong>
+    </p>
+    <p>
+      Tous les évènements ajoutés dans la liste seront ajoutés au calendrier.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+      Annuler
+    </button>
+    <button type="button" class="btn btn-success" (click)="onValidateModal()">
+      Ajouter tâches
     </button>
   </div>
 </ng-template>

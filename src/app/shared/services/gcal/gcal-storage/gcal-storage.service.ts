@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
+import { afterRead } from '@popperjs/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { DEFAULT_CALENDAR_SUMMARY } from 'src/app/constants';
 import {
   GcalCalendarList,
   GcalCalendarListEntry,
-} from 'src/app/models/calendar-list.model';
+} from 'src/app/models/gcal/calendar-list.model';
 import {
   GcalEventList,
   GcalEventListEntry,
   GcalEvent,
   GcalEventInstances,
-} from 'src/app/models/event.model';
+} from 'src/app/models/gcal/event.model';
 import { GapiService } from '../../gapi/gapi.service';
 
 @Injectable({
@@ -85,7 +86,9 @@ export class GcalStorageService {
         ];
       }
     );
-    let rangedEventList: GcalEventList = Object.fromEntries(rangedEventListEntries);
+    let rangedEventList: GcalEventList = Object.fromEntries(
+      rangedEventListEntries
+    );
     return rangedEventList;
   }
 
@@ -120,7 +123,10 @@ export class GcalStorageService {
    * @note Both time parameters `timestampMin` and `timestampMax` can use constants ONE_DAY_AGO, ONE_WEEK_AGO, ONE_MONTH_AGO,
    * TODAY, ONE_DAY_FROM_TODAY, ONE_WEEK_FROM_TODAY, ONE_MONTH_FROM_TODAY
    */
-  getEventInstances(timestampMin?: number, timestampMax?: number): GcalEventList {
+  getEventInstances(
+    timestampMin?: number,
+    timestampMax?: number
+  ): GcalEventList {
     let eventListEntries = Object.entries(this.eventInstances$.getValue());
     let rangedEventListEntries = eventListEntries.map(
       (eventListEntry: GcalEventListEntry) => {
@@ -134,7 +140,9 @@ export class GcalStorageService {
         ];
       }
     );
-    let rangedEventList: GcalEventList = Object.fromEntries(rangedEventListEntries);
+    let rangedEventList: GcalEventList = Object.fromEntries(
+      rangedEventListEntries
+    );
     return rangedEventList;
   }
 

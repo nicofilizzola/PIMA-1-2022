@@ -1,4 +1,4 @@
-import { GcalCalendarListEntry } from '../../calendar-list.model';
+import { GcalCalendarListEntry } from '../../gcal/calendar-list.model';
 
 export interface GcalCalendarListListResponse {
   kind: 'calendar#calendarList';

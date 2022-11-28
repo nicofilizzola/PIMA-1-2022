@@ -15,9 +15,15 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
+import { EventConstraints } from 'src/app/models/event-constraints.model';
+
+const COLLAPSED_ANIMATION_STATE = {
+  COLLAPSED: 'collapsed',
+  EXPANDED: 'expanded',
+};
 
 @Component({
   selector: 'app-add-event-item',
@@ -57,11 +63,20 @@ import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gc
   ],
 })
 export class AddEventItemComponent implements OnInit, OnDestroy {
-  private _subscription: Subscription;
+  /**
+   * @todo Manage subscriptions with array
+   */
+  private _expendedItemSubscription: Subscription;
+  private _requestItemSubscription: Subscription;
 
   @Input() expandedItem$: Subject<number>;
-  @Input() itemId;
-  @Input() isDeletable;
+  @Input() itemId: number;
+  @Input() isDeletable: Subject<boolean>;
+  @Input() requestItem: Subject<string>;
+  /**
+   * @todo Manage stream with EventConstraints Subject (no list)
+   */
+  @Input() responseItem: BehaviorSubject<EventConstraints[]>; //Observable which will collect the EventConstraints
 
   // Load the calendarList one single time for all the addEventItem components
   @Input() calendarList;
@@ -76,7 +91,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   // Base options
   title: string;
   hourDuration = 1;
-  minuteDuration = 1;
+  minuteDuration = 0;
   priority = 'Choisir priorité...';
   calendar = '0';
   errorMessageOn = false;
@@ -87,17 +102,14 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   instanceTotal = 1;
   minDailyInstances: number;
   maxDailyInstances: number;
-  borneInf: string;
-  borneSup: string;
-  marge: number;
+  lowerBound: string;
+  upperBound: string;
+  margin: number;
   date: string;
   time: string;
   description: string;
   fixedEvent = false;
   consecutiveInstances = false;
-
-  // Animation
-  advancedOptionsAnimationState = 'off';
 
   constructor(
     private _viewportService: ViewportService,
@@ -108,23 +120,25 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.expandedItem$.next(this.itemId);
-    this._subscription = this.expandedItem$.subscribe((expandedId) => {
+    this._expendedItemSubscription = this.expandedItem$.subscribe((expandedId) => {
       if (expandedId != this.itemId) {
         this.onCollapse();
 
         this._cd.detectChanges(); // Prevents error after template-used property is changed (this.collapsed)
       }
     });
+    this._requestItemSubscription = this.requestItem.subscribe(() => {
+      this.responseItem.next([...this.responseItem.getValue(),this.generateEventConstraints()]);
+    })
   }
 
   onGetSummary(calendarId) {
     return this._gcalStorageService.getCalendarSummary(calendarId);
   }
 
-  i;
-
   ngOnDestroy() {
-    this._subscription.unsubscribe();
+    this._expendedItemSubscription.unsubscribe();
+    this._requestItemSubscription.unsubscribe();
   }
 
   onCheckValidTime() {
@@ -147,7 +161,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     this.deleteItem.emit(this.itemId);
   }
 
-  onTogglefixedEvent() {
+  onToggleFixedEvent() {
     this.fixedEvent = !this.fixedEvent;
 
     if (this.consecutiveInstances) {
@@ -182,9 +196,9 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
       this.instanceTotal !== 1 ||
       this.minDailyInstances !== undefined ||
       this.maxDailyInstances !== undefined ||
-      this.borneInf !== undefined ||
-      this.borneSup !== undefined ||
-      this.marge !== undefined ||
+      this.lowerBound !== undefined ||
+      this.upperBound !== undefined ||
+      this.margin !== undefined ||
       this.date !== undefined ||
       this.time !== undefined ||
       this.description !== undefined ||
@@ -208,9 +222,11 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   onCollapse() {
     if (this.title == null) {
-      this.title = 'Tâche sans nom';
+      this.title = `Tâche sans nom ${this.itemId}`;
     }
     this.collapsed = true;
+
+    this.advancedOptionsActive = false;
   }
 
   onExpand() {
@@ -226,5 +242,9 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
       return 'on-sm';
     }
     return 'on';
+  }
+
+  generateEventConstraints(){
+    return new EventConstraints(this);
   }
 }

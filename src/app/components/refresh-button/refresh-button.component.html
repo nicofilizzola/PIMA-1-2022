@@ -1,0 +1,32 @@
+<!-- <div class="fa-3x container">
+  <button (click)="onRefresh()" type="submit" class="refresh-button">
+    <p class="refreshText">Recharger les données</p>
+    <i id="refresh" class="fa fa-refresh" aria-hidden="true"></i>
+  </button>
+</div> -->
+
+<div class="refresh-btn" (click)="onClick()">
+  <div class="position-relative">
+    <button
+      [ngClass]="{
+        'btn shadow rounded-circle refresh-btn__button': true,
+        'btn-primary': spinning || inert,
+        'btn-success': finished
+      }"
+    >
+      <i
+        id="refresh"
+        [ngClass]="{
+          'fa': true,
+          spinning: spinning,
+          'fa-refresh': spinning || inert,
+          'fa-check': finished
+        }"
+        aria-hidden="true"
+      ></i>
+    </button>
+    <p class="refresh-btn__txt bg-light p-1 shadow">
+      <span class="ms-3 text-muted">{{ activeText }}</span>
+    </p>
+  </div>
+</div>
