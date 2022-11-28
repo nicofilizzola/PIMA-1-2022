@@ -17,9 +17,18 @@ export class PieChartComponent implements OnInit, OnDestroy {
   fetchedEvents: GcalEventList;
   pieChartDatasets = [{ data: [] }];
   pieChartLabels = [];
-  pieChartOptions: ChartOptions<'pie'> = {
+  pieChartOptions: {
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false,  
+    /* tooltips: {
+      enabled: true,
+      mode: 'single',
+      callbacks: {
+          label: function(tooltipItems, data) {
+            return tooltipItems.yLabel + ' h';
+          }
+      }
+    } */
   };
 
   dateInf = Date.now();
