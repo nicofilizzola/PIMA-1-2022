@@ -198,10 +198,6 @@ export class GcalStorageService {
   ): GcalEvent[] {
     let filteredEvents = [...calendarEvents];
 
-    if (timestampMax && timestampMin) {
-      console.log("getRangedEventList")
-      console.log(arguments)
-    }
     if (timestampMin) {
       filteredEvents = calendarEvents.filter((event: GcalEvent) => {
         const eventStartTimestamp = new Date(event.start.dateTime).getTime();

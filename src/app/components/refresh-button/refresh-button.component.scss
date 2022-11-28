@@ -1,0 +1,70 @@
+
+.refresh-btn {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 3;
+  cursor: pointer;
+
+  &__txt {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0px;
+    height: 100%;
+    z-index: -1;
+    transition: 0.3s ease-in-out;
+    border-radius: 1rem;
+    padding-left: 1rem;
+    opacity: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  &__button {
+    z-index: 10;
+  }
+
+  &:hover &__txt {
+    width: 250px;
+    z-index: -1;
+    opacity: 1;
+  }
+}
+
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.spinning {
+  -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  -o-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+}
