@@ -110,6 +110,16 @@ export class GcalHttpService {
   }
 
   /**
+   * @brief Runs the **Events.insert method**
+   */
+  insertEvent(event: GcalEvent, calendarId: String){
+    this._http.post(
+      `${GOOGLE_CALENDAR_API}/calendars/${calendarId}/events`,
+      event
+    ).subscribe();
+  }
+
+  /**
    * @note CLE stands for CalendarListEntry
    * @note _all-day event_: only **date** properties, no **dateTime**
    * @see _fetchCalendarList

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ONE_DAY_AGO, ONE_DAY_FROM_TODAY, TODAY } from '../constants';
 import { AUTH_USER_EMAIL_INIT, GapiService } from '../shared/services/gapi/gapi.service';
 import { GcalRequestHandlerService } from '../shared/services/gcal/gcal-request-handler/gcal-request-handler.service';
 import { GcalStorageService } from '../shared/services/gcal/gcal-storage/gcal-storage.service';
@@ -39,6 +40,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this._subscriptions.push(
       this._gcalStorageService.dataFetched$.subscribe(() => {
         setTimeout(() => (this.loading = false), MIN_LOADING_SCREEN_TIME);
+
+        console.log(this._gcalStorageService.getAllEventList(TODAY, ONE_DAY_FROM_TODAY))
       })
     );
   }

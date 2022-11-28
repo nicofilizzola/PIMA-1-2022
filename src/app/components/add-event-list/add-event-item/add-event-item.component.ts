@@ -15,9 +15,10 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { ViewportService } from 'src/app/shared/services/viewport/viewport.service';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
+import { EventConstraints } from 'src/app/models/event-constraints.model';
 
 const COLLAPSED_ANIMATION_STATE = {
   COLLAPSED: 'collapsed',
@@ -62,11 +63,20 @@ const COLLAPSED_ANIMATION_STATE = {
   ],
 })
 export class AddEventItemComponent implements OnInit, OnDestroy {
-  private _subscription: Subscription;
+  /**
+   * @todo Manage subscriptions with array
+   */
+  private _expendedItemSubscription: Subscription;
+  private _requestItemSubscription: Subscription;
 
   @Input() expandedItem$: Subject<number>;
-  @Input() itemId;
-  @Input() isDeletable;
+  @Input() itemId: number;
+  @Input() isDeletable: Subject<boolean>;
+  @Input() requestItem: Subject<string>;
+  /**
+   * @todo Manage stream with EventConstraints Subject (no list)
+   */
+  @Input() responseItem: BehaviorSubject<EventConstraints[]>; //Observable which will collect the EventConstraints
 
   // Load the calendarList one single time for all the addEventItem components
   @Input() calendarList;
@@ -81,7 +91,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   // Base options
   title: string;
   hourDuration = 1;
-  minuteDuration = 1;
+  minuteDuration = 0;
   priority = 'Choisir priorité...';
   calendar = '0';
   errorMessageOn = false;
@@ -110,13 +120,16 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.expandedItem$.next(this.itemId);
-    this._subscription = this.expandedItem$.subscribe((expandedId) => {
+    this._expendedItemSubscription = this.expandedItem$.subscribe((expandedId) => {
       if (expandedId != this.itemId) {
         this.onCollapse();
 
         this._cd.detectChanges(); // Prevents error after template-used property is changed (this.collapsed)
       }
     });
+    this._requestItemSubscription = this.requestItem.subscribe(() => {
+      this.responseItem.next([...this.responseItem.getValue(),this.generateEventConstraints()]);
+    })
   }
 
   onGetSummary(calendarId) {
@@ -124,7 +137,8 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._subscription.unsubscribe();
+    this._expendedItemSubscription.unsubscribe();
+    this._requestItemSubscription.unsubscribe();
   }
 
   onCheckValidTime() {
@@ -147,7 +161,7 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     this.deleteItem.emit(this.itemId);
   }
 
-  onTogglefixedEvent() {
+  onToggleFixedEvent() {
     this.fixedEvent = !this.fixedEvent;
 
     if (this.consecutiveInstances) {
@@ -228,5 +242,9 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
       return 'on-sm';
     }
     return 'on';
+  }
+
+  generateEventConstraints(){
+    return new EventConstraints(this);
   }
 }
