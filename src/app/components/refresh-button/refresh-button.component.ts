@@ -17,7 +17,7 @@ export class RefreshButtonComponent {
 
   private text = {
     spinning: 'Réchargement en cours',
-    inert: 'Récharger les données',
+    inert: 'Recharger les données',
     finished: 'Données rechargées',
   };
 
