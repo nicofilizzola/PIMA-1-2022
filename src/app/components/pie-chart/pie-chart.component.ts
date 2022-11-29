@@ -21,7 +21,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
   pieChartLabels = [];
   pieChartOptions: ChartOptions<'pie'> = {
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false,  
   };
 
   dateInf = Date.now();
@@ -54,7 +54,6 @@ export class PieChartComponent implements OnInit, OnDestroy {
 
         this._cleanDatasets();
         this._populateDatasets();
-
         this.chart.update();
       });
   }
