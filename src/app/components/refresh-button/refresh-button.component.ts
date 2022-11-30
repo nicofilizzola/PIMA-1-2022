@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { first, Subscription } from 'rxjs';
 import { GcalRequestHandlerService } from 'src/app/shared/services/gcal/gcal-request-handler/gcal-request-handler.service';
 import { GcalStorageService } from 'src/app/shared/services/gcal/gcal-storage/gcal-storage.service';
 import { GapiService } from '../../shared/services/gapi/gapi.service';
@@ -9,11 +9,13 @@ import { GapiService } from '../../shared/services/gapi/gapi.service';
   templateUrl: './refresh-button.component.html',
   styleUrls: ['./refresh-button.component.scss'],
 })
-export class RefreshButtonComponent {
+export class RefreshButtonComponent implements OnDestroy {
   constructor(
     private _gcalStorageService: GcalStorageService,
     private _gcalRequestHandlerService: GcalRequestHandlerService
   ) {}
+
+  private subscriptions: Subscription[] = [];
 
   private text = {
     spinning: 'Réchargement en cours',
@@ -33,26 +35,24 @@ export class RefreshButtonComponent {
 
     this._gcalRequestHandlerService.fetchData();
 
-    this._gcalStorageService.dataFetched$.pipe(first()).subscribe(() => {
-      this.spinning = false;
-      this.finished = true;
-      this.activeText = this.text.finished;
+    this.subscriptions.push(
+      this._gcalStorageService.dataFetched$.subscribe(() => {
+        this.spinning = false;
+        this.finished = true;
+        this.activeText = this.text.finished;
 
-      setTimeout(() => {
-        this.finished = false;
-        this.inert = true;
-        this.activeText = this.text.inert;
-      }, 2000);
+        setTimeout(() => {
+          this.finished = false;
+          this.inert = true;
+          this.activeText = this.text.inert;
+        }, 2000);
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription: Subscription) => {
+      subscription.unsubscribe();
     });
-
-    // let refreshButton = document.getElementById('refresh');
-    // refreshButton.className =  "fa-solid fa-sync fa-spin";
-    // let texte = document.getElementById('refreshText');
-    // texte.innerHTML = "Chargement des donneés en cours";
-    // if (this._gapiService.getAuthenticatedUserEmail()) {
-    //   this._gcalRequestHandlerService.fetchData();
-    // }
-    // setTimeout(() => refreshButton.className = "fa fa-refresh", 2000);
-    // setTimeout(() =>texte.innerText = "Recharger les données", 2000);
   }
 }
