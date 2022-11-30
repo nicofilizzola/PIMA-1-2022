@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { first, Subscription } from 'rxjs';
-import { GcalCalendarList, GcalCalendarListEntry } from 'src/app/models/gcal/calendar-list.model';
-import { GcalEvent, GcalEventInstances, GcalEventList, GcalEventListEntry } from 'src/app/models/gcal/event.model';
+import {
+  GcalCalendarList,
+  GcalCalendarListEntry,
+} from 'src/app/models/gcal/calendar-list.model';
+import {
+  GcalEvent,
+  GcalEventInstances,
+  GcalEventList,
+  GcalEventListEntry,
+} from 'src/app/models/gcal/event.model';
 import { GcalHttpService } from '../gcal-http/gcal-http.service';
 import { GcalStorageService } from '../gcal-storage/gcal-storage.service';
 
@@ -9,11 +17,12 @@ import { GcalStorageService } from '../gcal-storage/gcal-storage.service';
   providedIn: 'root',
 })
 export class GcalRequestHandlerService {
-  private _eventInstancesSubscription: Subscription;
+  private _handleDataFetchStreamSubscription: Subscription;
   /**
    * @note used for managing the `dataFetched$` stream
    */
   private _calendarsWithRecurringEvents = [];
+  private _hasRecurringEvents = false;
 
   constructor(
     private _gcalHttpService: GcalHttpService,
@@ -51,22 +60,26 @@ export class GcalRequestHandlerService {
       (eventList: GcalEventList) => {
         if (eventList === null) return; // skip init value
 
-        Object.entries(eventList).forEach((eventListEntry: GcalEventListEntry) => {
-          let calendarId = eventListEntry[0];
-          let events = eventListEntry[1];
-          events.forEach((event: GcalEvent) => {
-            if ('recurrence' in event) {
-              if (!this._calendarsWithRecurringEvents.includes(calendarId)) {
-                this._calendarsWithRecurringEvents.push(calendarId);
-              }
+        Object.entries(eventList).forEach(
+          (eventListEntry: GcalEventListEntry) => {
+            let calendarId = eventListEntry[0];
+            let events = eventListEntry[1];
+            events.forEach((event: GcalEvent) => {
+              if ('recurrence' in event) {
+                this._hasRecurringEvents = true;
 
-              this._gcalHttpService.fetchRecurringEventInstances(
-                calendarId,
-                event.id
-              );
-            }
-          });
-        });
+                if (!this._calendarsWithRecurringEvents.includes(calendarId)) {
+                  this._calendarsWithRecurringEvents.push(calendarId);
+                }
+
+                this._gcalHttpService.fetchRecurringEventInstances(
+                  calendarId,
+                  event.id
+                );
+              }
+            });
+          }
+        );
       }
     );
 
@@ -82,24 +95,44 @@ export class GcalRequestHandlerService {
    * @see this.fetchData
    */
   private _handleDataFetchedStream() {
-    this._eventInstancesSubscription =
-      this._gcalStorageService.eventInstances$.subscribe(
-        (eventInstances: GcalEventInstances) => {
-          if (eventInstances == null) return; // skip init value
+    this._handleDataFetchStreamSubscription = this._hasRecurringEvents
+      ? this._handleDataFetchedStreamFromRecurringEvents()
+      : this._handleDataFetchedStreamFromEventList();
 
-          if (
-            Object.entries(eventInstances).length <
-            this._calendarsWithRecurringEvents.length
-          ) {
-            return;
-          }
+    return this._gcalStorageService.dataFetched$.pipe(first()).subscribe(() => {
+      // first() unsubscribes after first observation
+      this._handleDataFetchStreamSubscription.unsubscribe();
+    });
+  }
+
+  private _handleDataFetchedStreamFromRecurringEvents() {
+    return this._gcalStorageService.eventInstances$.subscribe(
+      (eventInstances: GcalEventInstances) => {
+        if (eventInstances == null) return; // skip init value
+
+        if (
+          Object.entries(eventInstances).length <
+          this._calendarsWithRecurringEvents.length
+        ) {
+          return;
+        }
+        return this._gcalStorageService.dataFetched$.next(true);
+      }
+    );
+  }
+
+  private _handleDataFetchedStreamFromEventList() {
+    return this._gcalStorageService.eventList$.subscribe(
+      (eventList: GcalEventList) => {
+        if (eventList == null) return;
+
+        if (
+          Object.keys(eventList).length ===
+          this._gcalStorageService.calendarList$.getValue().length
+        ) {
           return this._gcalStorageService.dataFetched$.next(true);
         }
-      );
-
-    this._gcalStorageService.dataFetched$.pipe(first()).subscribe(() => {
-      // first() unsubscribes after first observation
-      this._eventInstancesSubscription.unsubscribe();
-    });
+      }
+    );
   }
 }
