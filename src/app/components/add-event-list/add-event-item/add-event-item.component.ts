@@ -188,8 +188,6 @@ export class AddEventItemComponent implements OnInit, OnDestroy {
     // Check if an input from the form has been changed
     if (
       this.title !== undefined ||
-      this.hourDuration !== 1 ||
-      this.minuteDuration !== 1 ||
       this.priority !== 'Choisir priorité...' ||
       this.calendar !== '0' ||
       this.location !== undefined ||
