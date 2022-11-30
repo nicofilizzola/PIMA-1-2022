@@ -5,6 +5,7 @@ import { Period } from 'src/app/models/period-tree/period-tree.model';
 import { GcalHttpService } from '../gcal/gcal-http/gcal-http.service';
 import { GcalStorageService } from '../gcal/gcal-storage/gcal-storage.service';
 import { EventConstraints } from '../../../models/event-constraints.model';
+import { GcalRequestHandlerService } from '../gcal/gcal-request-handler/gcal-request-handler.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,8 @@ import { EventConstraints } from '../../../models/event-constraints.model';
 export class CalendarGeneratorService {
   constructor(
     private readonly _gcalStorageService: GcalStorageService,
-    private _httpService: GcalHttpService
+    private _httpService: GcalHttpService,
+    private _gcalRequestHandlerService: GcalRequestHandlerService
   ) {}
 
   generate(
@@ -22,7 +24,7 @@ export class CalendarGeneratorService {
     supBound: Time
   ) {
     let existingEvents = this.unbindExistingEventList(period);
-      let availableTimeSlots = new AvailableTimeSlot(
+    let availableTimeSlots = new AvailableTimeSlot(
       existingEvents,
       period,
       infBound,
@@ -40,12 +42,17 @@ export class CalendarGeneratorService {
     }
   }
 
-  unbindExistingEventList(period : Period) {
+  unbindExistingEventList(period: Period) {
     let list = [];
-    let bindedEvents = this._gcalStorageService.getAllEventList(
-      period.getStart().getTime(),
-      period.getEnd().getTime()
-    );
+    let bindedEvents = this._gcalRequestHandlerService.hasRecurringEvents
+      ? this._gcalStorageService.getAllEventList(
+          period.getStart().getTime(),
+          period.getEnd().getTime()
+        )
+      : this._gcalStorageService.getEventList(
+          period.getStart().getTime(),
+          period.getEnd().getTime()
+        );
     for (var calendar of this._gcalStorageService.getCalendarList()) {
       let calendarId = calendar.id;
       list = [...list, ...bindedEvents[calendarId]];

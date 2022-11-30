@@ -22,7 +22,10 @@ export class GcalRequestHandlerService {
    * @note used for managing the `dataFetched$` stream
    */
   private _calendarsWithRecurringEvents = [];
-  private _hasRecurringEvents = false;
+  /**
+   * @todo should be in storage
+   */
+  hasRecurringEvents = false;
 
   constructor(
     private _gcalHttpService: GcalHttpService,
@@ -66,7 +69,7 @@ export class GcalRequestHandlerService {
             let events = eventListEntry[1];
             events.forEach((event: GcalEvent) => {
               if ('recurrence' in event) {
-                this._hasRecurringEvents = true;
+                this.hasRecurringEvents = true;
 
                 if (!this._calendarsWithRecurringEvents.includes(calendarId)) {
                   this._calendarsWithRecurringEvents.push(calendarId);
@@ -95,7 +98,7 @@ export class GcalRequestHandlerService {
    * @see this.fetchData
    */
   private _handleDataFetchedStream() {
-    this._handleDataFetchStreamSubscription = this._hasRecurringEvents
+    this._handleDataFetchStreamSubscription = this.hasRecurringEvents
       ? this._handleDataFetchedStreamFromRecurringEvents()
       : this._handleDataFetchedStreamFromEventList();
 
