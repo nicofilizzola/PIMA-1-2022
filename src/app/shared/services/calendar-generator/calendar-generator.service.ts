@@ -35,7 +35,7 @@ export class CalendarGeneratorService {
     for (var event of placedEventConstraints) {
       setTimeout( // Timer to avoid limit exceeded
         () => this.addPlacedEventConstraints(event, availableTimeSlots),
-        100
+        200
       );
     }
 
@@ -43,7 +43,7 @@ export class CalendarGeneratorService {
     for (var event of unPlacedEventConstraints) {
       setTimeout( // Timer to avoid limit exceeded
         () => this.addUnPlacedEventConstraints(event, availableTimeSlots),
-        100
+        200
       );
     }
   }
