@@ -33,18 +33,12 @@ export class CalendarGeneratorService {
 
     let placedEventConstraints = this.getPlacedEvents(constraintEvents);
     for (var event of placedEventConstraints) {
-      setTimeout( // Timer to avoid limit exceeded
-        () => this.addPlacedEventConstraints(event, availableTimeSlots),
-        200
-      );
+      this.addPlacedEventConstraints(event, availableTimeSlots);
     }
 
     let unPlacedEventConstraints = this.getUnPlacedEvents(constraintEvents);
     for (var event of unPlacedEventConstraints) {
-      setTimeout( // Timer to avoid limit exceeded
-        () => this.addUnPlacedEventConstraints(event, availableTimeSlots),
-        200
-      );
+      this.addUnPlacedEventConstraints(event, availableTimeSlots);
     }
   }
 
@@ -92,8 +86,10 @@ export class CalendarGeneratorService {
   ) {
     let event = constraintEvent.toEvent(new Date());
     let calendarId = constraintEvent.calendarId;
-    this._httpService.insertEvent(event, calendarId);
-    availableTimeSlots.removeEvent(event);
+    setTimeout(() => {
+      this._httpService.insertEvent(event, calendarId);
+      availableTimeSlots.removeEvent(event);
+    }, 100);
   }
 
   addUnPlacedEventConstraints(
@@ -110,8 +106,10 @@ export class CalendarGeneratorService {
         let start = new Date(period.getStart());
         let event = constraintEvent.toEvent(start);
         let calendarId = constraintEvent.calendarId;
-        availableTimeSlots.removeEvent(event);
-        this._httpService.insertEvent(event, calendarId);
+        setTimeout(() => {
+          this._httpService.insertEvent(event, calendarId);
+          availableTimeSlots.removeEvent(event);
+        }, 100);
         return;
       }
     }
