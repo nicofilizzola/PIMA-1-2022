@@ -33,12 +33,18 @@ export class CalendarGeneratorService {
 
     let placedEventConstraints = this.getPlacedEvents(constraintEvents);
     for (var event of placedEventConstraints) {
-      this.addPlacedEventConstraints(event, availableTimeSlots);
+      setTimeout( // Timer to avoid limit exceeded
+        () => this.addPlacedEventConstraints(event, availableTimeSlots),
+        100
+      );
     }
 
     let unPlacedEventConstraints = this.getUnPlacedEvents(constraintEvents);
     for (var event of unPlacedEventConstraints) {
-      this.addUnPlacedEventConstraints(event, availableTimeSlots);
+      setTimeout( // Timer to avoid limit exceeded
+        () => this.addUnPlacedEventConstraints(event, availableTimeSlots),
+        100
+      );
     }
   }
 
