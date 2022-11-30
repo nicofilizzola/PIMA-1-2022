@@ -86,10 +86,8 @@ export class CalendarGeneratorService {
   ) {
     let event = constraintEvent.toEvent(new Date());
     let calendarId = constraintEvent.calendarId;
-    setTimeout(() => {
-      this._httpService.insertEvent(event, calendarId);
-      availableTimeSlots.removeEvent(event);
-    }, 100);
+    this._httpService.insertEvent(event, calendarId);
+    availableTimeSlots.removeEvent(event);
   }
 
   addUnPlacedEventConstraints(
@@ -106,10 +104,8 @@ export class CalendarGeneratorService {
         let start = new Date(period.getStart());
         let event = constraintEvent.toEvent(start);
         let calendarId = constraintEvent.calendarId;
-        setTimeout(() => {
-          this._httpService.insertEvent(event, calendarId);
-          availableTimeSlots.removeEvent(event);
-        }, 100);
+        this._httpService.insertEvent(event, calendarId);
+        availableTimeSlots.removeEvent(event);
         return;
       }
     }
